@@ -1,0 +1,42 @@
+<h3 id="cacheMetrics">Statystyki Cache</h3>
+
+<div class="table-responsive" *ngIf="!updating && cacheMetrics">
+  <table class="table table-striped" aria-describedby="cacheMetrics">
+    <thead>
+      <tr>
+        <th scope="col">Nazwa cache</th>
+        <th scope="col" class="text-end">Trafienia</th>
+        <th scope="col" class="text-end">Nietrafionych</th>
+        <th scope="col" class="text-end">Odczyty</th>
+        <th scope="col" class="text-end">Zapisy</th>
+        <th scope="col" class="text-end">Usunięcia</th>
+        <th scope="col" class="text-end">Eksmisje</th>
+        <th scope="col" class="text-end">Trafienia %</th>
+        <th scope="col" class="text-end">Nietrafionych %</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let entry of cacheMetrics | keyvalue">
+        <td>{{ entry.key }}</td>
+        <td class="text-end">{{ entry.value['cache.gets.hit'] }}</td>
+        <td class="text-end">{{ entry.value['cache.gets.miss'] }}</td>
+        <td class="text-end">{{ entry.value['cache.gets.hit'] + entry.value['cache.gets.miss'] }}</td>
+        <td class="text-end">{{ entry.value['cache.puts'] }}</td>
+        <td class="text-end">{{ entry.value['cache.removals'] }}</td>
+        <td class="text-end">{{ entry.value['cache.evictions'] }}</td>
+        <td class="text-end">
+          {{
+            filterNaN((100 * entry.value['cache.gets.hit']) / (entry.value['cache.gets.hit'] + entry.value['cache.gets.miss']))
+              | number: '1.0-4'
+          }}
+        </td>
+        <td class="text-end">
+          {{
+            filterNaN((100 * entry.value['cache.gets.miss']) / (entry.value['cache.gets.hit'] + entry.value['cache.gets.miss']))
+              | number: '1.0-4'
+          }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
