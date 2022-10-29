@@ -11,7 +11,18 @@
     <property name="datetimeType" value="datetime" dbms="postgresql"/>
 
     <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20221029220729_added_entity_SportDiscipline.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20221029220730_added_entity_Workout.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20221029220731_added_entity_WorkoutRating.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20221029220732_added_entity_ExerciseType.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20221029220733_added_entity_Exercise.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20221029220734_added_entity_WorkoutBreakdown.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20221029220735_added_entity_UserDetails.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
+    <include file="config/liquibase/changelog/20221029220730_added_entity_constraints_Workout.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20221029220733_added_entity_constraints_Exercise.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20221029220734_added_entity_constraints_WorkoutBreakdown.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20221029220735_added_entity_constraints_UserDetails.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
     <!-- jhipster-needle-liquibase-add-incremental-changelog - JHipster will add incremental liquibase changelogs here -->
 </databaseChangeLog>

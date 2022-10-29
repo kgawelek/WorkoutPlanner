@@ -1,0 +1,95 @@
+<div>
+  <h2 id="page-heading" data-cy="WorkoutRatingHeading">
+    <span>Workout Rating</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-workout-rating"
+        [routerLink]="['/workout-rating/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span> Dodaj Workout Rating </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="workoutRatings?.length === 0">
+    <span>No Workout Ratings found</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="workoutRatings && workoutRatings.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span>Id</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="comment">
+            <div class="d-flex">
+              <span>Comment</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="rate">
+            <div class="d-flex">
+              <span>Rate</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let workoutRating of workoutRatings; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/workout-rating', workoutRating.id, 'view']">{{ workoutRating.id }}</a>
+          </td>
+          <td>{{ workoutRating.comment }}</td>
+          <td>{{ workoutRating.rate }}</td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/workout-rating', workoutRating.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">Widok</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/workout-rating', workoutRating.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline">Edytuj</span>
+              </button>
+
+              <button type="submit" (click)="delete(workoutRating)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline">Usuń</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

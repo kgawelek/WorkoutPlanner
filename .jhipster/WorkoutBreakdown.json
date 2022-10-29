@@ -1,0 +1,55 @@
+{
+  "applications": "*",
+  "changelogDate": "20221029220734",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "workout_breakdown",
+  "fields": [
+    {
+      "fieldName": "id",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "distance",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "duration",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "distanceUnit",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "notes",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "minValue",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "maxValue",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "rangeUnit",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "WorkoutBreakdown",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "workout",
+      "otherEntityRelationshipName": "workoutBreakdown",
+      "relationshipName": "workout",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

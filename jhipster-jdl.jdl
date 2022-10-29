@@ -1,0 +1,81 @@
+
+
+entity SportDiscipline{
+	id Long,
+	name String
+}
+
+entity Workout{
+	id Long,
+	date Instant,
+    duration Duration,
+    comment String,
+    status Status, 
+    type WorkoutType
+}
+
+entity WorkoutRating{
+	id Long,
+	comment String,
+    rate RatingScale
+}
+
+entity ExerciseType{
+	id Long,
+    name String,
+    description String
+}
+
+entity Exercise{
+	id Long,
+    nrOfReps Integer,
+    nrOfSeries Integer,
+    weight Double,
+}
+
+entity WorkoutBreakdown{
+	id Long,
+    distance Double,
+    duration Double,
+    distanceUnit String,
+    notes String,
+    minValue Double,
+    maxValue Double,
+    rangeUnit String
+}
+
+relationship OneToMany{
+	UserDetails to Workout,
+    Workout to Exercise,
+    Workout to WorkoutBreakdown
+}
+
+relationship ManyToOne{
+	UserDetails to SportDiscipline,
+    Exercise to ExerciseType
+}
+
+relationship OneToOne{
+	UserDetails to User with jpaDerivedIdentifier,
+    Workout to WorkoutRating
+}
+
+entity UserDetails{
+}
+
+enum Status{
+	COMPLETED, ABANDONED, PLANNED
+}
+
+enum WorkoutType{
+	INTERVAL, EXERCISE, GENERAL 
+}
+
+enum RatingScale{
+    EFFORTLESS, EASY, MODERATE, DIFFICULT, KILLER
+}
+
+
+
+
+

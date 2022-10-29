@@ -1,0 +1,11 @@
+export enum RatingScale {
+  EFFORTLESS = 'EFFORTLESS',
+
+  EASY = 'EASY',
+
+  MODERATE = 'MODERATE',
+
+  DIFFICULT = 'DIFFICULT',
+
+  KILLER = 'KILLER',
+}

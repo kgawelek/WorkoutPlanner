@@ -1,0 +1,60 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="workout">
+      <h2 data-cy="workoutDetailsHeading"><span>Workout</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>Id</span></dt>
+        <dd>
+          <span>{{ workout.id }}</span>
+        </dd>
+        <dt><span>Date</span></dt>
+        <dd>
+          <span>{{ workout.date | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span>Duration</span></dt>
+        <dd>
+          <span>{{ workout.duration | duration }} ({{ workout.duration }})</span>
+        </dd>
+        <dt><span>Comment</span></dt>
+        <dd>
+          <span>{{ workout.comment }}</span>
+        </dd>
+        <dt><span>Status</span></dt>
+        <dd>
+          <span>{{ workout.status }}</span>
+        </dd>
+        <dt><span>Type</span></dt>
+        <dd>
+          <span>{{ workout.type }}</span>
+        </dd>
+        <dt><span>Workout Rating</span></dt>
+        <dd>
+          <div *ngIf="workout.workoutRating">
+            <a [routerLink]="['/workout-rating', workout.workoutRating.id, 'view']">{{ workout.workoutRating.id }}</a>
+          </div>
+        </dd>
+        <dt><span>User Details</span></dt>
+        <dd>
+          <div *ngIf="workout.userDetails">
+            <a [routerLink]="['/user-details', workout.userDetails.id, 'view']">{{ workout.userDetails.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Wstecz</span>
+      </button>
+
+      <button type="button" [routerLink]="['/workout', workout.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edytuj</span>
+      </button>
+    </div>
+  </div>
+</div>

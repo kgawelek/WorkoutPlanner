@@ -50,6 +50,18 @@ public class CacheConfiguration {
             createCache(cm, com.workoutplanner.app.domain.User.class.getName() + ".authorities");
             createCache(cm, com.workoutplanner.app.domain.PersistentToken.class.getName());
             createCache(cm, com.workoutplanner.app.domain.User.class.getName() + ".persistentTokens");
+            createCache(cm, com.workoutplanner.app.domain.SportDiscipline.class.getName());
+            createCache(cm, com.workoutplanner.app.domain.SportDiscipline.class.getName() + ".userDetails");
+            createCache(cm, com.workoutplanner.app.domain.Workout.class.getName());
+            createCache(cm, com.workoutplanner.app.domain.Workout.class.getName() + ".exercises");
+            createCache(cm, com.workoutplanner.app.domain.Workout.class.getName() + ".workoutBreakdowns");
+            createCache(cm, com.workoutplanner.app.domain.WorkoutRating.class.getName());
+            createCache(cm, com.workoutplanner.app.domain.ExerciseType.class.getName());
+            createCache(cm, com.workoutplanner.app.domain.ExerciseType.class.getName() + ".exercises");
+            createCache(cm, com.workoutplanner.app.domain.Exercise.class.getName());
+            createCache(cm, com.workoutplanner.app.domain.WorkoutBreakdown.class.getName());
+            createCache(cm, com.workoutplanner.app.domain.UserDetails.class.getName());
+            createCache(cm, com.workoutplanner.app.domain.UserDetails.class.getName() + ".workouts");
             // jhipster-needle-ehcache-add-entry
         };
     }

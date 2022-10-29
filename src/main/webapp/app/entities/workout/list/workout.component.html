@@ -1,0 +1,138 @@
+<div>
+  <h2 id="page-heading" data-cy="WorkoutHeading">
+    <span>Workout</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-workout"
+        [routerLink]="['/workout/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span> Dodaj Workout </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="workouts?.length === 0">
+    <span>No Workouts found</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="workouts && workouts.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span>Id</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="date">
+            <div class="d-flex">
+              <span>Date</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="duration">
+            <div class="d-flex">
+              <span>Duration</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="comment">
+            <div class="d-flex">
+              <span>Comment</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="status">
+            <div class="d-flex">
+              <span>Status</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="type">
+            <div class="d-flex">
+              <span>Type</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="workoutRating.id">
+            <div class="d-flex">
+              <span>Workout Rating</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="userDetails.id">
+            <div class="d-flex">
+              <span>User Details</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let workout of workouts; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/workout', workout.id, 'view']">{{ workout.id }}</a>
+          </td>
+          <td>{{ workout.date | formatMediumDatetime }}</td>
+          <td title="{{ workout.duration }}">{{ workout.duration | duration }}</td>
+          <td>{{ workout.comment }}</td>
+          <td>{{ workout.status }}</td>
+          <td>{{ workout.type }}</td>
+          <td>
+            <div *ngIf="workout.workoutRating">
+              <a [routerLink]="['/workout-rating', workout.workoutRating.id, 'view']">{{ workout.workoutRating.id }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="workout.userDetails">
+              <a [routerLink]="['/user-details', workout.userDetails.id, 'view']">{{ workout.userDetails.id }}</a>
+            </div>
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/workout', workout.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">Widok</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/workout', workout.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline">Edytuj</span>
+              </button>
+
+              <button type="submit" (click)="delete(workout)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline">Usuń</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

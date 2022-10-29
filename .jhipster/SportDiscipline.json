@@ -1,0 +1,31 @@
+{
+  "applications": "*",
+  "changelogDate": "20221029220729",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "sport_discipline",
+  "fields": [
+    {
+      "fieldName": "id",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "SportDiscipline",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "userDetails",
+      "otherEntityRelationshipName": "sportDiscipline",
+      "relationshipName": "userDetails",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "no"
+}

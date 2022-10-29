@@ -1,0 +1,35 @@
+{
+  "applications": "*",
+  "changelogDate": "20221029220732",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "exercise_type",
+  "fields": [
+    {
+      "fieldName": "id",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "ExerciseType",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "exercise",
+      "otherEntityRelationshipName": "exerciseType",
+      "relationshipName": "exercise",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "no"
+}
