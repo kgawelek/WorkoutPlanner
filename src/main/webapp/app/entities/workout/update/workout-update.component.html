@@ -40,7 +40,7 @@
           <label class="form-label" for="field_status">Status</label>
           <select class="form-control" name="status" formControlName="status" id="field_status" data-cy="status">
             <option [ngValue]="null"></option>
-            <option *ngFor="let status of statusValues" [value]="status">status</option>
+            <option *ngFor="let status of statusValues" [value]="status">{{ status }}</option>
           </select>
         </div>
 
@@ -48,7 +48,7 @@
           <label class="form-label" for="field_type">Type</label>
           <select class="form-control" name="type" formControlName="type" id="field_type" data-cy="type">
             <option [ngValue]="null"></option>
-            <option *ngFor="let workoutType of workoutTypeValues" [value]="workoutType">workoutType</option>
+            <option *ngFor="let workoutType of workoutTypeValues" [value]="workoutType">{{ workoutType }}</option>
           </select>
         </div>
 
