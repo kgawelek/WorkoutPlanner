@@ -6,6 +6,6 @@ export const HOME_ROUTE: Route = {
   path: '',
   component: HomeComponent,
   data: {
-    pageTitle: 'Witamy, Java Hipsterze!',
+    pageTitle: 'WorkoutPlanner!',
   },
 };

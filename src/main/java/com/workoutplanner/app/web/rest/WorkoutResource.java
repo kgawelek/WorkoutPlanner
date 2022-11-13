@@ -1,7 +1,11 @@
 package com.workoutplanner.app.web.rest;
 
+import com.workoutplanner.app.domain.User;
+import com.workoutplanner.app.domain.UserDetails;
 import com.workoutplanner.app.domain.Workout;
+import com.workoutplanner.app.repository.UserDetailsRepository;
 import com.workoutplanner.app.repository.WorkoutRepository;
+import com.workoutplanner.app.service.UserService;
 import com.workoutplanner.app.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -33,9 +37,13 @@ public class WorkoutResource {
     private String applicationName;
 
     private final WorkoutRepository workoutRepository;
+    private final UserService userService;
+    private final UserDetailsRepository userDetailsRepository;
 
-    public WorkoutResource(WorkoutRepository workoutRepository) {
+    public WorkoutResource(WorkoutRepository workoutRepository, UserService userService, UserDetailsRepository userDetailsRepository) {
         this.workoutRepository = workoutRepository;
+        this.userService = userService;
+        this.userDetailsRepository = userDetailsRepository;
     }
 
     /**
@@ -50,6 +58,11 @@ public class WorkoutResource {
         log.debug("REST request to save Workout : {}", workout);
         if (workout.getId() != null) {
             throw new BadRequestAlertException("A new workout cannot already have an ID", ENTITY_NAME, "idexists");
+        }
+        Optional<User> user = userService.getUserWithAuthorities();
+        if (workout.getUserDetails() == null && user.isPresent()) {
+            UserDetails userDetails = userDetailsRepository.getReferenceById(user.get().getId());
+            workout.setUserDetails(userDetails);
         }
         Workout result = workoutRepository.save(workout);
         return ResponseEntity

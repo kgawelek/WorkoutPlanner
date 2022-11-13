@@ -3,8 +3,10 @@ package com.workoutplanner.app.service;
 import com.workoutplanner.app.config.Constants;
 import com.workoutplanner.app.domain.Authority;
 import com.workoutplanner.app.domain.User;
+import com.workoutplanner.app.domain.UserDetails;
 import com.workoutplanner.app.repository.AuthorityRepository;
 import com.workoutplanner.app.repository.PersistentTokenRepository;
+import com.workoutplanner.app.repository.UserDetailsRepository;
 import com.workoutplanner.app.repository.UserRepository;
 import com.workoutplanner.app.security.AuthoritiesConstants;
 import com.workoutplanner.app.security.SecurityUtils;
@@ -21,6 +23,7 @@ import org.springframework.cache.CacheManager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,18 +48,22 @@ public class UserService {
 
     private final CacheManager cacheManager;
 
+    private final UserDetailsRepository userDetailsRepository;
+
     public UserService(
         UserRepository userRepository,
         PasswordEncoder passwordEncoder,
         PersistentTokenRepository persistentTokenRepository,
         AuthorityRepository authorityRepository,
-        CacheManager cacheManager
+        CacheManager cacheManager,
+        UserDetailsRepository userDetailsService
     ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.persistentTokenRepository = persistentTokenRepository;
         this.authorityRepository = authorityRepository;
         this.cacheManager = cacheManager;
+        this.userDetailsRepository = userDetailsService;
     }
 
     public Optional<User> activateRegistration(String key) {
@@ -117,6 +124,7 @@ public class UserService {
                 }
             });
         User newUser = new User();
+        UserDetails userDetails = new UserDetails();
         String encryptedPassword = passwordEncoder.encode(password);
         newUser.setLogin(userDTO.getLogin().toLowerCase());
         // new user gets initially a generated password
@@ -136,6 +144,8 @@ public class UserService {
         authorityRepository.findById(AuthoritiesConstants.USER).ifPresent(authorities::add);
         newUser.setAuthorities(authorities);
         userRepository.save(newUser);
+        userDetails.setUser(newUser);
+        userDetailsRepository.save(userDetails);
         this.clearUserCaches(newUser);
         log.debug("Created Information for User: {}", newUser);
         return newUser;
