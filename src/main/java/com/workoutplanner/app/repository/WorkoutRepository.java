@@ -1,6 +1,7 @@
 package com.workoutplanner.app.repository;
 
 import com.workoutplanner.app.domain.Workout;
+import java.util.List;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
@@ -9,4 +10,7 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface WorkoutRepository extends JpaRepository<Workout, Long> {}
+public interface WorkoutRepository extends JpaRepository<Workout, Long> {
+    @Query("SELECT w FROM Workout w WHERE w.userDetails.id = ?1")
+    List<Workout> findWorkoutByUserDetails(Long id);
+}

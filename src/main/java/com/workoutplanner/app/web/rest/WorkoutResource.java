@@ -9,9 +9,7 @@ import com.workoutplanner.app.service.UserService;
 import com.workoutplanner.app.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -168,7 +166,12 @@ public class WorkoutResource {
     @GetMapping("/workouts")
     public List<Workout> getAllWorkouts() {
         log.debug("REST request to get all Workouts");
-        return workoutRepository.findAll();
+        Optional<User> user = userService.getUserWithAuthorities();
+        if (
+            user.get().getAuthorities().stream().anyMatch(a -> "ROLE_ADMIN".equals(a.getName()))
+        ) return workoutRepository.findAll(); else return workoutRepository.findWorkoutByUserDetails(
+            userService.getUserWithAuthorities().get().getId()
+        );
     }
 
     /**
