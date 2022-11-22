@@ -12,7 +12,7 @@ export interface IWorkout {
   comment?: string | null;
   status?: Status | null;
   type?: WorkoutType | null;
-  workoutRating?: Pick<IWorkoutRating, 'id'> | null;
+  workoutRating?: IWorkoutRating | null;
   sportDiscipline?: ISportDiscipline | null;
   userDetails?: Pick<IUserDetails, 'id'> | null;
 }
