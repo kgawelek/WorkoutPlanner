@@ -62,6 +62,7 @@ public class CacheConfiguration {
             createCache(cm, com.workoutplanner.app.domain.WorkoutBreakdown.class.getName());
             createCache(cm, com.workoutplanner.app.domain.UserDetails.class.getName());
             createCache(cm, com.workoutplanner.app.domain.UserDetails.class.getName() + ".workouts");
+            createCache(cm, com.workoutplanner.app.domain.SportDiscipline.class.getName() + ".workouts");
             // jhipster-needle-ehcache-add-entry
         };
     }

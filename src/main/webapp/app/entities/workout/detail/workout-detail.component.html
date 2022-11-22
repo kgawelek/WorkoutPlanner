@@ -40,6 +40,12 @@
             <a [routerLink]="['/workout-rating', workout.workoutRating.id, 'view']">{{ workout.workoutRating.id }}</a>
           </div>
         </dd>
+        <dt><span>Sport Discipline</span></dt>
+        <dd>
+          <div *ngIf="workout.sportDiscipline">
+            <a [routerLink]="['/sport-discipline', workout.sportDiscipline.id, 'view']">{{ workout.sportDiscipline.id }}</a>
+          </div>
+        </dd>
         <dt><span>User Details</span></dt>
         <dd>
           <div *ngIf="workout.userDetails">

@@ -37,6 +37,7 @@ type WorkoutFormGroupContent = {
   status: FormControl<WorkoutFormRawValue['status']>;
   type: FormControl<WorkoutFormRawValue['type']>;
   workoutRating: FormControl<WorkoutFormRawValue['workoutRating']>;
+  sportDiscipline: FormControl<WorkoutFormRawValue['sportDiscipline']>;
   userDetails: FormControl<WorkoutFormRawValue['userDetails']>;
 };
 
@@ -63,6 +64,7 @@ export class WorkoutFormService {
       status: new FormControl(workoutRawValue.status),
       type: new FormControl(workoutRawValue.type),
       workoutRating: new FormControl(workoutRawValue.workoutRating),
+      sportDiscipline: new FormControl(workoutRawValue.sportDiscipline),
       userDetails: new FormControl(workoutRawValue.userDetails),
     });
   }

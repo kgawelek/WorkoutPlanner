@@ -58,6 +58,12 @@
       "relationshipType": "one-to-many"
     },
     {
+      "otherEntityName": "sportDiscipline",
+      "otherEntityRelationshipName": "workout",
+      "relationshipName": "sportDiscipline",
+      "relationshipType": "many-to-one"
+    },
+    {
       "otherEntityName": "userDetails",
       "otherEntityRelationshipName": "workout",
       "relationshipName": "userDetails",

@@ -25,6 +25,12 @@
       "otherEntityRelationshipName": "sportDiscipline",
       "relationshipName": "userDetails",
       "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "workout",
+      "otherEntityRelationshipName": "sportDiscipline",
+      "relationshipName": "workout",
+      "relationshipType": "one-to-many"
     }
   ],
   "service": "no"

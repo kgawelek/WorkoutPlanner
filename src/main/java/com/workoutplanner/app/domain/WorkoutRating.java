@@ -31,7 +31,10 @@ public class WorkoutRating implements Serializable {
     @Column(name = "rate")
     private RatingScale rate;
 
-    @JsonIgnoreProperties(value = { "workoutRating", "exercises", "workoutBreakdowns", "userDetails" }, allowSetters = true)
+    @JsonIgnoreProperties(
+        value = { "workoutRating", "exercises", "workoutBreakdowns", "sportDiscipline", "userDetails" },
+        allowSetters = true
+    )
     @OneToOne(mappedBy = "workoutRating")
     private Workout workout;
 

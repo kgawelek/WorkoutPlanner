@@ -26,6 +26,7 @@ describe('Workout Form Service', () => {
             status: expect.any(Object),
             type: expect.any(Object),
             workoutRating: expect.any(Object),
+            sportDiscipline: expect.any(Object),
             userDetails: expect.any(Object),
           })
         );
@@ -43,6 +44,7 @@ describe('Workout Form Service', () => {
             status: expect.any(Object),
             type: expect.any(Object),
             workoutRating: expect.any(Object),
+            sportDiscipline: expect.any(Object),
             userDetails: expect.any(Object),
           })
         );

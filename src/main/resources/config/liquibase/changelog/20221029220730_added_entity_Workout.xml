@@ -32,6 +32,9 @@
             <column name="workout_rating_id" type="bigint">
                 <constraints nullable="true" unique="true" uniqueConstraintName="ux_workout__workout_rating_id" />
             </column>
+            <column name="sport_discipline_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
             <column name="user_details_id" type="bigint">
                 <constraints nullable="true" />
             </column>

@@ -45,7 +45,10 @@ public class WorkoutBreakdown implements Serializable {
     private String rangeUnit;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "workoutRating", "exercises", "workoutBreakdowns", "userDetails" }, allowSetters = true)
+    @JsonIgnoreProperties(
+        value = { "workoutRating", "exercises", "workoutBreakdowns", "sportDiscipline", "userDetails" },
+        allowSetters = true
+    )
     private Workout workout;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

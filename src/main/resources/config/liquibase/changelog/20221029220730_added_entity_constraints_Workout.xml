@@ -14,6 +14,12 @@
                                  referencedColumnNames="id"
                                  referencedTableName="workout_rating"/>
 
+        <addForeignKeyConstraint baseColumnNames="sport_discipline_id"
+                                 baseTableName="workout"
+                                 constraintName="fk_workout__sport_discipline_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="sport_discipline"/>
+
         <addForeignKeyConstraint baseColumnNames="user_details_id"
                                  baseTableName="workout"
                                  constraintName="fk_workout__user_details_id"

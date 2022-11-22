@@ -11,6 +11,8 @@ import { WorkoutService } from '../service/workout.service';
 import { IWorkout } from '../workout.model';
 import { IWorkoutRating } from 'app/entities/workout-rating/workout-rating.model';
 import { WorkoutRatingService } from 'app/entities/workout-rating/service/workout-rating.service';
+import { ISportDiscipline } from 'app/entities/sport-discipline/sport-discipline.model';
+import { SportDisciplineService } from 'app/entities/sport-discipline/service/sport-discipline.service';
 import { IUserDetails } from 'app/entities/user-details/user-details.model';
 import { UserDetailsService } from 'app/entities/user-details/service/user-details.service';
 
@@ -23,6 +25,7 @@ describe('Workout Management Update Component', () => {
   let workoutFormService: WorkoutFormService;
   let workoutService: WorkoutService;
   let workoutRatingService: WorkoutRatingService;
+  let sportDisciplineService: SportDisciplineService;
   let userDetailsService: UserDetailsService;
 
   beforeEach(() => {
@@ -47,6 +50,7 @@ describe('Workout Management Update Component', () => {
     workoutFormService = TestBed.inject(WorkoutFormService);
     workoutService = TestBed.inject(WorkoutService);
     workoutRatingService = TestBed.inject(WorkoutRatingService);
+    sportDisciplineService = TestBed.inject(SportDisciplineService);
     userDetailsService = TestBed.inject(UserDetailsService);
 
     comp = fixture.componentInstance;
@@ -69,6 +73,28 @@ describe('Workout Management Update Component', () => {
       expect(workoutRatingService.query).toHaveBeenCalled();
       expect(workoutRatingService.addWorkoutRatingToCollectionIfMissing).toHaveBeenCalledWith(workoutRatingCollection, workoutRating);
       expect(comp.workoutRatingsCollection).toEqual(expectedCollection);
+    });
+
+    it('Should call SportDiscipline query and add missing value', () => {
+      const workout: IWorkout = { id: 456 };
+      const sportDiscipline: ISportDiscipline = { id: 44344 };
+      workout.sportDiscipline = sportDiscipline;
+
+      const sportDisciplineCollection: ISportDiscipline[] = [{ id: 33125 }];
+      jest.spyOn(sportDisciplineService, 'query').mockReturnValue(of(new HttpResponse({ body: sportDisciplineCollection })));
+      const additionalSportDisciplines = [sportDiscipline];
+      const expectedCollection: ISportDiscipline[] = [...additionalSportDisciplines, ...sportDisciplineCollection];
+      jest.spyOn(sportDisciplineService, 'addSportDisciplineToCollectionIfMissing').mockReturnValue(expectedCollection);
+
+      activatedRoute.data = of({ workout });
+      comp.ngOnInit();
+
+      expect(sportDisciplineService.query).toHaveBeenCalled();
+      expect(sportDisciplineService.addSportDisciplineToCollectionIfMissing).toHaveBeenCalledWith(
+        sportDisciplineCollection,
+        ...additionalSportDisciplines.map(expect.objectContaining)
+      );
+      expect(comp.sportDisciplinesSharedCollection).toEqual(expectedCollection);
     });
 
     it('Should call UserDetails query and add missing value', () => {
@@ -97,6 +123,8 @@ describe('Workout Management Update Component', () => {
       const workout: IWorkout = { id: 456 };
       const workoutRating: IWorkoutRating = { id: 4935 };
       workout.workoutRating = workoutRating;
+      const sportDiscipline: ISportDiscipline = { id: 42325 };
+      workout.sportDiscipline = sportDiscipline;
       const userDetails: IUserDetails = { id: 44269 };
       workout.userDetails = userDetails;
 
@@ -104,6 +132,7 @@ describe('Workout Management Update Component', () => {
       comp.ngOnInit();
 
       expect(comp.workoutRatingsCollection).toContain(workoutRating);
+      expect(comp.sportDisciplinesSharedCollection).toContain(sportDiscipline);
       expect(comp.userDetailsSharedCollection).toContain(userDetails);
       expect(comp.workout).toEqual(workout);
     });
@@ -185,6 +214,16 @@ describe('Workout Management Update Component', () => {
         jest.spyOn(workoutRatingService, 'compareWorkoutRating');
         comp.compareWorkoutRating(entity, entity2);
         expect(workoutRatingService.compareWorkoutRating).toHaveBeenCalledWith(entity, entity2);
+      });
+    });
+
+    describe('compareSportDiscipline', () => {
+      it('Should forward to sportDisciplineService', () => {
+        const entity = { id: 123 };
+        const entity2 = { id: 456 };
+        jest.spyOn(sportDisciplineService, 'compareSportDiscipline');
+        comp.compareSportDiscipline(entity, entity2);
+        expect(sportDisciplineService.compareSportDiscipline).toHaveBeenCalledWith(entity, entity2);
       });
     });
 

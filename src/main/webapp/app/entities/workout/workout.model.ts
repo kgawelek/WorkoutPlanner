@@ -1,5 +1,6 @@
 import dayjs from 'dayjs/esm';
 import { IWorkoutRating } from 'app/entities/workout-rating/workout-rating.model';
+import { ISportDiscipline } from 'app/entities/sport-discipline/sport-discipline.model';
 import { IUserDetails } from 'app/entities/user-details/user-details.model';
 import { Status } from 'app/entities/enumerations/status.model';
 import { WorkoutType } from 'app/entities/enumerations/workout-type.model';
@@ -12,6 +13,7 @@ export interface IWorkout {
   status?: Status | null;
   type?: WorkoutType | null;
   workoutRating?: Pick<IWorkoutRating, 'id'> | null;
+  sportDiscipline?: Pick<ISportDiscipline, 'id'> | null;
   userDetails?: Pick<IUserDetails, 'id'> | null;
 }
 

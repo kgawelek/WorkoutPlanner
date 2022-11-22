@@ -9,6 +9,8 @@ import { IWorkout } from '../workout.model';
 import { WorkoutService } from '../service/workout.service';
 import { IWorkoutRating } from 'app/entities/workout-rating/workout-rating.model';
 import { WorkoutRatingService } from 'app/entities/workout-rating/service/workout-rating.service';
+import { ISportDiscipline } from 'app/entities/sport-discipline/sport-discipline.model';
+import { SportDisciplineService } from 'app/entities/sport-discipline/service/sport-discipline.service';
 import { IUserDetails } from 'app/entities/user-details/user-details.model';
 import { UserDetailsService } from 'app/entities/user-details/service/user-details.service';
 import { Status } from 'app/entities/enumerations/status.model';
@@ -25,6 +27,7 @@ export class WorkoutUpdateComponent implements OnInit {
   workoutTypeValues = Object.keys(WorkoutType);
 
   workoutRatingsCollection: IWorkoutRating[] = [];
+  sportDisciplinesSharedCollection: ISportDiscipline[] = [];
   userDetailsSharedCollection: IUserDetails[] = [];
 
   editForm: WorkoutFormGroup = this.workoutFormService.createWorkoutFormGroup();
@@ -33,12 +36,16 @@ export class WorkoutUpdateComponent implements OnInit {
     protected workoutService: WorkoutService,
     protected workoutFormService: WorkoutFormService,
     protected workoutRatingService: WorkoutRatingService,
+    protected sportDisciplineService: SportDisciplineService,
     protected userDetailsService: UserDetailsService,
     protected activatedRoute: ActivatedRoute
   ) {}
 
   compareWorkoutRating = (o1: IWorkoutRating | null, o2: IWorkoutRating | null): boolean =>
     this.workoutRatingService.compareWorkoutRating(o1, o2);
+
+  compareSportDiscipline = (o1: ISportDiscipline | null, o2: ISportDiscipline | null): boolean =>
+    this.sportDisciplineService.compareSportDiscipline(o1, o2);
 
   compareUserDetails = (o1: IUserDetails | null, o2: IUserDetails | null): boolean => this.userDetailsService.compareUserDetails(o1, o2);
 
@@ -94,6 +101,10 @@ export class WorkoutUpdateComponent implements OnInit {
       this.workoutRatingsCollection,
       workout.workoutRating
     );
+    this.sportDisciplinesSharedCollection = this.sportDisciplineService.addSportDisciplineToCollectionIfMissing<ISportDiscipline>(
+      this.sportDisciplinesSharedCollection,
+      workout.sportDiscipline
+    );
     this.userDetailsSharedCollection = this.userDetailsService.addUserDetailsToCollectionIfMissing<IUserDetails>(
       this.userDetailsSharedCollection,
       workout.userDetails
@@ -110,6 +121,19 @@ export class WorkoutUpdateComponent implements OnInit {
         )
       )
       .subscribe((workoutRatings: IWorkoutRating[]) => (this.workoutRatingsCollection = workoutRatings));
+
+    this.sportDisciplineService
+      .query()
+      .pipe(map((res: HttpResponse<ISportDiscipline[]>) => res.body ?? []))
+      .pipe(
+        map((sportDisciplines: ISportDiscipline[]) =>
+          this.sportDisciplineService.addSportDisciplineToCollectionIfMissing<ISportDiscipline>(
+            sportDisciplines,
+            this.workout?.sportDiscipline
+          )
+        )
+      )
+      .subscribe((sportDisciplines: ISportDiscipline[]) => (this.sportDisciplinesSharedCollection = sportDisciplines));
 
     this.userDetailsService
       .query()

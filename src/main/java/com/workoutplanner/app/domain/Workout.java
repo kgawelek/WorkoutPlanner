@@ -62,6 +62,10 @@ public class Workout implements Serializable {
     private Set<WorkoutBreakdown> workoutBreakdowns = new HashSet<>();
 
     @ManyToOne
+    @JsonIgnoreProperties(value = { "userDetails", "workouts" }, allowSetters = true)
+    private SportDiscipline sportDiscipline;
+
+    @ManyToOne
     @JsonIgnoreProperties(value = { "user", "workouts", "sportDiscipline" }, allowSetters = true)
     private UserDetails userDetails;
 
@@ -217,6 +221,19 @@ public class Workout implements Serializable {
     public Workout removeWorkoutBreakdown(WorkoutBreakdown workoutBreakdown) {
         this.workoutBreakdowns.remove(workoutBreakdown);
         workoutBreakdown.setWorkout(null);
+        return this;
+    }
+
+    public SportDiscipline getSportDiscipline() {
+        return this.sportDiscipline;
+    }
+
+    public void setSportDiscipline(SportDiscipline sportDiscipline) {
+        this.sportDiscipline = sportDiscipline;
+    }
+
+    public Workout sportDiscipline(SportDiscipline sportDiscipline) {
+        this.setSportDiscipline(sportDiscipline);
         return this;
     }
 
