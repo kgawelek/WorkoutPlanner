@@ -13,7 +13,7 @@ export interface IWorkout {
   status?: Status | null;
   type?: WorkoutType | null;
   workoutRating?: Pick<IWorkoutRating, 'id'> | null;
-  sportDiscipline?: Pick<ISportDiscipline, 'id'> | null;
+  sportDiscipline?: ISportDiscipline | null;
   userDetails?: Pick<IUserDetails, 'id'> | null;
 }
 
