@@ -36,7 +36,7 @@
       id="status_filter"
       (input)="statusFilterChanged($event)"
     >
-      <option value="all">ALL</option>
+      <option value="allWorkouts">ALL</option>
       <option *ngFor="let status of statusValues" [value]="status">{{ status }}</option>
     </select>
     <label class="form-label" for="workout_type_filter">Type</label>
@@ -48,8 +48,22 @@
       data-cy="type"
       (input)="typeFilterChanged($event)"
     >
-      <option value="all">ALL</option>
+      <option value="allWorkouts">ALL</option>
       <option *ngFor="let workoutType of workoutTypeValues" [value]="workoutType">{{ workoutType }}</option>
+    </select>
+    <label class="form-label" for="sportDisciplineFilter">Sport Discipline</label>
+    <select
+      class="form-control"
+      id="sportDisciplineFilter"
+      data-cy="sportDiscipline"
+      name="sportDiscipline"
+      formControlName="sportDisciplineFilter"
+      (input)="disciplineFilterChanged($event)"
+    >
+      <option value="allWorkouts">All</option>
+      <option [ngValue]="sportDisciplineOption.name" *ngFor="let sportDisciplineOption of sportDisciplines">
+        {{ sportDisciplineOption.name }}
+      </option>
     </select>
   </div>
   <div class="table-responsive table-entities" id="entities" *ngIf="filteredWorkouts && filteredWorkouts.length > 0">

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Data, ParamMap, Router } from '@angular/router';
 import { combineLatest, filter, Observable, switchMap, tap } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { HttpResponse } from '@angular/common/http';
+import { finalize, map } from 'rxjs/operators';
 
 import { IWorkout } from '../workout.model';
 import { ASC, DESC, SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/config/navigation.constants';
@@ -10,6 +12,8 @@ import { WorkoutDeleteDialogComponent } from '../delete/workout-delete-dialog.co
 import { SortService } from 'app/shared/sort/sort.service';
 import { Status } from '../../enumerations/status.model';
 import { WorkoutType } from '../../enumerations/workout-type.model';
+import { ISportDiscipline } from '../../sport-discipline/sport-discipline.model';
+import { SportDisciplineService } from '../../sport-discipline/service/sport-discipline.service';
 
 @Component({
   selector: 'jhi-workout',
@@ -18,6 +22,7 @@ import { WorkoutType } from '../../enumerations/workout-type.model';
 export class WorkoutComponent implements OnInit {
   workouts?: IWorkout[];
   filteredWorkouts?: IWorkout[];
+  sportDisciplines?: ISportDiscipline[];
   isLoading = false;
 
   predicate = 'id';
@@ -26,21 +31,24 @@ export class WorkoutComponent implements OnInit {
   statusValues = Object.keys(Status);
   workoutTypeValues = Object.keys(WorkoutType);
 
-  statusFilter = 'all';
-  typeFilter = 'all';
+  statusFilter = 'allWorkouts';
+  typeFilter = 'allWorkouts';
+  disciplineFilter = 'allWorkouts';
 
   constructor(
     protected workoutService: WorkoutService,
     protected activatedRoute: ActivatedRoute,
     public router: Router,
     protected sortService: SortService,
-    protected modalService: NgbModal
+    protected modalService: NgbModal,
+    protected sportDisciplineService: SportDisciplineService
   ) {}
 
   trackId = (_index: number, item: IWorkout): number => this.workoutService.getWorkoutIdentifier(item);
 
   ngOnInit(): void {
     this.load();
+    this.loadSportDisciplines();
   }
 
   delete(workout: IWorkout): void {
@@ -126,31 +134,53 @@ export class WorkoutComponent implements OnInit {
     }
   }
 
+  protected loadSportDisciplines(): void {
+    this.sportDisciplineService
+      .query()
+      .pipe(map((res: HttpResponse<ISportDiscipline[]>) => res.body ?? []))
+      .pipe()
+      .subscribe((sportDisciplines: ISportDiscipline[]) => (this.sportDisciplines = sportDisciplines));
+  }
+
   statusFilterChanged(event: any) {
     this.statusFilter = event.target.value;
     this.filterWorkouts();
+    if (!this.disciplineFilter.match('allWorkouts')) this.filterByDiscipline();
   }
 
   typeFilterChanged(event: any) {
     this.typeFilter = event.target.value;
     this.filterWorkouts();
+    if (!this.disciplineFilter.match('allWorkouts')) this.filterByDiscipline();
   }
 
   filterWorkouts() {
-    if (this.statusFilter.match('all') && this.typeFilter.match('all')) {
+    if (this.statusFilter.match('allWorkouts') && this.typeFilter.match('allWorkouts')) {
       this.filteredWorkouts = this.workouts;
       return;
     }
-    if (this.statusFilter.match('all')) {
+    if (this.statusFilter.match('allWorkouts')) {
       // type filter is different than all
       this.filteredWorkouts = this.workouts?.filter(workout => workout.type?.match(this.typeFilter));
-    } else if (this.typeFilter.match('all')) {
+    } else if (this.typeFilter.match('allWorkouts')) {
       // type filter is different than all
       this.filteredWorkouts = this.workouts?.filter(workout => workout.status?.match(this.statusFilter));
     } else {
       this.filteredWorkouts = this.workouts
         ?.filter(workout => workout.status?.match(this.statusFilter))
         .filter(workout => workout.type?.match(this.typeFilter));
+    }
+  }
+
+  disciplineFilterChanged(event: any) {
+    this.disciplineFilter = event.target.value.replace(/[0-9]/g, '').replace(': ', '');
+    this.filterByDiscipline();
+  }
+
+  filterByDiscipline() {
+    this.filterWorkouts();
+    if (!this.disciplineFilter.match('allWorkouts')) {
+      this.filteredWorkouts = this.filteredWorkouts?.filter(workout => workout.sportDiscipline?.name?.match(this.disciplineFilter));
     }
   }
 }
