@@ -27,8 +27,26 @@
   <div class="alert alert-warning" id="no-result" *ngIf="workouts?.length === 0">
     <span>No Workouts found</span>
   </div>
-
-  <div class="table-responsive table-entities" id="entities" *ngIf="workouts && workouts.length > 0">
+  <div class="row mb-5">
+    <label class="form-label" for="status_filter">Status</label>
+    <select
+      class="form-control"
+      name="status_filter"
+      formControlName="status_filter"
+      id="status_filter"
+      [(ngModel)]="filteredWorkouts"
+      (input)="statusFilterChanged($event)"
+    >
+      <option value="all">ALL</option>
+      <option *ngFor="let status of statusValues" [value]="status">{{ status }}</option>
+    </select>
+    <label class="form-label" for="workout_type_filter">Type</label>
+    <select class="form-control" name="type_filter" formControlName="type" id="workout_type_filter" data-cy="type">
+      <option value="all">ALL</option>
+      <option *ngFor="let workoutType of workoutTypeValues" [value]="workoutType">{{ workoutType }}</option>
+    </select>
+  </div>
+  <div class="table-responsive table-entities" id="entities" *ngIf="filteredWorkouts && filteredWorkouts.length > 0">
     <table class="table table-striped" aria-describedby="page-heading">
       <thead>
         <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
@@ -84,7 +102,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let workout of workouts; trackBy: trackId" data-cy="entityTable">
+        <tr *ngFor="let workout of filteredWorkouts; trackBy: trackId" data-cy="entityTable">
           <td>
             <a [routerLink]="['/workout', workout.id, 'view']">{{ workout.id }}</a>
           </td>

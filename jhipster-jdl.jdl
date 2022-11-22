@@ -52,7 +52,8 @@ relationship OneToMany{
 
 relationship ManyToOne{
 	UserDetails to SportDiscipline,
-    Exercise to ExerciseType
+    Exercise to ExerciseType,
+    Workout to SportDiscipline
 }
 
 relationship OneToOne{

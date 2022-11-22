@@ -8,6 +8,8 @@ import { ASC, DESC, SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/conf
 import { EntityArrayResponseType, WorkoutService } from '../service/workout.service';
 import { WorkoutDeleteDialogComponent } from '../delete/workout-delete-dialog.component';
 import { SortService } from 'app/shared/sort/sort.service';
+import { Status } from '../../enumerations/status.model';
+import { WorkoutType } from '../../enumerations/workout-type.model';
 
 @Component({
   selector: 'jhi-workout',
@@ -15,10 +17,17 @@ import { SortService } from 'app/shared/sort/sort.service';
 })
 export class WorkoutComponent implements OnInit {
   workouts?: IWorkout[];
+  filteredWorkouts?: IWorkout[];
   isLoading = false;
 
   predicate = 'id';
   ascending = true;
+
+  statusValues = Object.keys(Status);
+  workoutTypeValues = Object.keys(WorkoutType);
+
+  statusFilter?: string;
+  typeFilter?: string;
 
   constructor(
     protected workoutService: WorkoutService,
@@ -77,6 +86,7 @@ export class WorkoutComponent implements OnInit {
 
   protected onResponseSuccess(response: EntityArrayResponseType): void {
     const dataFromBody = this.fillComponentAttributesFromResponseBody(response.body);
+    this.filteredWorkouts = this.refineData(dataFromBody);
     this.workouts = this.refineData(dataFromBody);
   }
 
@@ -115,4 +125,21 @@ export class WorkoutComponent implements OnInit {
       return [predicate + ',' + ascendingQueryParam];
     }
   }
+
+  statusFilterChanged(event: any) {
+    // @ts-ignore
+    let filter = event.target.value;
+    if (filter == null) {
+      return;
+    }
+    if (filter.match('all')) {
+      this.filteredWorkouts = this.workouts;
+    } else {
+      this.filteredWorkouts = this.workouts?.filter(workout => workout.status?.match(filter));
+    }
+
+    this.filterWorkouts();
+  }
+
+  filterWorkouts() {}
 }
