@@ -85,23 +85,6 @@
             </option>
           </select>
         </div>
-
-        <div class="row mb-3">
-          <label class="form-label" for="field_userDetails">User Details</label>
-          <select
-            class="form-control"
-            id="field_userDetails"
-            data-cy="userDetails"
-            name="userDetails"
-            formControlName="userDetails"
-            [compareWith]="compareUserDetails"
-          >
-            <option [ngValue]="null"></option>
-            <option [ngValue]="userDetailsOption" *ngFor="let userDetailsOption of userDetailsSharedCollection">
-              {{ userDetailsOption.id }}
-            </option>
-          </select>
-        </div>
       </div>
 
       <div>

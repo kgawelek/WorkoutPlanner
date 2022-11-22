@@ -26,8 +26,8 @@ export class WorkoutComponent implements OnInit {
   statusValues = Object.keys(Status);
   workoutTypeValues = Object.keys(WorkoutType);
 
-  statusFilter?: string;
-  typeFilter?: string;
+  statusFilter = 'all';
+  typeFilter = 'all';
 
   constructor(
     protected workoutService: WorkoutService,
@@ -127,19 +127,30 @@ export class WorkoutComponent implements OnInit {
   }
 
   statusFilterChanged(event: any) {
-    // @ts-ignore
-    let filter = event.target.value;
-    if (filter == null) {
-      return;
-    }
-    if (filter.match('all')) {
-      this.filteredWorkouts = this.workouts;
-    } else {
-      this.filteredWorkouts = this.workouts?.filter(workout => workout.status?.match(filter));
-    }
-
+    this.statusFilter = event.target.value;
     this.filterWorkouts();
   }
 
-  filterWorkouts() {}
+  typeFilterChanged(event: any) {
+    this.typeFilter = event.target.value;
+    this.filterWorkouts();
+  }
+
+  filterWorkouts() {
+    if (this.statusFilter.match('all') && this.typeFilter.match('all')) {
+      this.filteredWorkouts = this.workouts;
+      return;
+    }
+    if (this.statusFilter.match('all')) {
+      // type filter is different than all
+      this.filteredWorkouts = this.workouts?.filter(workout => workout.type?.match(this.typeFilter));
+    } else if (this.typeFilter.match('all')) {
+      // type filter is different than all
+      this.filteredWorkouts = this.workouts?.filter(workout => workout.status?.match(this.statusFilter));
+    } else {
+      this.filteredWorkouts = this.workouts
+        ?.filter(workout => workout.status?.match(this.statusFilter))
+        .filter(workout => workout.type?.match(this.typeFilter));
+    }
+  }
 }

@@ -34,14 +34,20 @@
       name="status_filter"
       formControlName="status_filter"
       id="status_filter"
-      [(ngModel)]="filteredWorkouts"
       (input)="statusFilterChanged($event)"
     >
       <option value="all">ALL</option>
       <option *ngFor="let status of statusValues" [value]="status">{{ status }}</option>
     </select>
     <label class="form-label" for="workout_type_filter">Type</label>
-    <select class="form-control" name="type_filter" formControlName="type" id="workout_type_filter" data-cy="type">
+    <select
+      class="form-control"
+      name="type_filter"
+      formControlName="type_filter"
+      id="workout_type_filter"
+      data-cy="type"
+      (input)="typeFilterChanged($event)"
+    >
       <option value="all">ALL</option>
       <option *ngFor="let workoutType of workoutTypeValues" [value]="workoutType">{{ workoutType }}</option>
     </select>
