@@ -134,6 +134,15 @@
                     <fa-icon icon="pencil-alt"></fa-icon>
                     <span class="d-none d-md-inline">Edytuj</span>
                   </button>
+                  <button
+                    type="submit"
+                    (click)="deleteExercise(exercise, $event)"
+                    class="btn btn-danger btn-sm"
+                    data-cy="entityDeleteButton"
+                  >
+                    <fa-icon icon="times"></fa-icon>
+                    <span class="d-none d-md-inline">Usuń</span>
+                  </button>
                 </div>
               </tr>
             </tbody>
@@ -179,11 +188,10 @@
             </select>
           </div>
           <div>
-            <button type="submit" id="save-exercise" data-cy="createExerciseButton" class="btn btn-primary">
-              <fa-icon icon="save"></fa-icon>&nbsp;<span>Dodaj</span>
-            </button>
+            <button type="submit" class="btn btn-primary"><fa-icon icon="save"></fa-icon>&nbsp;<span>Dodaj</span></button>
           </div>
         </form>
+        <p></p>
         <div>
           <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
             <fa-icon icon="ban"></fa-icon>&nbsp;<span>Anuluj</span>

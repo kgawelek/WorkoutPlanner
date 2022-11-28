@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
 import { WorkoutFormService, WorkoutFormGroup } from './workout-form.service';
@@ -18,8 +18,11 @@ import { WorkoutType } from 'app/entities/enumerations/workout-type.model';
 import { IExerciseType } from '../../exercise-type/exercise-type.model';
 import { ExerciseFormGroup, ExerciseFormService } from '../../exercise/update/exercise-form.service';
 import { ExerciseTypeService } from '../../exercise-type/service/exercise-type.service';
-import { ExerciseService } from '../../exercise/service/exercise.service';
+import { EntityArrayResponseType, ExerciseService } from '../../exercise/service/exercise.service';
 import { IExercise } from '../../exercise/exercise.model';
+import { ExerciseDeleteDialogComponent } from '../../exercise/delete/exercise-delete-dialog.component';
+import { ITEM_DELETED_EVENT } from '../../../config/navigation.constants';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'jhi-workout-update',
@@ -50,7 +53,8 @@ export class WorkoutUpdateComponent implements OnInit {
     protected activatedRoute: ActivatedRoute,
     protected exerciseFormService: ExerciseFormService,
     protected exerciseTypeService: ExerciseTypeService,
-    protected exerciseService: ExerciseService
+    protected exerciseService: ExerciseService,
+    protected modalService: NgbModal
   ) {}
 
   compareExerciseType = (o1: IExerciseType | null, o2: IExerciseType | null): boolean =>
@@ -94,6 +98,13 @@ export class WorkoutUpdateComponent implements OnInit {
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IWorkout>>): void {
     result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
       next: () => this.onSaveSuccess(),
+      error: () => this.onSaveError(),
+    });
+  }
+
+  protected subscribeToSaveResponseAndReloadPage(result: Observable<HttpResponse<IWorkout>>): void {
+    result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
+      next: () => window.location.reload(),
       error: () => this.onSaveError(),
     });
   }
@@ -173,9 +184,21 @@ export class WorkoutUpdateComponent implements OnInit {
     const exercise = this.exerciseFormService.getExercise(this.addExerciseForm);
     exercise.workout = this.workout;
     if (exercise.id !== null) {
-      this.subscribeToSaveResponse(this.exerciseService.update(exercise));
+      this.subscribeToSaveResponseAndReloadPage(this.exerciseService.update(exercise));
     } else {
-      this.subscribeToSaveResponse(this.exerciseService.create(exercise));
+      this.subscribeToSaveResponseAndReloadPage(this.exerciseService.create(exercise));
     }
+  }
+
+  deleteExercise(exercise: IExercise, event: any): void {
+    event.preventDefault();
+    const modalRef = this.modalService.open(ExerciseDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
+    modalRef.componentInstance.exercise = exercise;
+    // unsubscribe not needed because closed completes on modal close
+    modalRef.closed.subscribe({
+      next: (res: EntityArrayResponseType) => {
+        window.location.reload();
+      },
+    });
   }
 }
