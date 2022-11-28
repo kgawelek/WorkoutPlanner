@@ -85,22 +85,68 @@
             </option>
           </select>
         </div>
-      </div>
 
-      <div>
-        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
-          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Anuluj</span>
-        </button>
+        <span>Exercises</span>
+        <form name="addExerciseForm" role="form" novalidate (ngSubmit)="addExercise()" [formGroup]="addExerciseForm">
+          <div class="row mb-3">
+            <label class="form-label" for="field_nrOfReps">Nr Of Reps</label>
+            <input type="number" class="form-control" name="nrOfReps" id="field_nrOfReps" data-cy="nrOfReps" formControlName="nrOfReps" />
+          </div>
 
-        <button
-          type="submit"
-          id="save-entity"
-          data-cy="entityCreateSaveButton"
-          [disabled]="editForm.invalid || isSaving"
-          class="btn btn-primary"
-        >
-          <fa-icon icon="save"></fa-icon>&nbsp;<span>Zapisz</span>
-        </button>
+          <div class="row mb-3">
+            <label class="form-label" for="field_nrOfSeries">Nr Of Series</label>
+            <input
+              type="number"
+              class="form-control"
+              name="nrOfSeries"
+              id="field_nrOfSeries"
+              data-cy="nrOfSeries"
+              formControlName="nrOfSeries"
+            />
+          </div>
+
+          <div class="row mb-3">
+            <label class="form-label" for="field_weight">Weight</label>
+            <input type="number" class="form-control" name="weight" id="field_weight" data-cy="weight" formControlName="weight" />
+          </div>
+
+          <div class="row mb-3">
+            <label class="form-label" for="field_exerciseType">Exercise Type</label>
+            <select
+              class="form-control"
+              id="field_exerciseType"
+              data-cy="exerciseType"
+              name="exerciseType"
+              formControlName="exerciseType"
+              [compareWith]="compareExerciseType"
+            >
+              <option [ngValue]="null"></option>
+              <option [ngValue]="exerciseTypeOption" *ngFor="let exerciseTypeOption of exerciseTypesSharedCollection">
+                {{ exerciseTypeOption.name }}
+              </option>
+            </select>
+          </div>
+          <div>
+            <button type="submit" id="save-exercise" data-cy="createExerciseButton" class="btn btn-primary">
+              <fa-icon icon="save"></fa-icon>&nbsp;<span>Dodaj</span>
+            </button>
+          </div>
+        </form>
+        <div>
+          <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+            <fa-icon icon="ban"></fa-icon>&nbsp;<span>Anuluj</span>
+          </button>
+
+          <button
+            type="submit"
+            id="save-entity"
+            data-cy="entityCreateSaveButton"
+            [disabled]="editForm.invalid || isSaving"
+            class="btn btn-primary"
+          >
+            <fa-icon icon="save"></fa-icon>&nbsp;<span>Zapisz</span>
+          </button>
+        </div>
       </div>
     </form>
   </div>

@@ -15,6 +15,11 @@ import { IUserDetails } from 'app/entities/user-details/user-details.model';
 import { UserDetailsService } from 'app/entities/user-details/service/user-details.service';
 import { Status } from 'app/entities/enumerations/status.model';
 import { WorkoutType } from 'app/entities/enumerations/workout-type.model';
+import { IExerciseType } from '../../exercise-type/exercise-type.model';
+import { ExerciseFormGroup, ExerciseFormService } from '../../exercise/update/exercise-form.service';
+import { ExerciseTypeService } from '../../exercise-type/service/exercise-type.service';
+import { ExerciseService } from '../../exercise/service/exercise.service';
+import { IExercise } from '../../exercise/exercise.model';
 
 @Component({
   selector: 'jhi-workout-update',
@@ -32,14 +37,26 @@ export class WorkoutUpdateComponent implements OnInit {
 
   editForm: WorkoutFormGroup = this.workoutFormService.createWorkoutFormGroup();
 
+  exerciseTypesSharedCollection: IExerciseType[] = [];
+
+  addExerciseForm: ExerciseFormGroup = this.exerciseFormService.createExerciseFormGroup();
+
   constructor(
     protected workoutService: WorkoutService,
     protected workoutFormService: WorkoutFormService,
     protected workoutRatingService: WorkoutRatingService,
     protected sportDisciplineService: SportDisciplineService,
     protected userDetailsService: UserDetailsService,
-    protected activatedRoute: ActivatedRoute
+    protected activatedRoute: ActivatedRoute,
+    protected exerciseFormService: ExerciseFormService,
+    protected exerciseTypeService: ExerciseTypeService,
+    protected exerciseService: ExerciseService
   ) {}
+
+  compareExerciseType = (o1: IExerciseType | null, o2: IExerciseType | null): boolean =>
+    this.exerciseTypeService.compareExerciseType(o1, o2);
+
+  compareWorkout = (o1: IWorkout | null, o2: IWorkout | null): boolean => this.workoutService.compareWorkout(o1, o2);
 
   compareWorkoutRating = (o1: IWorkoutRating | null, o2: IWorkoutRating | null): boolean =>
     this.workoutRatingService.compareWorkoutRating(o1, o2);
@@ -144,5 +161,21 @@ export class WorkoutUpdateComponent implements OnInit {
         )
       )
       .subscribe((userDetails: IUserDetails[]) => (this.userDetailsSharedCollection = userDetails));
+
+    this.exerciseTypeService
+      .query()
+      .pipe(map((res: HttpResponse<IExerciseType[]>) => res.body ?? []))
+      .subscribe((exerciseTypes: IExerciseType[]) => (this.exerciseTypesSharedCollection = exerciseTypes));
+  }
+
+  addExercise() {
+    this.isSaving = true;
+    const exercise = this.exerciseFormService.getExercise(this.addExerciseForm);
+    exercise.workout = this.workout;
+    if (exercise.id !== null) {
+      this.subscribeToSaveResponse(this.exerciseService.update(exercise));
+    } else {
+      this.subscribeToSaveResponse(this.exerciseService.create(exercise));
+    }
   }
 }
