@@ -86,7 +86,59 @@
           </select>
         </div>
 
-        <span>Exercises</span>
+        <div class="table-responsive table-entities" id="exercises" *ngIf="workout?.exercises">
+          <dt><span>Exercises</span></dt>
+          <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+              <tr>
+                <th scope="col"></th>
+                <th scope="col">
+                  <div class="d-flex">
+                    <span>Exercise Type</span>
+                  </div>
+                </th>
+                <th scope="col">
+                  <div class="d-flex">
+                    <span>Nr Of Reps</span>
+                  </div>
+                </th>
+                <th scope="col">
+                  <div class="d-flex">
+                    <span>Nr Of Series</span>
+                  </div>
+                </th>
+                <th scope="col">
+                  <div class="d-flex">
+                    <span>Weight</span>
+                  </div>
+                </th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let exercise of workout?.exercises">
+                <td></td>
+                <td>
+                  {{ exercise.exerciseType?.name }}
+                </td>
+                <td>{{ exercise.nrOfReps }}</td>
+                <td>{{ exercise.nrOfSeries }}</td>
+                <td>{{ exercise.weight }}</td>
+                <div class="btn-group">
+                  <button
+                    type="submit"
+                    [routerLink]="['/exercise', exercise.id, 'edit']"
+                    class="btn btn-primary btn-sm"
+                    data-cy="entityEditButton"
+                  >
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                    <span class="d-none d-md-inline">Edytuj</span>
+                  </button>
+                </div>
+              </tr>
+            </tbody>
+          </table>
+        </div>
         <form name="addExerciseForm" role="form" novalidate (ngSubmit)="addExercise()" [formGroup]="addExerciseForm">
           <div class="row mb-3">
             <label class="form-label" for="field_nrOfReps">Nr Of Reps</label>
