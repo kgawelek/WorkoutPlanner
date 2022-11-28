@@ -32,7 +32,7 @@ public class Exercise implements Serializable {
     @Column(name = "weight")
     private Double weight;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JsonIgnoreProperties(value = { "exercises" }, allowSetters = true)
     private ExerciseType exerciseType;
 
@@ -146,10 +146,11 @@ public class Exercise implements Serializable {
     @Override
     public String toString() {
         return "Exercise{" +
-            "id=" + getId() +
-            ", nrOfReps=" + getNrOfReps() +
-            ", nrOfSeries=" + getNrOfSeries() +
-            ", weight=" + getWeight() +
-            "}";
+            "id=" + id +
+            ", nrOfReps=" + nrOfReps +
+            ", nrOfSeries=" + nrOfSeries +
+            ", weight=" + weight +
+            ", exerciseType=" + exerciseType +
+            '}';
     }
 }
