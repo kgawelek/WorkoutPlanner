@@ -78,6 +78,7 @@ export class WorkoutUpdateComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ workout }) => {
+      workout.duration = workout.duration.replace('PT', '');
       this.workout = workout;
       if (workout) {
         this.updateForm(workout);
@@ -94,7 +95,9 @@ export class WorkoutUpdateComponent implements OnInit {
   save(): void {
     this.isSaving = true;
     const workout = this.workoutFormService.getWorkout(this.editForm);
-    workout.duration = 'PT' + workout.duration;
+    if (!workout.duration?.match('PT')) {
+      workout.duration = 'PT' + workout.duration;
+    }
     if (workout.id !== null) {
       this.subscribeToSaveResponse(this.workoutService.update(workout));
     } else {

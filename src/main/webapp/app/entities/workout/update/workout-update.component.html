@@ -28,7 +28,15 @@
 
         <div class="row mb-3">
           <label class="form-label" for="field_duration">Duration</label>
-          <input type="text" class="form-control" name="duration" id="field_duration" data-cy="duration" formControlName="duration" />
+          <input
+            type="text"
+            class="form-control"
+            name="duration"
+            id="field_duration"
+            data-cy="duration"
+            formControlName="duration"
+            placeholder="{{ workout?.duration?.replace('PT', '') }}"
+          />
         </div>
 
         <div class="row mb-3">
