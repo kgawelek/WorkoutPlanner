@@ -94,6 +94,7 @@ export class WorkoutUpdateComponent implements OnInit {
   save(): void {
     this.isSaving = true;
     const workout = this.workoutFormService.getWorkout(this.editForm);
+    workout.duration = 'PT' + workout.duration;
     if (workout.id !== null) {
       this.subscribeToSaveResponse(this.workoutService.update(workout));
     } else {
