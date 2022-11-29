@@ -45,7 +45,7 @@
           </div>
         </dd>
       </dl>
-      <div class="table-responsive table-entities" id="exercises" *ngIf="workout.exercises">
+      <div class="table-responsive table-entities" id="exercises" *ngIf="workout.type?.match('EXERCISE') && workout.exercises">
         <dt><span>Exercises</span></dt>
         <table class="table table-striped" aria-describedby="page-heading">
           <thead>
@@ -98,7 +98,77 @@
           </tbody>
         </table>
       </div>
-
+      <div class="table-responsive table-entities" id="entities" *ngIf="workout.type?.match('INTERVAL') && workout.workoutBreakdowns">
+        <dt><span>Intervals</span></dt>
+        <table class="table table-striped" aria-describedby="page-heading">
+          <thead>
+            <tr jhiSort>
+              <th scope="col"></th>
+              <th scope="col">
+                <div class="d-flex">
+                  <span>Distance</span>
+                </div>
+              </th>
+              <th scope="col">
+                <div class="d-flex">
+                  <span>Duration</span>
+                </div>
+              </th>
+              <th scope="col">
+                <div class="d-flex">
+                  <span>Distance Unit</span>
+                </div>
+              </th>
+              <th scope="col">
+                <div class="d-flex">
+                  <span>Notes</span>
+                </div>
+              </th>
+              <th scope="col">
+                <div class="d-flex">
+                  <span>Min Value</span>
+                </div>
+              </th>
+              <th scope="col">
+                <div class="d-flex">
+                  <span>Max Value</span>
+                </div>
+              </th>
+              <th scope="col">
+                <div class="d-flex">
+                  <span>Range Unit</span>
+                </div>
+              </th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let workoutBreakdown of workout.workoutBreakdowns" data-cy="intervalTable">
+              <td></td>
+              <td>{{ workoutBreakdown.distance }}</td>
+              <td>{{ workoutBreakdown.duration }}</td>
+              <td>{{ workoutBreakdown.distanceUnit }}</td>
+              <td>{{ workoutBreakdown.notes }}</td>
+              <td>{{ workoutBreakdown.minValue }}</td>
+              <td>{{ workoutBreakdown.maxValue }}</td>
+              <td>{{ workoutBreakdown.rangeUnit }}</td>
+              <td class="text-end">
+                <div class="btn-group">
+                  <button
+                    type="submit"
+                    [routerLink]="['/workout-breakdown', workoutBreakdown.id, 'edit']"
+                    class="btn btn-primary btn-sm"
+                    data-cy="entityEditButton"
+                  >
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                    <span class="d-none d-md-inline">Edytuj</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
         <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Wstecz</span>
       </button>

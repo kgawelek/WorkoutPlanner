@@ -56,7 +56,6 @@ public class Workout implements Serializable {
     private Set<Exercise> exercises = new HashSet<>();
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "workout")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "workout" }, allowSetters = true)
     private Set<WorkoutBreakdown> workoutBreakdowns = new HashSet<>();
 

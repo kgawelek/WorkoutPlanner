@@ -23,6 +23,9 @@ import { IExercise } from '../../exercise/exercise.model';
 import { ExerciseDeleteDialogComponent } from '../../exercise/delete/exercise-delete-dialog.component';
 import { ITEM_DELETED_EVENT } from '../../../config/navigation.constants';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { WorkoutBreakdownService } from '../../workout-breakdown/service/workout-breakdown.service';
+import { WorkoutBreakdownFormGroup, WorkoutBreakdownFormService } from '../../workout-breakdown/update/workout-breakdown-form.service';
+import { IWorkoutBreakdown } from '../../workout-breakdown/workout-breakdown.model';
 
 @Component({
   selector: 'jhi-workout-update',
@@ -43,6 +46,7 @@ export class WorkoutUpdateComponent implements OnInit {
   exerciseTypesSharedCollection: IExerciseType[] = [];
 
   addExerciseForm: ExerciseFormGroup = this.exerciseFormService.createExerciseFormGroup();
+  addIntervalForm: WorkoutBreakdownFormGroup = this.workoutBreakdownFormService.createWorkoutBreakdownFormGroup();
 
   constructor(
     protected workoutService: WorkoutService,
@@ -54,7 +58,9 @@ export class WorkoutUpdateComponent implements OnInit {
     protected exerciseFormService: ExerciseFormService,
     protected exerciseTypeService: ExerciseTypeService,
     protected exerciseService: ExerciseService,
-    protected modalService: NgbModal
+    protected modalService: NgbModal,
+    protected workoutBreakdownService: WorkoutBreakdownService,
+    protected workoutBreakdownFormService: WorkoutBreakdownFormService
   ) {}
 
   compareExerciseType = (o1: IExerciseType | null, o2: IExerciseType | null): boolean =>
@@ -102,7 +108,7 @@ export class WorkoutUpdateComponent implements OnInit {
     });
   }
 
-  protected subscribeToSaveResponseAndReloadPage(result: Observable<HttpResponse<IWorkout>>): void {
+  protected subscribeToSaveResponseAndReloadPage(result: Observable<HttpResponse<any>>): void {
     result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
       next: () => window.location.reload(),
       error: () => this.onSaveError(),
@@ -200,5 +206,16 @@ export class WorkoutUpdateComponent implements OnInit {
         window.location.reload();
       },
     });
+  }
+
+  addInterval() {
+    this.isSaving = true;
+    const workoutBreakdown = this.workoutBreakdownFormService.getWorkoutBreakdown(this.addIntervalForm);
+    workoutBreakdown.workout = this.workout;
+    if (workoutBreakdown.id !== null) {
+      this.subscribeToSaveResponseAndReloadPage(this.workoutBreakdownService.update(workoutBreakdown));
+    } else {
+      this.subscribeToSaveResponseAndReloadPage(this.workoutBreakdownService.create(workoutBreakdown));
+    }
   }
 }
