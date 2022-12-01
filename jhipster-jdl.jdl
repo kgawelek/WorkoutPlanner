@@ -31,6 +31,7 @@ entity Exercise{
     nrOfReps Integer,
     nrOfSeries Integer,
     weight Double,
+    order Integer
 }
 
 entity WorkoutBreakdown{
@@ -41,7 +42,8 @@ entity WorkoutBreakdown{
     notes String,
     minValue Double,
     maxValue Double,
-    rangeUnit String
+    rangeUnit String,
+    order Integer
 }
 
 relationship OneToMany{

@@ -6,6 +6,7 @@ export interface IExercise {
   nrOfReps?: number | null;
   nrOfSeries?: number | null;
   weight?: number | null;
+  order?: number | null;
   exerciseType?: IExerciseType | null;
   workout?: Pick<IWorkout, 'id'> | null;
 }

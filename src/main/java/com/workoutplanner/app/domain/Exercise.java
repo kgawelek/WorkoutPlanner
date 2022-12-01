@@ -31,7 +31,10 @@ public class Exercise implements Serializable {
     @Column(name = "weight")
     private Double weight;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @Column(name = "order_nr")
+    private Integer order;
+
+    @ManyToOne
     @JsonIgnoreProperties(value = { "exercises" }, allowSetters = true)
     private ExerciseType exerciseType;
 
@@ -96,6 +99,19 @@ public class Exercise implements Serializable {
         this.weight = weight;
     }
 
+    public Integer getOrder() {
+        return this.order;
+    }
+
+    public Exercise order(Integer order) {
+        this.setOrder(order);
+        return this;
+    }
+
+    public void setOrder(Integer order) {
+        this.order = order;
+    }
+
     public ExerciseType getExerciseType() {
         return this.exerciseType;
     }
@@ -145,11 +161,11 @@ public class Exercise implements Serializable {
     @Override
     public String toString() {
         return "Exercise{" +
-            "id=" + id +
-            ", nrOfReps=" + nrOfReps +
-            ", nrOfSeries=" + nrOfSeries +
-            ", weight=" + weight +
-            ", exerciseType=" + exerciseType +
-            '}';
+            "id=" + getId() +
+            ", nrOfReps=" + getNrOfReps() +
+            ", nrOfSeries=" + getNrOfSeries() +
+            ", weight=" + getWeight() +
+            ", order=" + getOrder() +
+            "}";
     }
 }

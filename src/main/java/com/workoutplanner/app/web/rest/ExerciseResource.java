@@ -132,6 +132,9 @@ public class ExerciseResource {
                 if (exercise.getWeight() != null) {
                     existingExercise.setWeight(exercise.getWeight());
                 }
+                if (exercise.getOrder() != null) {
+                    existingExercise.setOrder(exercise.getOrder());
+                }
 
                 return existingExercise;
             })

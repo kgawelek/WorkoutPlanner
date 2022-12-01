@@ -23,6 +23,9 @@
             <column name="weight" type="double">
                 <constraints nullable="true" />
             </column>
+            <column name="order_nr" type="integer">
+                <constraints nullable="true" />
+            </column>
             <column name="exercise_type_id" type="bigint">
                 <constraints nullable="true" />
             </column>
@@ -53,6 +56,7 @@
             <column name="nr_of_reps" type="numeric"/>
             <column name="nr_of_series" type="numeric"/>
             <column name="weight" type="numeric"/>
+            <column name="order_nr" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

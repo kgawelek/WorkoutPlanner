@@ -36,6 +36,10 @@
     {
       "fieldName": "rangeUnit",
       "fieldType": "String"
+    },
+    {
+      "fieldName": "order",
+      "fieldType": "Integer"
     }
   ],
   "fluentMethods": true,

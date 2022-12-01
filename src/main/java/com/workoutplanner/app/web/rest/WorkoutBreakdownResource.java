@@ -145,6 +145,9 @@ public class WorkoutBreakdownResource {
                 if (workoutBreakdown.getRangeUnit() != null) {
                     existingWorkoutBreakdown.setRangeUnit(workoutBreakdown.getRangeUnit());
                 }
+                if (workoutBreakdown.getOrder() != null) {
+                    existingWorkoutBreakdown.setOrder(workoutBreakdown.getOrder());
+                }
 
                 return existingWorkoutBreakdown;
             })

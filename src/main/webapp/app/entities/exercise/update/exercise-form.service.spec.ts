@@ -23,6 +23,7 @@ describe('Exercise Form Service', () => {
             nrOfReps: expect.any(Object),
             nrOfSeries: expect.any(Object),
             weight: expect.any(Object),
+            order: expect.any(Object),
             exerciseType: expect.any(Object),
             workout: expect.any(Object),
           })
@@ -38,6 +39,7 @@ describe('Exercise Form Service', () => {
             nrOfReps: expect.any(Object),
             nrOfSeries: expect.any(Object),
             weight: expect.any(Object),
+            order: expect.any(Object),
             exerciseType: expect.any(Object),
             workout: expect.any(Object),
           })

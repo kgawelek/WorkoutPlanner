@@ -20,6 +20,10 @@
     {
       "fieldName": "weight",
       "fieldType": "Double"
+    },
+    {
+      "fieldName": "order",
+      "fieldType": "Integer"
     }
   ],
   "fluentMethods": true,

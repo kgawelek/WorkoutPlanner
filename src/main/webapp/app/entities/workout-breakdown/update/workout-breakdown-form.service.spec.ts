@@ -27,6 +27,7 @@ describe('WorkoutBreakdown Form Service', () => {
             minValue: expect.any(Object),
             maxValue: expect.any(Object),
             rangeUnit: expect.any(Object),
+            order: expect.any(Object),
             workout: expect.any(Object),
           })
         );
@@ -45,6 +46,7 @@ describe('WorkoutBreakdown Form Service', () => {
             minValue: expect.any(Object),
             maxValue: expect.any(Object),
             rangeUnit: expect.any(Object),
+            order: expect.any(Object),
             workout: expect.any(Object),
           })
         );

@@ -51,6 +51,9 @@ class WorkoutBreakdownResourceIT {
     private static final String DEFAULT_RANGE_UNIT = "AAAAAAAAAA";
     private static final String UPDATED_RANGE_UNIT = "BBBBBBBBBB";
 
+    private static final Integer DEFAULT_ORDER = 1;
+    private static final Integer UPDATED_ORDER = 2;
+
     private static final String ENTITY_API_URL = "/api/workout-breakdowns";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -82,7 +85,8 @@ class WorkoutBreakdownResourceIT {
             .notes(DEFAULT_NOTES)
             .minValue(DEFAULT_MIN_VALUE)
             .maxValue(DEFAULT_MAX_VALUE)
-            .rangeUnit(DEFAULT_RANGE_UNIT);
+            .rangeUnit(DEFAULT_RANGE_UNIT)
+            .order(DEFAULT_ORDER);
         return workoutBreakdown;
     }
 
@@ -100,7 +104,8 @@ class WorkoutBreakdownResourceIT {
             .notes(UPDATED_NOTES)
             .minValue(UPDATED_MIN_VALUE)
             .maxValue(UPDATED_MAX_VALUE)
-            .rangeUnit(UPDATED_RANGE_UNIT);
+            .rangeUnit(UPDATED_RANGE_UNIT)
+            .order(UPDATED_ORDER);
         return workoutBreakdown;
     }
 
@@ -134,6 +139,7 @@ class WorkoutBreakdownResourceIT {
         assertThat(testWorkoutBreakdown.getMinValue()).isEqualTo(DEFAULT_MIN_VALUE);
         assertThat(testWorkoutBreakdown.getMaxValue()).isEqualTo(DEFAULT_MAX_VALUE);
         assertThat(testWorkoutBreakdown.getRangeUnit()).isEqualTo(DEFAULT_RANGE_UNIT);
+        assertThat(testWorkoutBreakdown.getOrder()).isEqualTo(DEFAULT_ORDER);
     }
 
     @Test
@@ -177,7 +183,8 @@ class WorkoutBreakdownResourceIT {
             .andExpect(jsonPath("$.[*].notes").value(hasItem(DEFAULT_NOTES)))
             .andExpect(jsonPath("$.[*].minValue").value(hasItem(DEFAULT_MIN_VALUE.doubleValue())))
             .andExpect(jsonPath("$.[*].maxValue").value(hasItem(DEFAULT_MAX_VALUE.doubleValue())))
-            .andExpect(jsonPath("$.[*].rangeUnit").value(hasItem(DEFAULT_RANGE_UNIT)));
+            .andExpect(jsonPath("$.[*].rangeUnit").value(hasItem(DEFAULT_RANGE_UNIT)))
+            .andExpect(jsonPath("$.[*].order").value(hasItem(DEFAULT_ORDER)));
     }
 
     @Test
@@ -198,7 +205,8 @@ class WorkoutBreakdownResourceIT {
             .andExpect(jsonPath("$.notes").value(DEFAULT_NOTES))
             .andExpect(jsonPath("$.minValue").value(DEFAULT_MIN_VALUE.doubleValue()))
             .andExpect(jsonPath("$.maxValue").value(DEFAULT_MAX_VALUE.doubleValue()))
-            .andExpect(jsonPath("$.rangeUnit").value(DEFAULT_RANGE_UNIT));
+            .andExpect(jsonPath("$.rangeUnit").value(DEFAULT_RANGE_UNIT))
+            .andExpect(jsonPath("$.order").value(DEFAULT_ORDER));
     }
 
     @Test
@@ -227,7 +235,8 @@ class WorkoutBreakdownResourceIT {
             .notes(UPDATED_NOTES)
             .minValue(UPDATED_MIN_VALUE)
             .maxValue(UPDATED_MAX_VALUE)
-            .rangeUnit(UPDATED_RANGE_UNIT);
+            .rangeUnit(UPDATED_RANGE_UNIT)
+            .order(UPDATED_ORDER);
 
         restWorkoutBreakdownMockMvc
             .perform(
@@ -249,6 +258,7 @@ class WorkoutBreakdownResourceIT {
         assertThat(testWorkoutBreakdown.getMinValue()).isEqualTo(UPDATED_MIN_VALUE);
         assertThat(testWorkoutBreakdown.getMaxValue()).isEqualTo(UPDATED_MAX_VALUE);
         assertThat(testWorkoutBreakdown.getRangeUnit()).isEqualTo(UPDATED_RANGE_UNIT);
+        assertThat(testWorkoutBreakdown.getOrder()).isEqualTo(UPDATED_ORDER);
     }
 
     @Test
@@ -331,7 +341,8 @@ class WorkoutBreakdownResourceIT {
             .duration(UPDATED_DURATION)
             .notes(UPDATED_NOTES)
             .minValue(UPDATED_MIN_VALUE)
-            .maxValue(UPDATED_MAX_VALUE);
+            .maxValue(UPDATED_MAX_VALUE)
+            .order(UPDATED_ORDER);
 
         restWorkoutBreakdownMockMvc
             .perform(
@@ -353,6 +364,7 @@ class WorkoutBreakdownResourceIT {
         assertThat(testWorkoutBreakdown.getMinValue()).isEqualTo(UPDATED_MIN_VALUE);
         assertThat(testWorkoutBreakdown.getMaxValue()).isEqualTo(UPDATED_MAX_VALUE);
         assertThat(testWorkoutBreakdown.getRangeUnit()).isEqualTo(DEFAULT_RANGE_UNIT);
+        assertThat(testWorkoutBreakdown.getOrder()).isEqualTo(UPDATED_ORDER);
     }
 
     @Test
@@ -374,7 +386,8 @@ class WorkoutBreakdownResourceIT {
             .notes(UPDATED_NOTES)
             .minValue(UPDATED_MIN_VALUE)
             .maxValue(UPDATED_MAX_VALUE)
-            .rangeUnit(UPDATED_RANGE_UNIT);
+            .rangeUnit(UPDATED_RANGE_UNIT)
+            .order(UPDATED_ORDER);
 
         restWorkoutBreakdownMockMvc
             .perform(
@@ -396,6 +409,7 @@ class WorkoutBreakdownResourceIT {
         assertThat(testWorkoutBreakdown.getMinValue()).isEqualTo(UPDATED_MIN_VALUE);
         assertThat(testWorkoutBreakdown.getMaxValue()).isEqualTo(UPDATED_MAX_VALUE);
         assertThat(testWorkoutBreakdown.getRangeUnit()).isEqualTo(UPDATED_RANGE_UNIT);
+        assertThat(testWorkoutBreakdown.getOrder()).isEqualTo(UPDATED_ORDER);
     }
 
     @Test

@@ -39,6 +39,9 @@ class ExerciseResourceIT {
     private static final Double DEFAULT_WEIGHT = 1D;
     private static final Double UPDATED_WEIGHT = 2D;
 
+    private static final Integer DEFAULT_ORDER = 1;
+    private static final Integer UPDATED_ORDER = 2;
+
     private static final String ENTITY_API_URL = "/api/exercises";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -63,7 +66,11 @@ class ExerciseResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Exercise createEntity(EntityManager em) {
-        Exercise exercise = new Exercise().nrOfReps(DEFAULT_NR_OF_REPS).nrOfSeries(DEFAULT_NR_OF_SERIES).weight(DEFAULT_WEIGHT);
+        Exercise exercise = new Exercise()
+            .nrOfReps(DEFAULT_NR_OF_REPS)
+            .nrOfSeries(DEFAULT_NR_OF_SERIES)
+            .weight(DEFAULT_WEIGHT)
+            .order(DEFAULT_ORDER);
         return exercise;
     }
 
@@ -74,7 +81,11 @@ class ExerciseResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Exercise createUpdatedEntity(EntityManager em) {
-        Exercise exercise = new Exercise().nrOfReps(UPDATED_NR_OF_REPS).nrOfSeries(UPDATED_NR_OF_SERIES).weight(UPDATED_WEIGHT);
+        Exercise exercise = new Exercise()
+            .nrOfReps(UPDATED_NR_OF_REPS)
+            .nrOfSeries(UPDATED_NR_OF_SERIES)
+            .weight(UPDATED_WEIGHT)
+            .order(UPDATED_ORDER);
         return exercise;
     }
 
@@ -104,6 +115,7 @@ class ExerciseResourceIT {
         assertThat(testExercise.getNrOfReps()).isEqualTo(DEFAULT_NR_OF_REPS);
         assertThat(testExercise.getNrOfSeries()).isEqualTo(DEFAULT_NR_OF_SERIES);
         assertThat(testExercise.getWeight()).isEqualTo(DEFAULT_WEIGHT);
+        assertThat(testExercise.getOrder()).isEqualTo(DEFAULT_ORDER);
     }
 
     @Test
@@ -143,7 +155,8 @@ class ExerciseResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(exercise.getId().intValue())))
             .andExpect(jsonPath("$.[*].nrOfReps").value(hasItem(DEFAULT_NR_OF_REPS)))
             .andExpect(jsonPath("$.[*].nrOfSeries").value(hasItem(DEFAULT_NR_OF_SERIES)))
-            .andExpect(jsonPath("$.[*].weight").value(hasItem(DEFAULT_WEIGHT.doubleValue())));
+            .andExpect(jsonPath("$.[*].weight").value(hasItem(DEFAULT_WEIGHT.doubleValue())))
+            .andExpect(jsonPath("$.[*].order").value(hasItem(DEFAULT_ORDER)));
     }
 
     @Test
@@ -160,7 +173,8 @@ class ExerciseResourceIT {
             .andExpect(jsonPath("$.id").value(exercise.getId().intValue()))
             .andExpect(jsonPath("$.nrOfReps").value(DEFAULT_NR_OF_REPS))
             .andExpect(jsonPath("$.nrOfSeries").value(DEFAULT_NR_OF_SERIES))
-            .andExpect(jsonPath("$.weight").value(DEFAULT_WEIGHT.doubleValue()));
+            .andExpect(jsonPath("$.weight").value(DEFAULT_WEIGHT.doubleValue()))
+            .andExpect(jsonPath("$.order").value(DEFAULT_ORDER));
     }
 
     @Test
@@ -182,7 +196,7 @@ class ExerciseResourceIT {
         Exercise updatedExercise = exerciseRepository.findById(exercise.getId()).get();
         // Disconnect from session so that the updates on updatedExercise are not directly saved in db
         em.detach(updatedExercise);
-        updatedExercise.nrOfReps(UPDATED_NR_OF_REPS).nrOfSeries(UPDATED_NR_OF_SERIES).weight(UPDATED_WEIGHT);
+        updatedExercise.nrOfReps(UPDATED_NR_OF_REPS).nrOfSeries(UPDATED_NR_OF_SERIES).weight(UPDATED_WEIGHT).order(UPDATED_ORDER);
 
         restExerciseMockMvc
             .perform(
@@ -200,6 +214,7 @@ class ExerciseResourceIT {
         assertThat(testExercise.getNrOfReps()).isEqualTo(UPDATED_NR_OF_REPS);
         assertThat(testExercise.getNrOfSeries()).isEqualTo(UPDATED_NR_OF_SERIES);
         assertThat(testExercise.getWeight()).isEqualTo(UPDATED_WEIGHT);
+        assertThat(testExercise.getOrder()).isEqualTo(UPDATED_ORDER);
     }
 
     @Test
@@ -295,6 +310,7 @@ class ExerciseResourceIT {
         assertThat(testExercise.getNrOfReps()).isEqualTo(DEFAULT_NR_OF_REPS);
         assertThat(testExercise.getNrOfSeries()).isEqualTo(UPDATED_NR_OF_SERIES);
         assertThat(testExercise.getWeight()).isEqualTo(DEFAULT_WEIGHT);
+        assertThat(testExercise.getOrder()).isEqualTo(DEFAULT_ORDER);
     }
 
     @Test
@@ -309,7 +325,7 @@ class ExerciseResourceIT {
         Exercise partialUpdatedExercise = new Exercise();
         partialUpdatedExercise.setId(exercise.getId());
 
-        partialUpdatedExercise.nrOfReps(UPDATED_NR_OF_REPS).nrOfSeries(UPDATED_NR_OF_SERIES).weight(UPDATED_WEIGHT);
+        partialUpdatedExercise.nrOfReps(UPDATED_NR_OF_REPS).nrOfSeries(UPDATED_NR_OF_SERIES).weight(UPDATED_WEIGHT).order(UPDATED_ORDER);
 
         restExerciseMockMvc
             .perform(
@@ -327,6 +343,7 @@ class ExerciseResourceIT {
         assertThat(testExercise.getNrOfReps()).isEqualTo(UPDATED_NR_OF_REPS);
         assertThat(testExercise.getNrOfSeries()).isEqualTo(UPDATED_NR_OF_SERIES);
         assertThat(testExercise.getWeight()).isEqualTo(UPDATED_WEIGHT);
+        assertThat(testExercise.getOrder()).isEqualTo(UPDATED_ORDER);
     }
 
     @Test

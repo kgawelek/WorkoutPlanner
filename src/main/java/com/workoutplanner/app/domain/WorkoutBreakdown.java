@@ -43,6 +43,9 @@ public class WorkoutBreakdown implements Serializable {
     @Column(name = "range_unit")
     private String rangeUnit;
 
+    @Column(name = "order_nr")
+    private Integer order;
+
     @ManyToOne
     @JsonIgnoreProperties(
         value = { "workoutRating", "exercises", "workoutBreakdowns", "sportDiscipline", "userDetails" },
@@ -156,6 +159,19 @@ public class WorkoutBreakdown implements Serializable {
         this.rangeUnit = rangeUnit;
     }
 
+    public Integer getOrder() {
+        return this.order;
+    }
+
+    public WorkoutBreakdown order(Integer order) {
+        this.setOrder(order);
+        return this;
+    }
+
+    public void setOrder(Integer order) {
+        this.order = order;
+    }
+
     public Workout getWorkout() {
         return this.workout;
     }
@@ -200,6 +216,7 @@ public class WorkoutBreakdown implements Serializable {
             ", minValue=" + getMinValue() +
             ", maxValue=" + getMaxValue() +
             ", rangeUnit='" + getRangeUnit() + "'" +
+            ", order=" + getOrder() +
             "}";
     }
 }
