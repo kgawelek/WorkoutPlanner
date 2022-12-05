@@ -60,23 +60,63 @@
           </select>
         </div>
 
-        <div class="row mb-3">
-          <label class="form-label" for="field_workoutRating">Workout Rating</label>
-          <select
-            class="form-control"
-            id="field_workoutRating"
-            data-cy="workoutRating"
-            name="workoutRating"
-            formControlName="workoutRating"
-            [compareWith]="compareWorkoutRating"
-          >
-            <option [ngValue]="null"></option>
-            <option [ngValue]="workoutRatingOption" *ngFor="let workoutRatingOption of workoutRatingsCollection">
-              {{ workoutRatingOption.id }}
-            </option>
-          </select>
-        </div>
+        <div class="row mb-3" *ngIf="workout == null || workout?.workoutRating == null">
+          <label class="form-label" for="ratingForm">Workout Rating</label>
+          <form name="ratingForm" role="form" novalidate [formGroup]="ratingForm" id="ratingForm">
+            <div>
+              <jhi-alert-error></jhi-alert-error>
+              <div class="row mb-3">
+                <label class="form-label" for="field_comment">Comment</label>
+                <input type="text" class="form-control" name="comment" id="rating_comment" data-cy="comment" formControlName="comment" />
+              </div>
 
+              <div class="row mb-3">
+                <label class="form-label" for="field_rate">Rate</label>
+                <select class="form-control" name="rate" formControlName="rate" id="field_rate" data-cy="rate">
+                  <option [ngValue]="null"></option>
+                  <option *ngFor="let ratingScale of ratingScaleValues" [value]="ratingScale">{{ ratingScale }}</option>
+                </select>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="table-responsive table-entities" id="rating" *ngIf="workout?.workoutRating != null">
+          <label class="form-label" for="ratingForm">Workout Rating</label>
+          <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+              <tr>
+                <th scope="col">
+                  <div class="d-flex">
+                    <span>Comment</span>
+                  </div>
+                </th>
+                <th scope="col">
+                  <div class="d-flex">
+                    <span>Rate</span>
+                  </div>
+                </th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <td>{{ workout?.workoutRating?.comment }}</td>
+              <td>{{ workout?.workoutRating?.rate }}</td>
+              <td class="text-end">
+                <div class="btn-group">
+                  <button
+                    type="button"
+                    [routerLink]="['/workout-rating', workout?.workoutRating?.id, 'edit']"
+                    class="btn btn-primary btn-sm"
+                    data-cy="editRatingButton"
+                  >
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                    <span class="d-none d-md-inline">Edytuj</span>
+                  </button>
+                </div>
+              </td>
+            </tbody>
+          </table>
+        </div>
         <div class="row mb-3">
           <label class="form-label" for="field_sportDiscipline">Sport Discipline</label>
           <select
@@ -134,7 +174,7 @@
                 <td>{{ exercise.weight }}</td>
                 <div class="btn-group">
                   <button
-                    type="submit"
+                    type="button"
                     [routerLink]="['/exercise', exercise.id, 'edit']"
                     class="btn btn-primary btn-sm"
                     data-cy="entityEditButton"
@@ -143,7 +183,7 @@
                     <span class="d-none d-md-inline">Edytuj</span>
                   </button>
                   <button
-                    type="submit"
+                    type="button"
                     (click)="deleteExercise(exercise, $event)"
                     class="btn btn-danger btn-sm"
                     data-cy="entityDeleteButton"
@@ -259,7 +299,7 @@
                 <td class="text-end">
                   <div class="btn-group">
                     <button
-                      type="submit"
+                      type="button"
                       [routerLink]="['/workout-breakdown', workoutBreakdown.id, 'edit']"
                       class="btn btn-primary btn-sm"
                       data-cy="entityEditButton"
@@ -267,6 +307,8 @@
                       <fa-icon icon="pencil-alt"></fa-icon>
                       <span class="d-none d-md-inline">Edytuj</span>
                     </button>
+
+                    <!--                    TODO: add deleting interval from here-->
                   </div>
                 </td>
               </tr>

@@ -15,6 +15,7 @@ import { IUserDetails } from 'app/entities/user-details/user-details.model';
 import { UserDetailsService } from 'app/entities/user-details/service/user-details.service';
 import { Status } from 'app/entities/enumerations/status.model';
 import { WorkoutType } from 'app/entities/enumerations/workout-type.model';
+import { RatingScale } from 'app/entities/enumerations/rating-scale.model';
 import { IExerciseType } from '../../exercise-type/exercise-type.model';
 import { ExerciseFormGroup, ExerciseFormService } from '../../exercise/update/exercise-form.service';
 import { ExerciseTypeService } from '../../exercise-type/service/exercise-type.service';
@@ -26,6 +27,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { WorkoutBreakdownService } from '../../workout-breakdown/service/workout-breakdown.service';
 import { WorkoutBreakdownFormGroup, WorkoutBreakdownFormService } from '../../workout-breakdown/update/workout-breakdown-form.service';
 import { IWorkoutBreakdown } from '../../workout-breakdown/workout-breakdown.model';
+import { WorkoutRatingFormGroup, WorkoutRatingFormService } from '../../workout-rating/update/workout-rating-form.service';
 
 @Component({
   selector: 'jhi-workout-update',
@@ -36,6 +38,7 @@ export class WorkoutUpdateComponent implements OnInit {
   workout: IWorkout | null = null;
   statusValues = Object.keys(Status);
   workoutTypeValues = Object.keys(WorkoutType);
+  ratingScaleValues = Object.keys(RatingScale);
 
   workoutRatingsCollection: IWorkoutRating[] = [];
   sportDisciplinesSharedCollection: ISportDiscipline[] = [];
@@ -47,6 +50,7 @@ export class WorkoutUpdateComponent implements OnInit {
 
   addExerciseForm: ExerciseFormGroup = this.exerciseFormService.createExerciseFormGroup();
   addIntervalForm: WorkoutBreakdownFormGroup = this.workoutBreakdownFormService.createWorkoutBreakdownFormGroup();
+  ratingForm: WorkoutRatingFormGroup = this.workoutRatingFormService.createWorkoutRatingFormGroup();
 
   constructor(
     protected workoutService: WorkoutService,
@@ -60,7 +64,8 @@ export class WorkoutUpdateComponent implements OnInit {
     protected exerciseService: ExerciseService,
     protected modalService: NgbModal,
     protected workoutBreakdownService: WorkoutBreakdownService,
-    protected workoutBreakdownFormService: WorkoutBreakdownFormService
+    protected workoutBreakdownFormService: WorkoutBreakdownFormService,
+    protected workoutRatingFormService: WorkoutRatingFormService
   ) {}
 
   compareExerciseType = (o1: IExerciseType | null, o2: IExerciseType | null): boolean =>
@@ -95,6 +100,11 @@ export class WorkoutUpdateComponent implements OnInit {
   save(): void {
     this.isSaving = true;
     const workout = this.workoutFormService.getWorkout(this.editForm);
+    if (workout.workoutRating == null) {
+      const workoutRating = this.workoutRatingFormService.getWorkoutRating(this.ratingForm);
+      // @ts-ignore
+      workout.workoutRating = workoutRating;
+    }
     if (!workout.duration?.match('PT')) {
       workout.duration = 'PT' + workout.duration;
     }
@@ -192,12 +202,18 @@ export class WorkoutUpdateComponent implements OnInit {
   addExercise() {
     this.isSaving = true;
     const exercise = this.exerciseFormService.getExercise(this.addExerciseForm);
+    if (!this.workout?.duration?.match('PT')) {
+      // @ts-ignore
+      this.workout.duration = 'PT' + this.workout?.duration;
+    }
     exercise.workout = this.workout;
     if (exercise.id !== null) {
       this.subscribeToSaveResponseAndReloadPage(this.exerciseService.update(exercise));
     } else {
       this.subscribeToSaveResponseAndReloadPage(this.exerciseService.create(exercise));
     }
+    // @ts-ignore
+    this.workout.duration = this.workout?.duration.replace('PT', '');
   }
 
   deleteExercise(exercise: IExercise, event: any): void {
@@ -215,11 +231,17 @@ export class WorkoutUpdateComponent implements OnInit {
   addInterval() {
     this.isSaving = true;
     const workoutBreakdown = this.workoutBreakdownFormService.getWorkoutBreakdown(this.addIntervalForm);
+    if (!this.workout?.duration?.match('PT')) {
+      // @ts-ignore
+      this.workout.duration = 'PT' + this.workout?.duration;
+    }
     workoutBreakdown.workout = this.workout;
     if (workoutBreakdown.id !== null) {
       this.subscribeToSaveResponseAndReloadPage(this.workoutBreakdownService.update(workoutBreakdown));
     } else {
       this.subscribeToSaveResponseAndReloadPage(this.workoutBreakdownService.create(workoutBreakdown));
     }
+    // @ts-ignore
+    this.workout.duration = this.workout?.duration.replace('PT', '');
   }
 }

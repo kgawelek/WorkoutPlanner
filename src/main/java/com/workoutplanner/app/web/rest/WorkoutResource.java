@@ -4,6 +4,7 @@ import com.workoutplanner.app.domain.User;
 import com.workoutplanner.app.domain.UserDetails;
 import com.workoutplanner.app.domain.Workout;
 import com.workoutplanner.app.repository.UserDetailsRepository;
+import com.workoutplanner.app.repository.WorkoutRatingRepository;
 import com.workoutplanner.app.repository.WorkoutRepository;
 import com.workoutplanner.app.service.UserService;
 import com.workoutplanner.app.web.rest.errors.BadRequestAlertException;
@@ -37,11 +38,18 @@ public class WorkoutResource {
     private final WorkoutRepository workoutRepository;
     private final UserService userService;
     private final UserDetailsRepository userDetailsRepository;
+    private final WorkoutRatingRepository workoutRatingRepository;
 
-    public WorkoutResource(WorkoutRepository workoutRepository, UserService userService, UserDetailsRepository userDetailsRepository) {
+    public WorkoutResource(
+        WorkoutRepository workoutRepository,
+        UserService userService,
+        UserDetailsRepository userDetailsRepository,
+        WorkoutRatingRepository workoutRatingRepository
+    ) {
         this.workoutRepository = workoutRepository;
         this.userService = userService;
         this.userDetailsRepository = userDetailsRepository;
+        this.workoutRatingRepository = workoutRatingRepository;
     }
 
     /**
@@ -93,7 +101,9 @@ public class WorkoutResource {
         if (!workoutRepository.existsById(id)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
-
+        if (workout.getWorkoutRating() != null && workout.getWorkoutRating().getId() == null) {
+            workoutRatingRepository.save(workout.getWorkoutRating());
+        }
         Workout result = workoutRepository.save(workout);
         return ResponseEntity
             .ok()

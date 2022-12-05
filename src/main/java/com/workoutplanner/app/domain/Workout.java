@@ -46,7 +46,7 @@ public class Workout implements Serializable {
     private WorkoutType type;
 
     @JsonIgnoreProperties(value = { "workout" }, allowSetters = true)
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(unique = true)
     private WorkoutRating workoutRating;
 
