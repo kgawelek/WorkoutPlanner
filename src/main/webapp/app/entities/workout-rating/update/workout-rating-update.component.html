@@ -15,7 +15,7 @@
           <label class="form-label" for="field_rate">Rate</label>
           <select class="form-control" name="rate" formControlName="rate" id="field_rate" data-cy="rate">
             <option [ngValue]="null"></option>
-            <option *ngFor="let ratingScale of ratingScaleValues" [value]="ratingScale">ratingScale</option>
+            <option *ngFor="let ratingScale of ratingScaleValues" [value]="ratingScale">{{ ratingScale }}</option>
           </select>
         </div>
       </div>
