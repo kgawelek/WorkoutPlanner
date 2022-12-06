@@ -44,6 +44,9 @@ export class WorkoutUpdateComponent implements OnInit {
   sportDisciplinesSharedCollection: ISportDiscipline[] = [];
   userDetailsSharedCollection: IUserDetails[] = [];
 
+  intervals: IWorkoutBreakdown[] = [];
+  exercises: IExercise[] = [];
+
   editForm: WorkoutFormGroup = this.workoutFormService.createWorkoutFormGroup();
 
   exerciseTypesSharedCollection: IExerciseType[] = [];
@@ -87,6 +90,13 @@ export class WorkoutUpdateComponent implements OnInit {
       this.workout = workout;
       if (workout) {
         this.updateForm(workout);
+        this.intervals = Array.from(workout.workoutBreakdowns);
+        // @ts-ignore
+        this.intervals = this.intervals.sort((a, b) => a.order - b.order);
+
+        this.exercises = Array.from(workout.exercises);
+        // @ts-ignore
+        this.exercises = this.exercises.sort((a, b) => a.order - b.order);
       }
 
       this.loadRelationshipsOptions();

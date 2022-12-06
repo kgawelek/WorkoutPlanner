@@ -51,6 +51,8 @@ public class ExerciseResource {
         if (exercise.getId() != null) {
             throw new BadRequestAlertException("A new exercise cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        Integer exerciseOrder = exercise.getWorkout().getExercises() != null ? exercise.getWorkout().getExercises().size() : 0;
+        exercise.setOrder(exerciseOrder);
         Exercise result = exerciseRepository.save(exercise);
         return ResponseEntity
             .created(new URI("/api/exercises/" + result.getId()))

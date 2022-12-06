@@ -75,7 +75,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let exercise of workout.exercises">
+            <tr *ngFor="let exercise of exercises">
               <td></td>
               <td>
                 {{ exercise.exerciseType?.name }}
@@ -143,7 +143,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let workoutBreakdown of workout.workoutBreakdowns" data-cy="intervalTable">
+            <tr *ngFor="let workoutBreakdown of intervals" data-cy="intervalTable">
               <td></td>
               <td>{{ workoutBreakdown.distance }}</td>
               <td>{{ workoutBreakdown.duration }}</td>

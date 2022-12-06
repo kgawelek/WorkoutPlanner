@@ -52,6 +52,10 @@ public class WorkoutBreakdownResource {
         if (workoutBreakdown.getId() != null) {
             throw new BadRequestAlertException("A new workoutBreakdown cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        Integer exerciseOrder = workoutBreakdown.getWorkout().getExercises() != null
+            ? workoutBreakdown.getWorkout().getExercises().size()
+            : 0;
+        workoutBreakdown.setOrder(exerciseOrder);
         WorkoutBreakdown result = workoutBreakdownRepository.save(workoutBreakdown);
         return ResponseEntity
             .created(new URI("/api/workout-breakdowns/" + result.getId()))

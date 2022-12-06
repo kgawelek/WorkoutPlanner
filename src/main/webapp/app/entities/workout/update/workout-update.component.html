@@ -6,11 +6,6 @@
       <div>
         <jhi-alert-error></jhi-alert-error>
 
-        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
-          <label class="form-label" for="field_id">Id</label>
-          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
-        </div>
-
         <div class="row mb-3">
           <label class="form-label" for="field_date">Date</label>
           <div class="d-flex">
@@ -164,7 +159,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let exercise of workout?.exercises">
+              <tr *ngFor="let exercise of exercises">
                 <td></td>
                 <td>
                   {{ exercise.exerciseType?.name }}
@@ -287,7 +282,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let workoutBreakdown of workout?.workoutBreakdowns" data-cy="intervalTable">
+              <tr *ngFor="let workoutBreakdown of intervals" data-cy="intervalTable">
                 <td></td>
                 <td>{{ workoutBreakdown.distance }}</td>
                 <td>{{ workoutBreakdown.duration }}</td>
@@ -314,7 +309,9 @@
               </tr>
             </tbody>
           </table>
-          <form name="addIntervalForm" role="form" novalidate (ngSubmit)="addInterval()" [formGroup]="addIntervalForm">
+        </div>
+        <div *ngIf="workout?.type?.match('INTERVAL') && workout?.workoutBreakdowns">
+          <form name="addIntervalForm" role="form" novalidate (ngSubmit)="addInterval()" [formGroup]="addIntervalForm" (resize)="(0.9)">
             <div>
               <jhi-alert-error></jhi-alert-error>
 

@@ -6,11 +6,6 @@
       <div>
         <jhi-alert-error></jhi-alert-error>
 
-        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
-          <label class="form-label" for="field_id">Id</label>
-          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
-        </div>
-
         <div class="row mb-3">
           <label class="form-label" for="field_nrOfReps">Nr Of Reps</label>
           <input type="number" class="form-control" name="nrOfReps" id="field_nrOfReps" data-cy="nrOfReps" formControlName="nrOfReps" />
@@ -47,21 +42,6 @@
             <option [ngValue]="exerciseTypeOption" *ngFor="let exerciseTypeOption of exerciseTypesSharedCollection">
               {{ exerciseTypeOption.id }}
             </option>
-          </select>
-        </div>
-
-        <div class="row mb-3">
-          <label class="form-label" for="field_workout">Workout</label>
-          <select
-            class="form-control"
-            id="field_workout"
-            data-cy="workout"
-            name="workout"
-            formControlName="workout"
-            [compareWith]="compareWorkout"
-          >
-            <option [ngValue]="null"></option>
-            <option [ngValue]="workoutOption" *ngFor="let workoutOption of workoutsSharedCollection">{{ workoutOption.id }}</option>
           </select>
         </div>
       </div>
