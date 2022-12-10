@@ -9,10 +9,10 @@ public class UserStatistics {
 
     private UserDetails user;
 
-    private SportDiscipline favouriteSportDiscipline;
+    private String favouriteSportDiscipline;
     private Double longestCyclingDistance;
     private Double longestRunningDistance;
-    private Duration longestWorkout;
+    private String longestWorkout;
     private Integer nrOfAbandonedWorkouts;
     private Integer nrOfCompletedWorkouts;
     private Integer nrOfPlannedWorkouts;
@@ -25,11 +25,11 @@ public class UserStatistics {
         this.user = user;
     }
 
-    public SportDiscipline getFavouriteSportDiscipline() {
+    public String getFavouriteSportDiscipline() {
         return favouriteSportDiscipline;
     }
 
-    public void setFavouriteSportDiscipline(SportDiscipline favouriteSportDiscipline) {
+    public void setFavouriteSportDiscipline(String favouriteSportDiscipline) {
         this.favouriteSportDiscipline = favouriteSportDiscipline;
     }
 
@@ -49,11 +49,11 @@ public class UserStatistics {
         this.longestRunningDistance = longestRunningDistance;
     }
 
-    public Duration getLongestWorkout() {
+    public String getLongestWorkout() {
         return longestWorkout;
     }
 
-    public void setLongestWorkout(Duration longestWorkout) {
+    public void setLongestWorkout(String longestWorkout) {
         this.longestWorkout = longestWorkout;
     }
 

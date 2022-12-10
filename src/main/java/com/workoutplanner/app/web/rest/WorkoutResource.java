@@ -70,6 +70,11 @@ public class WorkoutResource {
             UserDetails userDetails = userDetailsRepository.getReferenceById(user.get().getId());
             workout.setUserDetails(userDetails);
         }
+
+        if (workout.getWorkoutRating() != null && workout.getWorkoutRating().getId() == null) {
+            workoutRatingRepository.save(workout.getWorkoutRating());
+        }
+
         Workout result = workoutRepository.save(workout);
         return ResponseEntity
             .created(new URI("/api/workouts/" + result.getId()))

@@ -101,6 +101,21 @@ export class WorkoutUpdateComponent implements OnInit {
 
       this.loadRelationshipsOptions();
     });
+    this.sportDisciplineService
+      .query()
+      .pipe(map((res: HttpResponse<ISportDiscipline[]>) => res.body ?? []))
+      .pipe(
+        map((sportDisciplines: ISportDiscipline[]) =>
+          this.sportDisciplineService.addSportDisciplineToCollectionIfMissing<ISportDiscipline>(
+            sportDisciplines,
+            this.workout?.sportDiscipline
+          )
+        )
+      )
+      .subscribe((sportDisciplines: ISportDiscipline[]) => (this.sportDisciplinesSharedCollection = sportDisciplines));
+    this.sportDisciplinesSharedCollection = this.sportDisciplineService.addSportDisciplineToCollectionIfMissing<ISportDiscipline>(
+      this.sportDisciplinesSharedCollection
+    );
   }
 
   previousState(): void {
