@@ -1,0 +1,44 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="statistics">
+      <h2 data-cy="statisticsDetailsHeading"><span>Statistics</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>Favourite discipline</span></dt>
+        <dd>
+          <span>{{ statistics.favouriteSportDiscipline }}</span>
+        </dd>
+        <dt><span>Number of planned workouts</span></dt>
+        <dd>
+          <span>{{ statistics.nrOfPlannedWorkouts }}</span>
+        </dd>
+        <dt><span>Number of completed workouts</span></dt>
+        <dd>
+          <span>{{ statistics.nrOfCompletedWorkouts }}</span>
+        </dd>
+        <dt><span>Number of abandoned workouts</span></dt>
+        <dd>
+          <span>{{ statistics.nrOfAbandonedWorkouts }}</span>
+        </dd>
+        <dt><span>Longest workout</span></dt>
+        <dd>
+          <span>{{ statistics.longestWorkout }}</span>
+        </dd>
+        <dt><span>Longest cycling distance</span></dt>
+        <dd>
+          <span>{{ statistics.longestCyclingDistance }}</span>
+        </dd>
+        <dt><span>Longest running distance</span></dt>
+        <dd>
+          <span>{{ statistics.longestRunningDistance }}</span>
+        </dd>
+      </dl>
+    </div>
+  </div>
+</div>
