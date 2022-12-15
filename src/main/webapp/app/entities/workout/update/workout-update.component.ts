@@ -28,6 +28,7 @@ import { WorkoutBreakdownService } from '../../workout-breakdown/service/workout
 import { WorkoutBreakdownFormGroup, WorkoutBreakdownFormService } from '../../workout-breakdown/update/workout-breakdown-form.service';
 import { IWorkoutBreakdown } from '../../workout-breakdown/workout-breakdown.model';
 import { WorkoutRatingFormGroup, WorkoutRatingFormService } from '../../workout-rating/update/workout-rating-form.service';
+import { WorkoutBreakdownDeleteDialogComponent } from '../../workout-breakdown/delete/workout-breakdown-delete-dialog.component';
 
 @Component({
   selector: 'jhi-workout-update',
@@ -249,6 +250,18 @@ export class WorkoutUpdateComponent implements OnInit {
     event.preventDefault();
     const modalRef = this.modalService.open(ExerciseDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
     modalRef.componentInstance.exercise = exercise;
+    // unsubscribe not needed because closed completes on modal close
+    modalRef.closed.subscribe({
+      next: (res: EntityArrayResponseType) => {
+        window.location.reload();
+      },
+    });
+  }
+
+  deleteInterval(interval: IWorkoutBreakdown, event: any): void {
+    event.preventDefault();
+    const modalRef = this.modalService.open(WorkoutBreakdownDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
+    modalRef.componentInstance.workoutBreakdown = interval;
     // unsubscribe not needed because closed completes on modal close
     modalRef.closed.subscribe({
       next: (res: EntityArrayResponseType) => {
