@@ -1,7 +1,7 @@
 <div class="d-flex justify-content-center">
   <div class="col-8">
     <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-      <h2 id="jhi-workout-breakdown-heading" data-cy="WorkoutBreakdownCreateUpdateHeading">Dodaj lub edytuj: Workout Breakdown</h2>
+      <h2 id="jhi-workout-breakdown-heading" data-cy="WorkoutBreakdownCreateUpdateHeading">Add or edit: Workout Breakdown</h2>
 
       <div>
         <jhi-alert-error></jhi-alert-error>
@@ -51,7 +51,7 @@
 
       <div>
         <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
-          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Anuluj</span>
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
         </button>
 
         <button
@@ -61,7 +61,7 @@
           [disabled]="editForm.invalid || isSaving"
           class="btn btn-primary"
         >
-          <fa-icon icon="save"></fa-icon>&nbsp;<span>Zapisz</span>
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
         </button>
       </div>
     </form>

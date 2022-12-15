@@ -26,7 +26,7 @@
           <a class="nav-link" routerLink="/" (click)="collapseNavbar()">
             <span>
               <fa-icon icon="home"></fa-icon>
-              <span>Strona domowa</span>
+              <span>Home</span>
             </span>
           </a>
         </li>
@@ -34,7 +34,7 @@
           <a class="nav-link" routerLink="workout" (click)="collapseNavbar()">
             <span>
               <fa-icon icon="dumbbell"></fa-icon>
-              <span>Treningi</span>
+              <span>Workouts</span>
             </span>
           </a>
         </li>
@@ -42,7 +42,7 @@
           <a class="nav-link" routerLink="statistics" (click)="collapseNavbar()">
             <span>
               <fa-icon icon="chart-pie"></fa-icon>
-              <span>Statystyki</span>
+              <span>Statistics</span>
             </span>
           </a>
         </li>
@@ -213,7 +213,7 @@
           <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="account-menu" data-cy="accountMenu">
             <span *ngIf="!account?.imageUrl">
               <fa-icon icon="user"></fa-icon>
-              <span>Konto</span>
+              <span>Account</span>
             </span>
             <span *ngIf="account?.imageUrl">
               <img [src]="account!.imageUrl" class="profile-image rounded-circle" alt="Avatar" />
@@ -229,7 +229,7 @@
                 data-cy="settings"
               >
                 <fa-icon icon="wrench" [fixedWidth]="true"></fa-icon>
-                <span>Ustawienia</span>
+                <span>Settings</span>
               </a>
             </li>
             <li *ngSwitchCase="true">
@@ -241,25 +241,19 @@
                 data-cy="passwordItem"
               >
                 <fa-icon icon="lock" [fixedWidth]="true"></fa-icon>
-                <span>Hasło</span>
-              </a>
-            </li>
-            <li *ngSwitchCase="true">
-              <a class="dropdown-item" routerLink="account/sessions" routerLinkActive="active" (click)="collapseNavbar()">
-                <fa-icon icon="cloud" [fixedWidth]="true"></fa-icon>
-                <span>Sesje</span>
+                <span>Password</span>
               </a>
             </li>
             <li *ngSwitchCase="true">
               <a class="dropdown-item" (click)="logout()" id="logout" data-cy="logout">
                 <fa-icon icon="sign-out-alt" [fixedWidth]="true"></fa-icon>
-                <span>Wyloguj</span>
+                <span>Log out</span>
               </a>
             </li>
             <li *ngSwitchCase="false">
               <a class="dropdown-item" (click)="login()" id="login" data-cy="login">
                 <fa-icon icon="sign-in-alt" [fixedWidth]="true"></fa-icon>
-                <span>Autoryzacja</span>
+                <span>Auth</span>
               </a>
             </li>
             <li *ngSwitchCase="false">
@@ -271,7 +265,7 @@
                 data-cy="register"
               >
                 <fa-icon icon="user-plus" [fixedWidth]="true"></fa-icon>
-                <span>Zarejestruj się</span>
+                <span>Register</span>
               </a>
             </li>
           </ul>

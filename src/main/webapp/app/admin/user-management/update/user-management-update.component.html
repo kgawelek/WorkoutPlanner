@@ -1,7 +1,7 @@
 <div class="d-flex justify-content-center">
   <div class="col-8">
     <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-      <h2 id="myUserLabel">Stwórz lub edytuj użytkownika</h2>
+      <h2 id="myUserLabel">Create or edit użytkownika</h2>
 
       <jhi-alert-error></jhi-alert-error>
 
@@ -64,7 +64,7 @@
             Wartość musi mieć długość co najmniej 5 znaków.
           </small>
 
-          <small class="form-text text-danger" *ngIf="editForm.get('email')?.errors?.email"> Twój email jest błędny. </small>
+          <small class="form-text text-danger" *ngIf="editForm.get('email')?.errors?.email"> Your email is incorrect. </small>
         </div>
       </div>
 
@@ -89,11 +89,11 @@
         </select>
       </div>
       <button type="button" class="btn btn-secondary" (click)="previousState()">
-        <fa-icon icon="ban"></fa-icon>&nbsp;<span>Anuluj</span>
+        <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
       </button>
 
       <button type="submit" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
-        <fa-icon icon="save"></fa-icon>&nbsp;<span>Zapisz</span>
+        <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
       </button>
     </form>
   </div>
