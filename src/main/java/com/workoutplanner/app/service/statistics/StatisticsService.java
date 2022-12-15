@@ -84,6 +84,6 @@ public class StatisticsService {
     }
 
     private String findLongestWorkoutDuration(List<Workout> workouts) {
-        return workouts.stream().max(Comparator.comparing(Workout::getDuration)).get().getDuration().toString();
+        return workouts.stream().max(Comparator.comparing(Workout::getDuration)).get().getDuration().toString().replace("PT", "");
     }
 }

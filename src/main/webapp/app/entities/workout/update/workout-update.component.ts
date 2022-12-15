@@ -141,10 +141,14 @@ export class WorkoutUpdateComponent implements OnInit {
   }
 
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IWorkout>>): void {
-    result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
-      next: () => this.onSaveSuccess(),
-      error: () => this.onSaveError(),
-    });
+    result.pipe(finalize(() => this.onSaveFinalize())).subscribe(
+      // @ts-ignore
+      (data: IWorkout) => (this.workout = data),
+      {
+        next: () => this.onSaveSuccess(),
+        error: () => this.onSaveError(),
+      }
+    );
   }
 
   protected subscribeToSaveResponseAndReloadPage(result: Observable<HttpResponse<any>>): void {

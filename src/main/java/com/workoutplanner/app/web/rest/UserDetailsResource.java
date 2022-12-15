@@ -1,8 +1,11 @@
 package com.workoutplanner.app.web.rest;
 
+import com.workoutplanner.app.domain.SportDiscipline;
+import com.workoutplanner.app.domain.User;
 import com.workoutplanner.app.domain.UserDetails;
 import com.workoutplanner.app.repository.UserDetailsRepository;
 import com.workoutplanner.app.repository.UserRepository;
+import com.workoutplanner.app.service.UserService;
 import com.workoutplanner.app.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -36,10 +39,12 @@ public class UserDetailsResource {
     private final UserDetailsRepository userDetailsRepository;
 
     private final UserRepository userRepository;
+    private final UserService userService;
 
-    public UserDetailsResource(UserDetailsRepository userDetailsRepository, UserRepository userRepository) {
+    public UserDetailsResource(UserDetailsRepository userDetailsRepository, UserRepository userRepository, UserService userService) {
         this.userDetailsRepository = userDetailsRepository;
         this.userRepository = userRepository;
+        this.userService = userService;
     }
 
     /**
@@ -182,5 +187,24 @@ public class UserDetailsResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    @PostMapping("/user-details/sport-discipline")
+    public void updateFavouriteDiscipline(@RequestBody SportDiscipline sportDiscipline) {
+        log.debug("REST request to change favourite sport discipline");
+        Long userId = userService.getUserWithAuthorities().get().getId();
+        Optional<UserDetails> user = userDetailsRepository.findById(userId);
+        if (user.isPresent()) {
+            user.get().setSportDiscipline(sportDiscipline);
+            userDetailsRepository.save(user.get());
+        }
+    }
+
+    @GetMapping("/user-details/sport-discipline")
+    public SportDiscipline getUsersFavouriteSportDiscipline() {
+        log.debug("REST request to get user's favourite sport discipline");
+        Long userId = userService.getUserWithAuthorities().get().getId();
+        Optional<UserDetails> user = userDetailsRepository.findById(userId);
+        return user.get().getSportDiscipline();
     }
 }

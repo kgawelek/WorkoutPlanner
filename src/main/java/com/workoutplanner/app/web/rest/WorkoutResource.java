@@ -3,6 +3,7 @@ package com.workoutplanner.app.web.rest;
 import com.workoutplanner.app.domain.User;
 import com.workoutplanner.app.domain.UserDetails;
 import com.workoutplanner.app.domain.Workout;
+import com.workoutplanner.app.domain.enumeration.Status;
 import com.workoutplanner.app.repository.UserDetailsRepository;
 import com.workoutplanner.app.repository.WorkoutRatingRepository;
 import com.workoutplanner.app.repository.WorkoutRepository;
@@ -74,7 +75,9 @@ public class WorkoutResource {
         if (workout.getWorkoutRating() != null && workout.getWorkoutRating().getId() == null) {
             workoutRatingRepository.save(workout.getWorkoutRating());
         }
-
+        if (workout.getStatus() == null) {
+            workout.setStatus(Status.PLANNED);
+        }
         Workout result = workoutRepository.save(workout);
         return ResponseEntity
             .created(new URI("/api/workouts/" + result.getId()))
