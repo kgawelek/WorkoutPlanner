@@ -4,6 +4,7 @@ import com.workoutplanner.app.domain.User;
 import com.workoutplanner.app.domain.UserDetails;
 import com.workoutplanner.app.domain.Workout;
 import com.workoutplanner.app.domain.enumeration.Status;
+import com.workoutplanner.app.domain.enumeration.WorkoutType;
 import com.workoutplanner.app.repository.UserDetailsRepository;
 import com.workoutplanner.app.repository.WorkoutRatingRepository;
 import com.workoutplanner.app.repository.WorkoutRepository;
@@ -77,6 +78,9 @@ public class WorkoutResource {
         }
         if (workout.getStatus() == null) {
             workout.setStatus(Status.PLANNED);
+        }
+        if (workout.getType() == null) {
+            workout.setType(WorkoutType.GENERAL);
         }
         Workout result = workoutRepository.save(workout);
         return ResponseEntity
