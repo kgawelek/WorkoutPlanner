@@ -1,7 +1,7 @@
 <div class="d-flex justify-content-center">
   <div class="col-8">
     <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-      <h2 id="jhi-workout-heading" data-cy="WorkoutCreateUpdateHeading">Add or edit: Workout</h2>
+      <h2 id="jhi-workout-heading" data-cy="WorkoutCreateUpdateHeading">Add or edit workout</h2>
 
       <div>
         <jhi-alert-error></jhi-alert-error>
@@ -30,7 +30,7 @@
             id="field_duration"
             data-cy="duration"
             formControlName="duration"
-            placeholder="{{ workout?.duration?.replace('PT', '') }}"
+            placeholder="for example: 2H30M"
           />
         </div>
 

@@ -55,15 +55,7 @@
 
         <div class="mb-3">
           <label class="form-label" for="lastName">Last name</label>
-          <input
-            type="text"
-            class="form-control"
-            id="lastName"
-            name="lastName"
-            placeholder="Twoje nazwisko"
-            formControlName="lastName"
-            data-cy="lastname"
-          />
+          <input type="text" class="form-control" id="lastName" name="lastName" formControlName="lastName" data-cy="lastname" />
 
           <div
             *ngIf="settingsForm.get('lastName')!.invalid && (settingsForm.get('lastName')!.dirty || settingsForm.get('lastName')!.touched)"

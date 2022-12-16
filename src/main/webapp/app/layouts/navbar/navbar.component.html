@@ -30,7 +30,12 @@
             </span>
           </a>
         </li>
-        <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <li
+          *ngIf="!account?.authorities?.includes('ROLE_ADMIN')"
+          class="nav-item"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
           <a class="nav-link" routerLink="workout" (click)="collapseNavbar()">
             <span>
               <fa-icon icon="dumbbell"></fa-icon>
@@ -38,12 +43,29 @@
             </span>
           </a>
         </li>
-        <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-          <a class="nav-link" routerLink="statistics" (click)="collapseNavbar()">
+        <li
+          *ngIf="!account?.authorities?.includes('ROLE_ADMIN')"
+          class="nav-item"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <a class="nav-link" routerLink="statistics">
             <span>
               <fa-icon icon="chart-pie"></fa-icon>
               <span>Statistics</span>
             </span>
+          </a>
+        </li>
+        <li *jhiHasAnyAuthority="'ROLE_ADMIN'">
+          <a class="nav-link" routerLink="exercise-type" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+            <span>Exercise Types</span>
+          </a>
+        </li>
+        <li *jhiHasAnyAuthority="'ROLE_ADMIN'">
+          <a class="nav-link" routerLink="sport-discipline" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+            <span>Sport Disciplines</span>
           </a>
         </li>
         <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
@@ -55,143 +77,23 @@
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
         >
-          <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="entity-menu" data-cy="entity">
-            <span>
-              <fa-icon icon="th-list"></fa-icon>
-              <span>Menu</span>
-            </span>
-          </a>
-          <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="entity-menu">
-            <li>
-              <a
-                class="dropdown-item"
-                routerLink="sport-discipline"
-                routerLinkActive="active"
-                [routerLinkActiveOptions]="{ exact: true }"
-                (click)="collapseNavbar()"
-              >
-                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-                <span>Sport Discipline</span>
-              </a>
-            </li>
-            <li>
-              <a
-                class="dropdown-item"
-                routerLink="workout"
-                routerLinkActive="active"
-                [routerLinkActiveOptions]="{ exact: true }"
-                (click)="collapseNavbar()"
-              >
-                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-                <span>Workout</span>
-              </a>
-            </li>
-            <li>
-              <a
-                class="dropdown-item"
-                routerLink="workout-rating"
-                routerLinkActive="active"
-                [routerLinkActiveOptions]="{ exact: true }"
-                (click)="collapseNavbar()"
-              >
-                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-                <span>Workout Rating</span>
-              </a>
-            </li>
-            <li>
-              <a
-                class="dropdown-item"
-                routerLink="exercise-type"
-                routerLinkActive="active"
-                [routerLinkActiveOptions]="{ exact: true }"
-                (click)="collapseNavbar()"
-              >
-                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-                <span>Exercise Type</span>
-              </a>
-            </li>
-            <li>
-              <a
-                class="dropdown-item"
-                routerLink="exercise"
-                routerLinkActive="active"
-                [routerLinkActiveOptions]="{ exact: true }"
-                (click)="collapseNavbar()"
-              >
-                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-                <span>Exercise</span>
-              </a>
-            </li>
-            <li>
-              <a
-                class="dropdown-item"
-                routerLink="workout-breakdown"
-                routerLinkActive="active"
-                [routerLinkActiveOptions]="{ exact: true }"
-                (click)="collapseNavbar()"
-              >
-                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-                <span>Workout Breakdown</span>
-              </a>
-            </li>
-            <li>
-              <a
-                class="dropdown-item"
-                routerLink="user-details"
-                routerLinkActive="active"
-                [routerLinkActiveOptions]="{ exact: true }"
-                (click)="collapseNavbar()"
-              >
-                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-                <span>User Details</span>
-              </a>
-            </li>
-            <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
-          </ul>
-        </li>
-        <li
-          *jhiHasAnyAuthority="'ROLE_ADMIN'"
-          ngbDropdown
-          class="nav-item dropdown pointer"
-          display="dynamic"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-        >
           <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="admin-menu" data-cy="adminMenu">
             <span>
               <fa-icon icon="users-cog"></fa-icon>
-              <span>Administracja</span>
+              <span>Administration</span>
             </span>
           </a>
           <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="admin-menu">
             <li>
               <a class="dropdown-item" routerLink="admin/user-management" routerLinkActive="active" (click)="collapseNavbar()">
                 <fa-icon icon="users" [fixedWidth]="true"></fa-icon>
-                <span>Użytkownicy</span>
-              </a>
-            </li>
-            <li>
-              <a class="dropdown-item" routerLink="admin/metrics" routerLinkActive="active" (click)="collapseNavbar()">
-                <fa-icon icon="tachometer-alt" [fixedWidth]="true"></fa-icon>
-                <span>Metryki</span>
-              </a>
-            </li>
-            <li>
-              <a class="dropdown-item" routerLink="admin/health" routerLinkActive="active" (click)="collapseNavbar()">
-                <fa-icon icon="heart" [fixedWidth]="true"></fa-icon>
-                <span>Status</span>
-              </a>
-            </li>
-            <li>
-              <a class="dropdown-item" routerLink="admin/configuration" routerLinkActive="active" (click)="collapseNavbar()">
-                <fa-icon icon="cogs" [fixedWidth]="true"></fa-icon>
-                <span>Konfiguracja</span>
+                <span>Users</span>
               </a>
             </li>
             <li>
               <a class="dropdown-item" routerLink="admin/logs" routerLinkActive="active" (click)="collapseNavbar()">
                 <fa-icon icon="tasks" [fixedWidth]="true"></fa-icon>
-                <span>Logi</span>
+                <span>Logs</span>
               </a>
             </li>
             <li *ngIf="openAPIEnabled">

@@ -9,6 +9,7 @@ import com.workoutplanner.app.repository.WorkoutRepository;
 import com.workoutplanner.app.service.UserService;
 import java.util.*;
 import java.util.stream.Collectors;
+import org.springframework.data.util.Predicates;
 import org.springframework.stereotype.Service;
 
 @Service
