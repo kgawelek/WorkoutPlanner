@@ -8,13 +8,24 @@
 
         <div class="row mb-3">
           <label class="form-label" for="field_nrOfReps">Nr Of Reps</label>
-          <input type="number" class="form-control" name="nrOfReps" id="field_nrOfReps" data-cy="nrOfReps" formControlName="nrOfReps" />
+          <input
+            type="number"
+            min="0"
+            onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"
+            class="form-control"
+            name="nrOfReps"
+            id="field_nrOfReps"
+            data-cy="nrOfReps"
+            formControlName="nrOfReps"
+          />
         </div>
 
         <div class="row mb-3">
           <label class="form-label" for="field_nrOfSeries">Nr Of Series</label>
           <input
             type="number"
+            min="0"
+            onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"
             class="form-control"
             name="nrOfSeries"
             id="field_nrOfSeries"
@@ -25,7 +36,16 @@
 
         <div class="row mb-3">
           <label class="form-label" for="field_weight">Weight</label>
-          <input type="number" class="form-control" name="weight" id="field_weight" data-cy="weight" formControlName="weight" />
+          <input
+            type="number"
+            min="0"
+            onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"
+            class="form-control"
+            name="weight"
+            id="field_weight"
+            data-cy="weight"
+            formControlName="weight"
+          />
         </div>
 
         <div class="row mb-3">

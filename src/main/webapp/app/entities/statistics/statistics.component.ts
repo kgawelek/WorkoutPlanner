@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IStatistics } from './statistics.model';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { IWorkout } from '../workout/workout.model';
 
 @Component({
   selector: 'jhi-statistics',
