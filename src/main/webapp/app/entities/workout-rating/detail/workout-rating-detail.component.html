@@ -10,10 +10,6 @@
       <jhi-alert></jhi-alert>
 
       <dl class="row-md jh-entity-details">
-        <dt><span>Id</span></dt>
-        <dd>
-          <span>{{ workoutRating.id }}</span>
-        </dd>
         <dt><span>Comment</span></dt>
         <dd>
           <span>{{ workoutRating.comment }}</span>
@@ -25,7 +21,7 @@
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
-        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Wstecz</span>
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
       </button>
 
       <button type="button" [routerLink]="['/workout-rating', workoutRating.id, 'edit']" class="btn btn-primary">

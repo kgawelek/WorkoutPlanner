@@ -14,7 +14,7 @@
       <div class="row mb-3">
         <label class="form-label" for="field_sportDiscipline">Favourite Sport Discipline: {{ selectedSportDiscipline?.name }}</label>
         Change:
-        <select [(ngModel)]="selectedSportDiscipline" id="field_sportDiscipline" name="sportDiscipline">
+        <select [(ngModel)]="selectedSportDiscipline" id="field_sportDiscipline" name="sportDiscipline" class="form-control">
           <option [ngValue]="null"></option>
           <option [ngValue]="sportDisciplineOption" *ngFor="let sportDisciplineOption of sportDisciplinesSharedCollection">
             {{ sportDisciplineOption.name }}

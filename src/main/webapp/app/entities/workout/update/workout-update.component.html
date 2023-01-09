@@ -49,7 +49,14 @@
 
         <div class="row mb-3">
           <label class="form-label" for="field_type">Type</label>
-          <select class="form-control" name="type" formControlName="type" id="field_type" data-cy="type">
+          <select
+            class="form-control"
+            name="type"
+            formControlName="type"
+            id="field_type"
+            data-cy="type"
+            (ngModelChange)="changeWorkoutType()"
+          >
             <option [ngValue]="null"></option>
             <option *ngFor="let workoutType of workoutTypeValues" [value]="workoutType">{{ workoutType }}</option>
           </select>
@@ -129,7 +136,7 @@
           </select>
         </div>
 
-        <div class="table-responsive table-entities" id="exercises" *ngIf="workout?.type?.match('EXERCISE') && workout?.exercises">
+        <div class="table-responsive table-entities" id="exercises" *ngIf="workout?.type?.valueOf() == 'EXERCISE' && workout?.exercises">
           <dt><span>Exercises</span></dt>
           <table class="table table-striped" aria-describedby="page-heading">
             <thead>
@@ -191,7 +198,7 @@
             </tbody>
           </table>
         </div>
-        <div *ngIf="workout?.type?.match('EXERCISE') && workout?.exercises">
+        <div *ngIf="workout?.type?.valueOf() == 'EXERCISE' && workout?.exercises">
           <form name="addExerciseForm" role="form" novalidate (ngSubmit)="addExercise()" [formGroup]="addExerciseForm">
             <div class="row mb-3">
               <label class="form-label" for="field_nrOfReps">Nr Of Reps</label>
@@ -226,7 +233,7 @@
               <input
                 type="number"
                 min="0"
-                onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"
+                onkeyup="if(this.value<0){this.value=''}"
                 class="form-control"
                 name="weight"
                 id="field_weight"
@@ -257,7 +264,11 @@
           </form>
         </div>
         <p></p>
-        <div class="table-responsive table-entities" id="entities" *ngIf="workout?.type?.match('INTERVAL') && workout?.workoutBreakdowns">
+        <div
+          class="table-responsive table-entities"
+          id="entities"
+          *ngIf="workout?.type?.valueOf() == 'INTERVAL' && workout?.workoutBreakdowns"
+        >
           <dt><span>Intervals</span></dt>
           <table class="table table-striped" aria-describedby="page-heading">
             <thead>
@@ -270,7 +281,7 @@
                 </th>
                 <th scope="col">
                   <div class="d-flex">
-                    <span>Duration</span>
+                    <span>Duration [min]</span>
                   </div>
                 </th>
                 <th scope="col">
@@ -337,7 +348,7 @@
             </tbody>
           </table>
         </div>
-        <div *ngIf="workout?.type?.match('INTERVAL') && workout?.workoutBreakdowns">
+        <div *ngIf="workout?.type?.valueOf() == 'INTERVAL' && workout?.workoutBreakdowns">
           <form name="addIntervalForm" role="form" novalidate (ngSubmit)="addInterval()" [formGroup]="addIntervalForm" (resize)="(0.9)">
             <div>
               <jhi-alert-error></jhi-alert-error>
@@ -347,7 +358,7 @@
                 <input
                   type="number"
                   min="0"
-                  onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"
+                  onkeyup="if(this.value<0){this.value=''}"
                   class="form-control"
                   name="distance"
                   id="field_distance"
@@ -357,11 +368,11 @@
               </div>
 
               <div class="row mb-3">
-                <label class="form-label" for="field_duration">Duration</label>
+                <label class="form-label" for="field_duration">Duration [min]</label>
                 <input
                   type="number"
                   min="0"
-                  onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"
+                  onkeyup="if(this.value<0){this.value=''}"
                   class="form-control"
                   name="duration"
                   id="field_duration_interval"
@@ -392,7 +403,7 @@
                 <input
                   type="number"
                   min="0"
-                  onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"
+                  onkeyup="if(this.value<0){this.value=''}"
                   class="form-control"
                   name="minValue"
                   id="field_minValue"
@@ -406,7 +417,7 @@
                 <input
                   type="number"
                   min="0"
-                  onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"
+                  onkeyup="if(this.value<0){this.value=''}"
                   class="form-control"
                   name="maxValue"
                   id="field_maxValue"

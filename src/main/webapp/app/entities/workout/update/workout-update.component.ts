@@ -131,9 +131,14 @@ export class WorkoutUpdateComponent implements OnInit {
       // @ts-ignore
       workout.workoutRating = workoutRating;
     }
-    if (!workout.duration?.match('PT')) {
+    if (workout.duration !== null && !workout.duration?.match('PT')) {
       workout.duration = 'PT' + workout.duration;
     }
+    // if(workout.id == null && this.workout?.id !== null){
+    //
+    //   // @ts-ignore
+    //   workout.id = this.workout?.id;
+    // }
     if (workout.id !== null) {
       this.subscribeToSaveResponse(this.workoutService.update(workout));
     } else {
@@ -142,14 +147,10 @@ export class WorkoutUpdateComponent implements OnInit {
   }
 
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IWorkout>>): void {
-    result.pipe(finalize(() => this.onSaveFinalize())).subscribe(
-      // @ts-ignore
-      (data: IWorkout) => (this.workout = data),
-      {
-        next: () => this.onSaveSuccess(),
-        error: () => this.onSaveError(),
-      }
-    );
+    result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
+      next: () => this.onSaveSuccess(),
+      error: () => this.onSaveError(),
+    });
   }
 
   protected subscribeToSaveResponseAndReloadPage(result: Observable<HttpResponse<any>>): void {
@@ -285,5 +286,23 @@ export class WorkoutUpdateComponent implements OnInit {
     }
     // @ts-ignore
     this.workout.duration = this.workout?.duration.replace('PT', '');
+  }
+
+  changeWorkoutType() {
+    if (this.workout !== null && this.workout?.id != null) {
+      this.isSaving = true;
+      const workout = this.workoutFormService.getWorkout(this.editForm);
+      if (workout.workoutRating == null) {
+        const workoutRating = this.workoutRatingFormService.getWorkoutRating(this.ratingForm);
+        // @ts-ignore
+        workout.workoutRating = workoutRating;
+      }
+      if (workout.duration !== null && !workout.duration?.match('PT')) {
+        workout.duration = 'PT' + workout.duration;
+      }
+      if (workout.id !== null) {
+        this.subscribeToSaveResponseAndReloadPage(this.workoutService.update(workout));
+      }
+    }
   }
 }

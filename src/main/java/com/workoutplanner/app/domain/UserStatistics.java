@@ -16,6 +16,9 @@ public class UserStatistics {
     private Integer nrOfAbandonedWorkouts;
     private Integer nrOfCompletedWorkouts;
     private Integer nrOfPlannedWorkouts;
+    private Integer nrOfWorkouts;
+    private Duration totalWorkoutsDuration;
+    private Double totalDistance;
 
     public UserDetails getUser() {
         return user;
@@ -79,5 +82,29 @@ public class UserStatistics {
 
     public void setNrOfPlannedWorkouts(Integer nrOfPlannedWorkouts) {
         this.nrOfPlannedWorkouts = nrOfPlannedWorkouts;
+    }
+
+    public Integer getNrOfWorkouts() {
+        return nrOfWorkouts;
+    }
+
+    public void setNrOfWorkouts(Integer nrOfWorkouts) {
+        this.nrOfWorkouts = nrOfWorkouts;
+    }
+
+    public Double getTotalDistance() {
+        return totalDistance;
+    }
+
+    public void setTotalDistance(Double totalDistance) {
+        this.totalDistance = totalDistance;
+    }
+
+    public Duration getTotalWorkoutsDuration() {
+        return totalWorkoutsDuration;
+    }
+
+    public void setTotalWorkoutsDuration(Duration totalWorkoutsDuration) {
+        this.totalWorkoutsDuration = totalWorkoutsDuration;
     }
 }

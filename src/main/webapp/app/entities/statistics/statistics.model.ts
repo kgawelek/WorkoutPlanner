@@ -6,4 +6,7 @@ export interface IStatistics {
   nrOfAbandonedWorkouts: number;
   nrOfCompletedWorkouts: number;
   nrOfPlannedWorkouts: number;
+  nrOfWorkouts: number;
+  totalWorkoutsDuration: string;
+  totalDistance: string;
 }

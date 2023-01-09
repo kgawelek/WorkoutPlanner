@@ -34,7 +34,7 @@
     "docker:others:down": "",
     "predocker:others:up": "",
     "docker:others:up": "",
-    "java:docker": "./gradlew bootJar -Pprod jibDockerBuild",
+    "java:docker": "gradlew bootJar -Pprod jibDockerBuild",
     "java:docker:arm64": "npm run java:docker -- -PjibArchitecture=arm64",
     "java:docker:dev": "npm run java:docker -- -Pdev,webapp",
     "java:docker:prod": "npm run java:docker -- -Pprod",

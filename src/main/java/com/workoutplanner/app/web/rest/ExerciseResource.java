@@ -182,9 +182,6 @@ public class ExerciseResource {
     public ResponseEntity<Void> deleteExercise(@PathVariable Long id) {
         log.debug("REST request to delete Exercise : {}", id);
         exerciseRepository.deleteById(id);
-        return ResponseEntity
-            .noContent()
-            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
-            .build();
+        return ResponseEntity.noContent().build();
     }
 }

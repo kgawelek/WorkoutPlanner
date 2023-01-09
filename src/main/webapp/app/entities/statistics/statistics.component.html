@@ -14,17 +14,41 @@
         <dd>
           <span>{{ statistics.favouriteSportDiscipline }}</span>
         </dd>
+        <dt><span>Number of workouts</span></dt>
+        <dd>
+          <span>{{ statistics.nrOfWorkouts }}</span>
+        </dd>
         <dt><span>Number of planned workouts</span></dt>
         <dd>
-          <span>{{ statistics.nrOfPlannedWorkouts }}</span>
+          <span
+            >{{ statistics.nrOfPlannedWorkouts }}, ({{
+              (statistics.nrOfPlannedWorkouts / statistics.nrOfWorkouts) * 100 | number: '1.0-1'
+            }}%)</span
+          >
         </dd>
         <dt><span>Number of completed workouts</span></dt>
         <dd>
-          <span>{{ statistics.nrOfCompletedWorkouts }}</span>
+          <span
+            >{{ statistics.nrOfCompletedWorkouts }}, ({{
+              (statistics.nrOfCompletedWorkouts / statistics.nrOfWorkouts) * 100 | number: '1.0-1'
+            }}%)</span
+          >
         </dd>
         <dt><span>Number of abandoned workouts</span></dt>
         <dd>
-          <span>{{ statistics.nrOfAbandonedWorkouts }}</span>
+          <span
+            >{{ statistics.nrOfAbandonedWorkouts }}, ({{
+              (statistics.nrOfAbandonedWorkouts / statistics.nrOfWorkouts) * 100 | number: '1.0-1'
+            }}%)</span
+          >
+        </dd>
+        <dt><span>Total duration</span></dt>
+        <dd>
+          <span>{{ statistics.totalWorkoutsDuration.replace('PT', '') }}</span>
+        </dd>
+        <dt><span>Total distance</span></dt>
+        <dd>
+          <span>{{ statistics.totalDistance }} km</span>
         </dd>
         <dt><span>Longest workout</span></dt>
         <dd>

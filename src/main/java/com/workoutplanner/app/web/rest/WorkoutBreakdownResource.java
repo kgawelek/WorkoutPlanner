@@ -197,9 +197,6 @@ public class WorkoutBreakdownResource {
     public ResponseEntity<Void> deleteWorkoutBreakdown(@PathVariable Long id) {
         log.debug("REST request to delete WorkoutBreakdown : {}", id);
         workoutBreakdownRepository.deleteById(id);
-        return ResponseEntity
-            .noContent()
-            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
-            .build();
+        return ResponseEntity.noContent().build();
     }
 }

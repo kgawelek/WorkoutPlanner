@@ -31,6 +31,7 @@
     <label class="form-label" for="status_filter">Status</label>
     <select
       class="form-control"
+      style="width: 400px"
       name="status_filter"
       formControlName="status_filter"
       id="status_filter"
@@ -42,6 +43,7 @@
     <label class="form-label" for="workout_type_filter">Type</label>
     <select
       class="form-control"
+      style="width: 400px"
       name="type_filter"
       formControlName="type_filter"
       id="workout_type_filter"
@@ -54,6 +56,7 @@
     <label class="form-label" for="sportDisciplineFilter">Sport Discipline</label>
     <select
       class="form-control"
+      style="width: 400px"
       id="sportDisciplineFilter"
       data-cy="sportDiscipline"
       name="sportDiscipline"
@@ -70,10 +73,9 @@
     <table class="table table-striped" aria-describedby="page-heading">
       <thead>
         <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
-          <th scope="col" jhiSortBy="date">
+          <th scope="col">
             <div class="d-flex">
               <span>Date</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
           <th scope="col" jhiSortBy="duration">
@@ -124,7 +126,7 @@
           </td>
           <td>
             <div *ngIf="workout.sportDiscipline">
-              <a [routerLink]="['/sport-discipline', workout.sportDiscipline.id, 'view']">{{ workout.sportDiscipline.name }}</a>
+              {{ workout.sportDiscipline.name }}
             </div>
           </td>
           <td></td>

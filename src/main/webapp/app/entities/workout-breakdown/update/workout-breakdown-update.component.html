@@ -1,7 +1,7 @@
 <div class="d-flex justify-content-center">
   <div class="col-8">
     <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-      <h2 id="jhi-workout-breakdown-heading" data-cy="WorkoutBreakdownCreateUpdateHeading">Add or edit: Workout Breakdown</h2>
+      <h2 id="jhi-workout-breakdown-heading" data-cy="WorkoutBreakdownCreateUpdateHeading">Edit Workout Breakdown</h2>
 
       <div>
         <jhi-alert-error></jhi-alert-error>
@@ -11,7 +11,7 @@
           <input
             type="number"
             min="0"
-            onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"
+            onkeyup="if(this.value<0){this.value=''}"
             class="form-control"
             name="distance"
             id="field_distance"
@@ -25,7 +25,7 @@
           <input
             type="number"
             min="0"
-            onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"
+            onkeyup="if(this.value<0){this.value=''}"
             class="form-control"
             name="duration"
             id="field_duration"
@@ -56,7 +56,7 @@
           <input
             type="number"
             min="0"
-            onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"
+            onkeyup="if(this.value<0){this.value=''}"
             class="form-control"
             name="minValue"
             id="field_minValue"
@@ -70,7 +70,7 @@
           <input
             type="number"
             min="0"
-            onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"
+            onkeyup="if(this.value<0){this.value=''}"
             class="form-control"
             name="maxValue"
             id="field_maxValue"
