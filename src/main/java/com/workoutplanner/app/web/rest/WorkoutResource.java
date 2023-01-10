@@ -5,10 +5,7 @@ import com.workoutplanner.app.domain.UserDetails;
 import com.workoutplanner.app.domain.Workout;
 import com.workoutplanner.app.domain.enumeration.Status;
 import com.workoutplanner.app.domain.enumeration.WorkoutType;
-import com.workoutplanner.app.repository.SportDisciplineRepository;
-import com.workoutplanner.app.repository.UserDetailsRepository;
-import com.workoutplanner.app.repository.WorkoutRatingRepository;
-import com.workoutplanner.app.repository.WorkoutRepository;
+import com.workoutplanner.app.repository.*;
 import com.workoutplanner.app.service.UserService;
 import com.workoutplanner.app.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
@@ -43,19 +40,25 @@ public class WorkoutResource {
     private final UserDetailsRepository userDetailsRepository;
     private final WorkoutRatingRepository workoutRatingRepository;
     private final SportDisciplineRepository sportDisciplineRepository;
+    private final ExerciseRepository exerciseRepository;
+    private final WorkoutBreakdownRepository workoutBreakdownRepository;
 
     public WorkoutResource(
         WorkoutRepository workoutRepository,
         UserService userService,
         UserDetailsRepository userDetailsRepository,
         WorkoutRatingRepository workoutRatingRepository,
-        SportDisciplineRepository sportDisciplineRepository
+        SportDisciplineRepository sportDisciplineRepository,
+        ExerciseRepository exerciseRepository,
+        WorkoutBreakdownRepository workoutBreakdownRepository
     ) {
         this.workoutRepository = workoutRepository;
         this.userService = userService;
         this.userDetailsRepository = userDetailsRepository;
         this.workoutRatingRepository = workoutRatingRepository;
         this.sportDisciplineRepository = sportDisciplineRepository;
+        this.exerciseRepository = exerciseRepository;
+        this.workoutBreakdownRepository = workoutBreakdownRepository;
     }
 
     /**
@@ -86,8 +89,18 @@ public class WorkoutResource {
         if (workout.getType() == null) {
             workout.setType(WorkoutType.GENERAL);
         }
-        if (!WorkoutType.EXERCISE.equals(workout.getType())) workout.setExercises(new HashSet<>());
-        if (!WorkoutType.INTERVAL.equals(workout.getType())) workout.setWorkoutBreakdowns(new HashSet<>());
+        if (WorkoutType.EXERCISE.equals(workout.getType())) {
+            for (var e : workout.getExercises()) {
+                exerciseRepository.save(e);
+            }
+        }
+
+        if (WorkoutType.INTERVAL.equals(workout.getType())) {
+            for (var i : workout.getWorkoutBreakdowns()) {
+                workoutBreakdownRepository.save(i);
+            }
+        }
+
         Workout result = workoutRepository.save(workout);
         return ResponseEntity
             .created(new URI("/api/workouts/" + result.getId()))
@@ -122,8 +135,16 @@ public class WorkoutResource {
         if (workout.getWorkoutRating() != null && workout.getWorkoutRating().getId() == null) {
             workoutRatingRepository.save(workout.getWorkoutRating());
         }
-        if (!WorkoutType.EXERCISE.equals(workout.getType())) workout.setExercises(new HashSet<>());
-        if (!WorkoutType.INTERVAL.equals(workout.getType())) workout.setWorkoutBreakdowns(new HashSet<>());
+        if (!WorkoutType.EXERCISE.equals(workout.getType())) {
+            for (var e : exerciseRepository.findExerciseByWorkout(workout.getId())) {
+                exerciseRepository.delete(e);
+            }
+        }
+        if (!WorkoutType.INTERVAL.equals(workout.getType())) {
+            for (var w : workoutBreakdownRepository.findWorkoutBreakdownByWorkout(workout.getId())) {
+                workoutBreakdownRepository.delete(w);
+            }
+        }
         Workout result = workoutRepository.save(workout);
         return ResponseEntity
             .ok()

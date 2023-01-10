@@ -50,11 +50,11 @@ public class Workout implements Serializable {
     @JoinColumn(unique = true)
     private WorkoutRating workoutRating;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "workout")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "workout", cascade = CascadeType.REMOVE)
     @JsonIgnoreProperties(value = { "workout" }, allowSetters = true)
     private Set<Exercise> exercises = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "workout")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "workout", cascade = CascadeType.REMOVE)
     @JsonIgnoreProperties(value = { "workout" }, allowSetters = true)
     private Set<WorkoutBreakdown> workoutBreakdowns = new HashSet<>();
 

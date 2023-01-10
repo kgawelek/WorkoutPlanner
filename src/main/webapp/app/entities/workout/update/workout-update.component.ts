@@ -48,6 +48,9 @@ export class WorkoutUpdateComponent implements OnInit {
   intervals: IWorkoutBreakdown[] = [];
   exercises: IExercise[] = [];
 
+  hideExercises: boolean = true;
+  hideIntervals: boolean = true;
+
   editForm: WorkoutFormGroup = this.workoutFormService.createWorkoutFormGroup();
 
   exerciseTypesSharedCollection: IExerciseType[] = [];
@@ -117,6 +120,13 @@ export class WorkoutUpdateComponent implements OnInit {
     this.sportDisciplinesSharedCollection = this.sportDisciplineService.addSportDisciplineToCollectionIfMissing<ISportDiscipline>(
       this.sportDisciplinesSharedCollection
     );
+
+    if (this.workout?.type?.valueOf() == 'EXERCISE') {
+      this.hideExercises = false;
+    }
+    if (this.workout?.type?.valueOf() == 'INTERVAL') {
+      this.hideIntervals = false;
+    }
   }
 
   previousState(): void {
@@ -134,14 +144,13 @@ export class WorkoutUpdateComponent implements OnInit {
     if (workout.duration !== null && !workout.duration?.match('PT')) {
       workout.duration = 'PT' + workout.duration;
     }
-    // if(workout.id == null && this.workout?.id !== null){
-    //
-    //   // @ts-ignore
-    //   workout.id = this.workout?.id;
-    // }
     if (workout.id !== null) {
       this.subscribeToSaveResponse(this.workoutService.update(workout));
     } else {
+      // @ts-ignore
+      workout.exercises = this.exercises;
+      // @ts-ignore
+      workout.workoutBreakdowns = this.intervals;
       this.subscribeToSaveResponse(this.workoutService.create(workout));
     }
   }
@@ -231,20 +240,25 @@ export class WorkoutUpdateComponent implements OnInit {
   }
 
   addExercise() {
-    this.isSaving = true;
-    const exercise = this.exerciseFormService.getExercise(this.addExerciseForm);
-    if (!this.workout?.duration?.match('PT')) {
-      // @ts-ignore
-      this.workout.duration = 'PT' + this.workout?.duration;
-    }
-    exercise.workout = this.workout;
-    if (exercise.id !== null) {
-      this.subscribeToSaveResponseAndReloadPage(this.exerciseService.update(exercise));
+    if (this.workout == null) {
+      const exercise = this.exerciseFormService.getExercise(this.addExerciseForm);
+      this.exercises.push(<IExercise>exercise);
     } else {
-      this.subscribeToSaveResponseAndReloadPage(this.exerciseService.create(exercise));
+      this.isSaving = true;
+      const exercise = this.exerciseFormService.getExercise(this.addExerciseForm);
+      if (!this.workout?.duration?.match('PT')) {
+        // @ts-ignore
+        this.workout.duration = 'PT' + this.workout?.duration;
+      }
+      exercise.workout = this.workout;
+      if (exercise.id !== null) {
+        this.subscribeToSaveResponseAndReloadPage(this.exerciseService.update(exercise));
+      } else {
+        this.subscribeToSaveResponseAndReloadPage(this.exerciseService.create(exercise));
+      }
+      // @ts-ignore
+      this.workout.duration = this.workout?.duration.replace('PT', '');
     }
-    // @ts-ignore
-    this.workout.duration = this.workout?.duration.replace('PT', '');
   }
 
   deleteExercise(exercise: IExercise, event: any): void {
@@ -272,37 +286,53 @@ export class WorkoutUpdateComponent implements OnInit {
   }
 
   addInterval() {
-    this.isSaving = true;
-    const workoutBreakdown = this.workoutBreakdownFormService.getWorkoutBreakdown(this.addIntervalForm);
-    if (!this.workout?.duration?.match('PT')) {
-      // @ts-ignore
-      this.workout.duration = 'PT' + this.workout?.duration;
-    }
-    workoutBreakdown.workout = this.workout;
-    if (workoutBreakdown.id !== null) {
-      this.subscribeToSaveResponseAndReloadPage(this.workoutBreakdownService.update(workoutBreakdown));
+    if (this.workout == null) {
+      const interval = this.workoutBreakdownFormService.getWorkoutBreakdown(this.addIntervalForm);
+      this.intervals.push(<IWorkoutBreakdown>interval);
     } else {
-      this.subscribeToSaveResponseAndReloadPage(this.workoutBreakdownService.create(workoutBreakdown));
+      this.isSaving = true;
+      const workoutBreakdown = this.workoutBreakdownFormService.getWorkoutBreakdown(this.addIntervalForm);
+      if (!this.workout?.duration?.match('PT')) {
+        // @ts-ignore
+        this.workout.duration = 'PT' + this.workout?.duration;
+      }
+      workoutBreakdown.workout = this.workout;
+      if (workoutBreakdown.id !== null) {
+        this.subscribeToSaveResponseAndReloadPage(this.workoutBreakdownService.update(workoutBreakdown));
+      } else {
+        this.subscribeToSaveResponseAndReloadPage(this.workoutBreakdownService.create(workoutBreakdown));
+      }
+      // @ts-ignore
+      this.workout.duration = this.workout?.duration.replace('PT', '');
     }
-    // @ts-ignore
-    this.workout.duration = this.workout?.duration.replace('PT', '');
   }
 
   changeWorkoutType() {
-    if (this.workout !== null && this.workout?.id != null) {
-      this.isSaving = true;
-      const workout = this.workoutFormService.getWorkout(this.editForm);
-      if (workout.workoutRating == null) {
-        const workoutRating = this.workoutRatingFormService.getWorkoutRating(this.ratingForm);
-        // @ts-ignore
-        workout.workoutRating = workoutRating;
-      }
-      if (workout.duration !== null && !workout.duration?.match('PT')) {
-        workout.duration = 'PT' + workout.duration;
-      }
-      if (workout.id !== null) {
-        this.subscribeToSaveResponseAndReloadPage(this.workoutService.update(workout));
-      }
+    const workout = this.workoutFormService.getWorkout(this.editForm);
+    if (workout.type?.match('EXERCISE')) {
+      this.hideExercises = false;
+      this.hideIntervals = true;
+    } else if (workout.type?.match('INTERVAL')) {
+      this.hideIntervals = false;
+      this.hideExercises = true;
+    } else {
+      this.hideExercises = true;
+      this.hideIntervals = true;
     }
+    // if (this.workout !== null && this.workout?.id != null) {
+    //   this.isSaving = true;
+    //   const workout = this.workoutFormService.getWorkout(this.editForm);
+    //   if (workout.workoutRating == null) {
+    //     const workoutRating = this.workoutRatingFormService.getWorkoutRating(this.ratingForm);
+    //     // @ts-ignore
+    //     workout.workoutRating = workoutRating;
+    //   }
+    //   if (workout.duration !== null && !workout.duration?.match('PT')) {
+    //     workout.duration = 'PT' + workout.duration;
+    //   }
+    //   if (workout.id !== null) {
+    //     this.subscribeToSaveResponseAndReloadPage(this.workoutService.update(workout));
+    //   }
+    // }
   }
 }

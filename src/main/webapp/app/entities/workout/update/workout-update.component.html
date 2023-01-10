@@ -1,7 +1,8 @@
 <div class="d-flex justify-content-center">
   <div class="col-8">
     <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-      <h2 id="jhi-workout-heading" data-cy="WorkoutCreateUpdateHeading">Add or edit workout</h2>
+      <h2 id="jhi-workout-heading-new" data-cy="WorkoutCreateUpdateHeading" *ngIf="workout == null">Add workout</h2>
+      <h2 id="jhi-workout-heading-update" data-cy="WorkoutCreateUpdateHeading" *ngIf="workout != null">Edit workout</h2>
 
       <div>
         <jhi-alert-error></jhi-alert-error>
@@ -136,7 +137,7 @@
           </select>
         </div>
 
-        <div class="table-responsive table-entities" id="exercises" *ngIf="workout?.type?.valueOf() == 'EXERCISE' && workout?.exercises">
+        <div class="table-responsive table-entities" id="exercises" [hidden]="hideExercises">
           <dt><span>Exercises</span></dt>
           <table class="table table-striped" aria-describedby="page-heading">
             <thead>
@@ -198,7 +199,7 @@
             </tbody>
           </table>
         </div>
-        <div *ngIf="workout?.type?.valueOf() == 'EXERCISE' && workout?.exercises">
+        <div [hidden]="hideExercises">
           <form name="addExerciseForm" role="form" novalidate (ngSubmit)="addExercise()" [formGroup]="addExerciseForm">
             <div class="row mb-3">
               <label class="form-label" for="field_nrOfReps">Nr Of Reps</label>
@@ -264,11 +265,7 @@
           </form>
         </div>
         <p></p>
-        <div
-          class="table-responsive table-entities"
-          id="entities"
-          *ngIf="workout?.type?.valueOf() == 'INTERVAL' && workout?.workoutBreakdowns"
-        >
+        <div [hidden]="hideIntervals">
           <dt><span>Intervals</span></dt>
           <table class="table table-striped" aria-describedby="page-heading">
             <thead>
@@ -348,7 +345,7 @@
             </tbody>
           </table>
         </div>
-        <div *ngIf="workout?.type?.valueOf() == 'INTERVAL' && workout?.workoutBreakdowns">
+        <div [hidden]="hideIntervals">
           <form name="addIntervalForm" role="form" novalidate (ngSubmit)="addInterval()" [formGroup]="addIntervalForm" (resize)="(0.9)">
             <div>
               <jhi-alert-error></jhi-alert-error>
