@@ -104,7 +104,7 @@ public class WorkoutResource {
         Workout result = workoutRepository.save(workout);
         return ResponseEntity
             .created(new URI("/api/workouts/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
+            .headers(HeaderUtil.createAlert(applicationName, "Workout has been saved", ""))
             .body(result);
     }
 
@@ -146,10 +146,7 @@ public class WorkoutResource {
             }
         }
         Workout result = workoutRepository.save(workout);
-        return ResponseEntity
-            .ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, workout.getId().toString()))
-            .body(result);
+        return ResponseEntity.ok().headers(HeaderUtil.createAlert(applicationName, "Workout has been saved", "")).body(result);
     }
 
     /**
@@ -192,6 +189,6 @@ public class WorkoutResource {
     public ResponseEntity<Void> deleteWorkout(@PathVariable Long id) {
         log.debug("REST request to delete Workout : {}", id);
         workoutRepository.deleteById(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.noContent().headers(HeaderUtil.createAlert(applicationName, "Workout has been deleted", "")).build();
     }
 }

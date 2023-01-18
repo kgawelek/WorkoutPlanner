@@ -54,10 +54,7 @@ public class ExerciseResource {
         Integer exerciseOrder = exercise.getWorkout().getExercises() != null ? exercise.getWorkout().getExercises().size() : 0;
         exercise.setOrder(exerciseOrder);
         Exercise result = exerciseRepository.save(exercise);
-        return ResponseEntity
-            .created(new URI("/api/exercises/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
-            .body(result);
+        return ResponseEntity.created(new URI("/api/exercises/" + result.getId())).body(result);
     }
 
     /**
@@ -88,64 +85,7 @@ public class ExerciseResource {
         }
 
         Exercise result = exerciseRepository.save(exercise);
-        return ResponseEntity
-            .ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, exercise.getId().toString()))
-            .body(result);
-    }
-
-    /**
-     * {@code PATCH  /exercises/:id} : Partial updates given fields of an existing exercise, field will ignore if it is null
-     *
-     * @param id the id of the exercise to save.
-     * @param exercise the exercise to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated exercise,
-     * or with status {@code 400 (Bad Request)} if the exercise is not valid,
-     * or with status {@code 404 (Not Found)} if the exercise is not found,
-     * or with status {@code 500 (Internal Server Error)} if the exercise couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
-     */
-    @PatchMapping(value = "/exercises/{id}", consumes = { "application/json", "application/merge-patch+json" })
-    public ResponseEntity<Exercise> partialUpdateExercise(
-        @PathVariable(value = "id", required = false) final Long id,
-        @RequestBody Exercise exercise
-    ) throws URISyntaxException {
-        log.debug("REST request to partial update Exercise partially : {}, {}", id, exercise);
-        if (exercise.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
-        }
-        if (!Objects.equals(id, exercise.getId())) {
-            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
-        }
-
-        if (!exerciseRepository.existsById(id)) {
-            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
-        }
-
-        Optional<Exercise> result = exerciseRepository
-            .findById(exercise.getId())
-            .map(existingExercise -> {
-                if (exercise.getNrOfReps() != null) {
-                    existingExercise.setNrOfReps(exercise.getNrOfReps());
-                }
-                if (exercise.getNrOfSeries() != null) {
-                    existingExercise.setNrOfSeries(exercise.getNrOfSeries());
-                }
-                if (exercise.getWeight() != null) {
-                    existingExercise.setWeight(exercise.getWeight());
-                }
-                if (exercise.getOrder() != null) {
-                    existingExercise.setOrder(exercise.getOrder());
-                }
-
-                return existingExercise;
-            })
-            .map(exerciseRepository::save);
-
-        return ResponseUtil.wrapOrNotFound(
-            result,
-            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, exercise.getId().toString())
-        );
+        return ResponseEntity.ok().body(result);
     }
 
     /**

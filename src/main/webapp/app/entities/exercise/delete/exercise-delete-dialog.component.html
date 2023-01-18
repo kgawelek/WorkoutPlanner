@@ -1,4 +1,4 @@
-<form *ngIf="exercise" name="deleteForm" (ngSubmit)="confirmDelete(exercise.id!)">
+<form *ngIf="exercise" name="deleteForm" (ngSubmit)="confirmDelete(exercise?.id!)">
   <div class="modal-header">
     <h4 class="modal-title" data-cy="exerciseDeleteDialogHeading">Confirm removing</h4>
 

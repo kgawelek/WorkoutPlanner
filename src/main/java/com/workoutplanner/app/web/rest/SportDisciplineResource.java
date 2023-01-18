@@ -52,10 +52,7 @@ public class SportDisciplineResource {
             throw new BadRequestAlertException("A new sportDiscipline cannot already have an ID", ENTITY_NAME, "idexists");
         }
         SportDiscipline result = sportDisciplineRepository.save(sportDiscipline);
-        return ResponseEntity
-            .created(new URI("/api/sport-disciplines/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
-            .body(result);
+        return ResponseEntity.created(new URI("/api/sport-disciplines/" + result.getId())).body(result);
     }
 
     /**
@@ -86,10 +83,7 @@ public class SportDisciplineResource {
         }
 
         SportDiscipline result = sportDisciplineRepository.save(sportDiscipline);
-        return ResponseEntity
-            .ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, sportDiscipline.getId().toString()))
-            .body(result);
+        return ResponseEntity.ok().body(result);
     }
 
     /**

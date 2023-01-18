@@ -52,10 +52,7 @@ public class ExerciseTypeResource {
             throw new BadRequestAlertException("A new exerciseType cannot already have an ID", ENTITY_NAME, "idexists");
         }
         ExerciseType result = exerciseTypeRepository.save(exerciseType);
-        return ResponseEntity
-            .created(new URI("/api/exercise-types/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
-            .body(result);
+        return ResponseEntity.created(new URI("/api/exercise-types/" + result.getId())).body(result);
     }
 
     /**
@@ -86,10 +83,7 @@ public class ExerciseTypeResource {
         }
 
         ExerciseType result = exerciseTypeRepository.save(exerciseType);
-        return ResponseEntity
-            .ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, exerciseType.getId().toString()))
-            .body(result);
+        return ResponseEntity.ok().body(result);
     }
 
     /**

@@ -1,7 +1,12 @@
 <div class="d-flex justify-content-center">
   <div class="col-8">
     <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-      <h2 id="jhi-sport-discipline-heading" data-cy="SportDisciplineCreateUpdateHeading">Add or edit: Sport Discipline</h2>
+      <h2 id="jhi-sport-discipline-heading-new" data-cy="SportDisciplineCreateUpdateHeading" *ngIf="sportDiscipline == null">
+        Add sport discipline
+      </h2>
+      <h2 id="jhi-sport-discipline-heading-update" data-cy="SportDisciplineCreateUpdateHeading" *ngIf="sportDiscipline != null">
+        Edit sport discipline
+      </h2>
 
       <div>
         <jhi-alert-error></jhi-alert-error>

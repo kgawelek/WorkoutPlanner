@@ -66,10 +66,7 @@ public class UserDetailsResource {
         Long userId = userDetails.getUser().getId();
         userRepository.findById(userId).ifPresent(userDetails::user);
         UserDetails result = userDetailsRepository.save(userDetails);
-        return ResponseEntity
-            .created(new URI("/api/user-details/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
-            .body(result);
+        return ResponseEntity.created(new URI("/api/user-details/" + result.getId())).body(result);
     }
 
     /**
@@ -100,10 +97,7 @@ public class UserDetailsResource {
         }
 
         UserDetails result = userDetailsRepository.save(userDetails);
-        return ResponseEntity
-            .ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, userDetails.getId().toString()))
-            .body(result);
+        return ResponseEntity.ok().body(result);
     }
 
     /**

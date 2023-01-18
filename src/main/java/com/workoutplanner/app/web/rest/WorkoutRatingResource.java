@@ -54,10 +54,7 @@ public class WorkoutRatingResource {
             throw new BadRequestAlertException("A new workoutRating cannot already have an ID", ENTITY_NAME, "idexists");
         }
         WorkoutRating result = workoutRatingRepository.save(workoutRating);
-        return ResponseEntity
-            .created(new URI("/api/workout-ratings/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
-            .body(result);
+        return ResponseEntity.created(new URI("/api/workout-ratings/" + result.getId())).body(result);
     }
 
     /**
@@ -88,10 +85,7 @@ public class WorkoutRatingResource {
         }
 
         WorkoutRating result = workoutRatingRepository.save(workoutRating);
-        return ResponseEntity
-            .ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, workoutRating.getId().toString()))
-            .body(result);
+        return ResponseEntity.ok().body(result);
     }
 
     /**

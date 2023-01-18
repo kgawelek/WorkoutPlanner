@@ -121,6 +121,11 @@ export class WorkoutUpdateComponent implements OnInit {
       this.sportDisciplinesSharedCollection
     );
 
+    this.exerciseTypeService
+      .query()
+      .pipe(map((res: HttpResponse<IExerciseType[]>) => res.body ?? []))
+      .subscribe((exerciseTypes: IExerciseType[]) => (this.exerciseTypesSharedCollection = exerciseTypes));
+
     if (this.workout?.type?.valueOf() == 'EXERCISE') {
       this.hideExercises = false;
     }

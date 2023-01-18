@@ -24,15 +24,7 @@
       <form name="form" role="form" (ngSubmit)="save()" [formGroup]="settingsForm" *ngIf="settingsForm.value.login" novalidate>
         <div class="mb-3">
           <label class="form-label" for="firstName">First name</label>
-          <input
-            type="text"
-            class="form-control"
-            id="firstName"
-            name="firstName"
-            placeholder="Your First name"
-            formControlName="firstName"
-            data-cy="firstname"
-          />
+          <input type="text" class="form-control" id="firstName" name="firstName" formControlName="firstName" data-cy="firstname" />
 
           <div
             *ngIf="

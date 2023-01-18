@@ -57,10 +57,7 @@ public class WorkoutBreakdownResource {
             : 0;
         workoutBreakdown.setOrder(exerciseOrder);
         WorkoutBreakdown result = workoutBreakdownRepository.save(workoutBreakdown);
-        return ResponseEntity
-            .created(new URI("/api/workout-breakdowns/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
-            .body(result);
+        return ResponseEntity.created(new URI("/api/workout-breakdowns/" + result.getId())).body(result);
     }
 
     /**
@@ -91,10 +88,7 @@ public class WorkoutBreakdownResource {
         }
 
         WorkoutBreakdown result = workoutBreakdownRepository.save(workoutBreakdown);
-        return ResponseEntity
-            .ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, workoutBreakdown.getId().toString()))
-            .body(result);
+        return ResponseEntity.ok().body(result);
     }
 
     /**

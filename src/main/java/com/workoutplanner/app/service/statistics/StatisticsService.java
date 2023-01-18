@@ -11,10 +11,12 @@ import com.workoutplanner.app.service.UserService;
 import java.time.Duration;
 import java.util.*;
 import java.util.stream.Collectors;
-import liquibase.util.StringUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service class for calculating user statistics
+ */
 @Service
 public class StatisticsService {
 
@@ -33,7 +35,7 @@ public class StatisticsService {
         Optional<User> user = userService.getUserWithAuthorities();
         if (user.isPresent()) {
             List<Workout> workouts = workoutRepository.findWorkoutByUserDetails(userService.getUserWithAuthorities().get().getId());
-
+            newStatistics.setUser(userDetailsRepository.findById(user.get().getId()).get());
             newStatistics.setNrOfAbandonedWorkouts(findNumberOfAbandonedWorkouts(workouts));
             newStatistics.setNrOfPlannedWorkouts(findNumberOfPlannedWorkouts(workouts));
             newStatistics.setNrOfCompletedWorkouts(findNumberOfCompletedWorkouts(workouts));
