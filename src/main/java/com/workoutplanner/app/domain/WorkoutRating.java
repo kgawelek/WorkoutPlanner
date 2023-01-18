@@ -8,7 +8,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
- * A WorkoutRating.
+ * Class representing WorkoutRating.
  */
 @Entity
 @Table(name = "workout_rating")

@@ -21,7 +21,7 @@ import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
 /**
- * REST controller for managing {@link com.workoutplanner.app.domain.Workout}.
+ * REST controller for managing Workout.
  */
 @RestController
 @RequestMapping("/api")
@@ -65,8 +65,6 @@ public class WorkoutResource {
      * {@code POST  /workouts} : Create a new workout.
      *
      * @param workout the workout to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new workout, or with status {@code 400 (Bad Request)} if the workout has already an ID.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/workouts")
     public ResponseEntity<Workout> createWorkout(@RequestBody Workout workout) throws URISyntaxException {
@@ -113,10 +111,6 @@ public class WorkoutResource {
      *
      * @param id the id of the workout to save.
      * @param workout the workout to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated workout,
-     * or with status {@code 400 (Bad Request)} if the workout is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the workout couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/workouts/{id}")
     public ResponseEntity<Workout> updateWorkout(@PathVariable(value = "id", required = false) final Long id, @RequestBody Workout workout)
@@ -151,8 +145,6 @@ public class WorkoutResource {
 
     /**
      * {@code GET  /workouts} : get all the workouts.
-     *
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of workouts in body.
      */
     @GetMapping("/workouts")
     public List<Workout> getAllWorkouts() {
@@ -166,7 +158,7 @@ public class WorkoutResource {
     }
 
     /**
-     * {@code GET  /workouts/:id} : get the "id" workout.
+     * {@code GET  /workouts/:id} : get the workout by id.
      *
      * @param id the id of the workout to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the workout,
@@ -180,7 +172,7 @@ public class WorkoutResource {
     }
 
     /**
-     * {@code DELETE  /workouts/:id} : delete the "id" workout.
+     * {@code DELETE  /workouts/:id} : delete the workout by id.
      *
      * @param id the id of the workout to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.

@@ -26,10 +26,6 @@ export class ExerciseService {
     return this.http.put<IExercise>(`${this.resourceUrl}/${this.getExerciseIdentifier(exercise)}`, exercise, { observe: 'response' });
   }
 
-  partialUpdate(exercise: PartialUpdateExercise): Observable<EntityResponseType> {
-    return this.http.patch<IExercise>(`${this.resourceUrl}/${this.getExerciseIdentifier(exercise)}`, exercise, { observe: 'response' });
-  }
-
   find(id: number): Observable<EntityResponseType> {
     return this.http.get<IExercise>(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }

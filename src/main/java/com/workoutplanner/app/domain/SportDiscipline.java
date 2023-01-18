@@ -9,7 +9,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
- * A SportDiscipline.
+ * Class representing SportDiscipline.
  */
 @Entity
 @Table(name = "sport_discipline")

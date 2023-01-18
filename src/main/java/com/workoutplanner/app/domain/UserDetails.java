@@ -9,7 +9,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
- * A UserDetails.
+ * Class representing UserDetails.
  */
 @Entity
 @Table(name = "user_details")

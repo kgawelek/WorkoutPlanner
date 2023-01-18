@@ -28,12 +28,6 @@ export class ExerciseTypeService {
     });
   }
 
-  partialUpdate(exerciseType: PartialUpdateExerciseType): Observable<EntityResponseType> {
-    return this.http.patch<IExerciseType>(`${this.resourceUrl}/${this.getExerciseTypeIdentifier(exerciseType)}`, exerciseType, {
-      observe: 'response',
-    });
-  }
-
   find(id: number): Observable<EntityResponseType> {
     return this.http.get<IExerciseType>(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }

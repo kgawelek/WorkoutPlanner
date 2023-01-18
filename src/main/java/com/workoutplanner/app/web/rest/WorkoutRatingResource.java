@@ -20,7 +20,7 @@ import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
 /**
- * REST controller for managing {@link com.workoutplanner.app.domain.WorkoutRating}.
+ * REST controller for managing WorkoutRating.
  */
 @RestController
 @RequestMapping("/api")
@@ -41,11 +41,9 @@ public class WorkoutRatingResource {
     }
 
     /**
-     * {@code POST  /workout-ratings} : Create a new workoutRating.
+     * {@code POST  /workout-ratings} : Create a new workout rating.
      *
      * @param workoutRating the workoutRating to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new workoutRating, or with status {@code 400 (Bad Request)} if the workoutRating has already an ID.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/workout-ratings")
     public ResponseEntity<WorkoutRating> createWorkoutRating(@RequestBody WorkoutRating workoutRating) throws URISyntaxException {
@@ -58,14 +56,10 @@ public class WorkoutRatingResource {
     }
 
     /**
-     * {@code PUT  /workout-ratings/:id} : Updates an existing workoutRating.
+     * {@code PUT  /workout-ratings/:id} : Updates an existing workout rating.
      *
      * @param id the id of the workoutRating to save.
      * @param workoutRating the workoutRating to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated workoutRating,
-     * or with status {@code 400 (Bad Request)} if the workoutRating is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the workoutRating couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/workout-ratings/{id}")
     public ResponseEntity<WorkoutRating> updateWorkoutRating(
@@ -89,58 +83,9 @@ public class WorkoutRatingResource {
     }
 
     /**
-     * {@code PATCH  /workout-ratings/:id} : Partial updates given fields of an existing workoutRating, field will ignore if it is null
-     *
-     * @param id the id of the workoutRating to save.
-     * @param workoutRating the workoutRating to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated workoutRating,
-     * or with status {@code 400 (Bad Request)} if the workoutRating is not valid,
-     * or with status {@code 404 (Not Found)} if the workoutRating is not found,
-     * or with status {@code 500 (Internal Server Error)} if the workoutRating couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
-     */
-    @PatchMapping(value = "/workout-ratings/{id}", consumes = { "application/json", "application/merge-patch+json" })
-    public ResponseEntity<WorkoutRating> partialUpdateWorkoutRating(
-        @PathVariable(value = "id", required = false) final Long id,
-        @RequestBody WorkoutRating workoutRating
-    ) throws URISyntaxException {
-        log.debug("REST request to partial update WorkoutRating partially : {}, {}", id, workoutRating);
-        if (workoutRating.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
-        }
-        if (!Objects.equals(id, workoutRating.getId())) {
-            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
-        }
-
-        if (!workoutRatingRepository.existsById(id)) {
-            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
-        }
-
-        Optional<WorkoutRating> result = workoutRatingRepository
-            .findById(workoutRating.getId())
-            .map(existingWorkoutRating -> {
-                if (workoutRating.getComment() != null) {
-                    existingWorkoutRating.setComment(workoutRating.getComment());
-                }
-                if (workoutRating.getRate() != null) {
-                    existingWorkoutRating.setRate(workoutRating.getRate());
-                }
-
-                return existingWorkoutRating;
-            })
-            .map(workoutRatingRepository::save);
-
-        return ResponseUtil.wrapOrNotFound(
-            result,
-            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, workoutRating.getId().toString())
-        );
-    }
-
-    /**
-     * {@code GET  /workout-ratings} : get all the workoutRatings.
+     * {@code GET  /workout-ratings} : get all the workout ratings.
      *
      * @param filter the filter of the request.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of workoutRatings in body.
      */
     @GetMapping("/workout-ratings")
     public List<WorkoutRating> getAllWorkoutRatings(@RequestParam(required = false) String filter) {
@@ -156,10 +101,9 @@ public class WorkoutRatingResource {
     }
 
     /**
-     * {@code GET  /workout-ratings/:id} : get the "id" workoutRating.
+     * {@code GET  /workout-ratings/:id} : get the workout rating by id.
      *
      * @param id the id of the workoutRating to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the workoutRating, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/workout-ratings/{id}")
     public ResponseEntity<WorkoutRating> getWorkoutRating(@PathVariable Long id) {
@@ -169,10 +113,9 @@ public class WorkoutRatingResource {
     }
 
     /**
-     * {@code DELETE  /workout-ratings/:id} : delete the "id" workoutRating.
+     * {@code DELETE  /workout-ratings/:id} : delete the workout rating by id.
      *
      * @param id the id of the workoutRating to delete.
-     * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/workout-ratings/{id}")
     public ResponseEntity<Void> deleteWorkoutRating(@PathVariable Long id) {

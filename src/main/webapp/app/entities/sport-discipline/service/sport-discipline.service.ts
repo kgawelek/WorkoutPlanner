@@ -28,12 +28,6 @@ export class SportDisciplineService {
     });
   }
 
-  partialUpdate(sportDiscipline: PartialUpdateSportDiscipline): Observable<EntityResponseType> {
-    return this.http.patch<ISportDiscipline>(`${this.resourceUrl}/${this.getSportDisciplineIdentifier(sportDiscipline)}`, sportDiscipline, {
-      observe: 'response',
-    });
-  }
-
   find(id: number): Observable<EntityResponseType> {
     return this.http.get<ISportDiscipline>(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }

@@ -18,7 +18,7 @@ import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
 /**
- * REST controller for managing {@link com.workoutplanner.app.domain.WorkoutBreakdown}.
+ * REST controller for managing WorkoutBreakdown.
  */
 @RestController
 @RequestMapping("/api")
@@ -39,11 +39,9 @@ public class WorkoutBreakdownResource {
     }
 
     /**
-     * {@code POST  /workout-breakdowns} : Create a new workoutBreakdown.
+     * {@code POST  /workout-breakdowns} : Create a new workout breakdown.
      *
      * @param workoutBreakdown the workoutBreakdown to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new workoutBreakdown, or with status {@code 400 (Bad Request)} if the workoutBreakdown has already an ID.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/workout-breakdowns")
     public ResponseEntity<WorkoutBreakdown> createWorkoutBreakdown(@RequestBody WorkoutBreakdown workoutBreakdown)
@@ -61,14 +59,10 @@ public class WorkoutBreakdownResource {
     }
 
     /**
-     * {@code PUT  /workout-breakdowns/:id} : Updates an existing workoutBreakdown.
+     * {@code PUT  /workout-breakdowns/:id} : Updates an existing workout breakdown.
      *
      * @param id the id of the workoutBreakdown to save.
      * @param workoutBreakdown the workoutBreakdown to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated workoutBreakdown,
-     * or with status {@code 400 (Bad Request)} if the workoutBreakdown is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the workoutBreakdown couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/workout-breakdowns/{id}")
     public ResponseEntity<WorkoutBreakdown> updateWorkoutBreakdown(
@@ -92,75 +86,7 @@ public class WorkoutBreakdownResource {
     }
 
     /**
-     * {@code PATCH  /workout-breakdowns/:id} : Partial updates given fields of an existing workoutBreakdown, field will ignore if it is null
-     *
-     * @param id the id of the workoutBreakdown to save.
-     * @param workoutBreakdown the workoutBreakdown to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated workoutBreakdown,
-     * or with status {@code 400 (Bad Request)} if the workoutBreakdown is not valid,
-     * or with status {@code 404 (Not Found)} if the workoutBreakdown is not found,
-     * or with status {@code 500 (Internal Server Error)} if the workoutBreakdown couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
-     */
-    @PatchMapping(value = "/workout-breakdowns/{id}", consumes = { "application/json", "application/merge-patch+json" })
-    public ResponseEntity<WorkoutBreakdown> partialUpdateWorkoutBreakdown(
-        @PathVariable(value = "id", required = false) final Long id,
-        @RequestBody WorkoutBreakdown workoutBreakdown
-    ) throws URISyntaxException {
-        log.debug("REST request to partial update WorkoutBreakdown partially : {}, {}", id, workoutBreakdown);
-        if (workoutBreakdown.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
-        }
-        if (!Objects.equals(id, workoutBreakdown.getId())) {
-            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
-        }
-
-        if (!workoutBreakdownRepository.existsById(id)) {
-            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
-        }
-
-        Optional<WorkoutBreakdown> result = workoutBreakdownRepository
-            .findById(workoutBreakdown.getId())
-            .map(existingWorkoutBreakdown -> {
-                if (workoutBreakdown.getDistance() != null) {
-                    existingWorkoutBreakdown.setDistance(workoutBreakdown.getDistance());
-                }
-                if (workoutBreakdown.getDuration() != null) {
-                    existingWorkoutBreakdown.setDuration(workoutBreakdown.getDuration());
-                }
-                if (workoutBreakdown.getDistanceUnit() != null) {
-                    existingWorkoutBreakdown.setDistanceUnit(workoutBreakdown.getDistanceUnit());
-                }
-                if (workoutBreakdown.getNotes() != null) {
-                    existingWorkoutBreakdown.setNotes(workoutBreakdown.getNotes());
-                }
-                if (workoutBreakdown.getMinValue() != null) {
-                    existingWorkoutBreakdown.setMinValue(workoutBreakdown.getMinValue());
-                }
-                if (workoutBreakdown.getMaxValue() != null) {
-                    existingWorkoutBreakdown.setMaxValue(workoutBreakdown.getMaxValue());
-                }
-                if (workoutBreakdown.getRangeUnit() != null) {
-                    existingWorkoutBreakdown.setRangeUnit(workoutBreakdown.getRangeUnit());
-                }
-                if (workoutBreakdown.getOrder() != null) {
-                    existingWorkoutBreakdown.setOrder(workoutBreakdown.getOrder());
-                }
-
-                return existingWorkoutBreakdown;
-            })
-            .map(workoutBreakdownRepository::save);
-
-        return ResponseUtil.wrapOrNotFound(
-            result,
-            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, workoutBreakdown.getId().toString())
-        );
-    }
-
-    /**
      * {@code GET  /workout-breakdowns} : get all the workoutBreakdowns.
-     *
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of workoutBreakdowns in body.
      */
     @GetMapping("/workout-breakdowns")
     public List<WorkoutBreakdown> getAllWorkoutBreakdowns() {
@@ -169,10 +95,7 @@ public class WorkoutBreakdownResource {
     }
 
     /**
-     * {@code GET  /workout-breakdowns/:id} : get the "id" workoutBreakdown.
-     *
-     * @param id the id of the workoutBreakdown to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the workoutBreakdown, or with status {@code 404 (Not Found)}.
+     * {@code GET  /workout-breakdowns/:id} : get the workout breakdown by id.
      */
     @GetMapping("/workout-breakdowns/{id}")
     public ResponseEntity<WorkoutBreakdown> getWorkoutBreakdown(@PathVariable Long id) {
@@ -182,10 +105,9 @@ public class WorkoutBreakdownResource {
     }
 
     /**
-     * {@code DELETE  /workout-breakdowns/:id} : delete the "id" workoutBreakdown.
+     * {@code DELETE  /workout-breakdowns/:id} : delete the workout breakdown by id.
      *
      * @param id the id of the workoutBreakdown to delete.
-     * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/workout-breakdowns/{id}")
     public ResponseEntity<Void> deleteWorkoutBreakdown(@PathVariable Long id) {

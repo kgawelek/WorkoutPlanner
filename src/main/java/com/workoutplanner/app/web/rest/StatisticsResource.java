@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * REST controller for managing {@link com.workoutplanner.app.domain.UserStatistics}.
+ * REST controller for managing UserStatistics.
  */
 @RestController
 @RequestMapping("/api")
@@ -35,9 +35,7 @@ public class StatisticsResource {
     }
 
     /**
-     * {@code GET  /workouts} : get all the workouts.
-     *
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of workouts in body.
+     * {@code GET  /statistics} : get the statistics.
      */
     @GetMapping("/statistics")
     public UserStatistics getStatistics() {

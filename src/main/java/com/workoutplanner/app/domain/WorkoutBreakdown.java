@@ -7,7 +7,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
- * A WorkoutBreakdown.
+ * Class representing WorkoutBreakdown.
  */
 @Entity
 @Table(name = "workout_breakdown")

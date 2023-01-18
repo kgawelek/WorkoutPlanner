@@ -28,12 +28,6 @@ export class UserDetailsService {
     });
   }
 
-  partialUpdate(userDetails: PartialUpdateUserDetails): Observable<EntityResponseType> {
-    return this.http.patch<IUserDetails>(`${this.resourceUrl}/${this.getUserDetailsIdentifier(userDetails)}`, userDetails, {
-      observe: 'response',
-    });
-  }
-
   find(id: number): Observable<EntityResponseType> {
     return this.http.get<IUserDetails>(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }

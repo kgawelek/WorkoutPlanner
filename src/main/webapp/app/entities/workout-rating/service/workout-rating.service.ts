@@ -28,12 +28,6 @@ export class WorkoutRatingService {
     });
   }
 
-  partialUpdate(workoutRating: PartialUpdateWorkoutRating): Observable<EntityResponseType> {
-    return this.http.patch<IWorkoutRating>(`${this.resourceUrl}/${this.getWorkoutRatingIdentifier(workoutRating)}`, workoutRating, {
-      observe: 'response',
-    });
-  }
-
   find(id: number): Observable<EntityResponseType> {
     return this.http.get<IWorkoutRating>(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }

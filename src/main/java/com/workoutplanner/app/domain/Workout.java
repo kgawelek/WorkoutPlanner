@@ -11,7 +11,7 @@ import java.util.Set;
 import javax.persistence.*;
 
 /**
- * A Workout.
+ * Class representing Workout.
  */
 @Entity
 @Table(name = "workout")
