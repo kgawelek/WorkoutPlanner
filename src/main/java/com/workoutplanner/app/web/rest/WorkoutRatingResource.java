@@ -83,24 +83,6 @@ public class WorkoutRatingResource {
     }
 
     /**
-     * {@code GET  /workout-ratings} : get all the workout ratings.
-     *
-     * @param filter the filter of the request.
-     */
-    @GetMapping("/workout-ratings")
-    public List<WorkoutRating> getAllWorkoutRatings(@RequestParam(required = false) String filter) {
-        if ("workout-is-null".equals(filter)) {
-            log.debug("REST request to get all WorkoutRatings where workout is null");
-            return StreamSupport
-                .stream(workoutRatingRepository.findAll().spliterator(), false)
-                .filter(workoutRating -> workoutRating.getWorkout() == null)
-                .collect(Collectors.toList());
-        }
-        log.debug("REST request to get all WorkoutRatings");
-        return workoutRatingRepository.findAll();
-    }
-
-    /**
      * {@code GET  /workout-ratings/:id} : get the workout rating by id.
      *
      * @param id the id of the workoutRating to retrieve.
@@ -110,20 +92,5 @@ public class WorkoutRatingResource {
         log.debug("REST request to get WorkoutRating : {}", id);
         Optional<WorkoutRating> workoutRating = workoutRatingRepository.findById(id);
         return ResponseUtil.wrapOrNotFound(workoutRating);
-    }
-
-    /**
-     * {@code DELETE  /workout-ratings/:id} : delete the workout rating by id.
-     *
-     * @param id the id of the workoutRating to delete.
-     */
-    @DeleteMapping("/workout-ratings/{id}")
-    public ResponseEntity<Void> deleteWorkoutRating(@PathVariable Long id) {
-        log.debug("REST request to delete WorkoutRating : {}", id);
-        workoutRatingRepository.deleteById(id);
-        return ResponseEntity
-            .noContent()
-            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
-            .build();
     }
 }

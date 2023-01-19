@@ -161,8 +161,6 @@ public class WorkoutResource {
      * {@code GET  /workouts/:id} : get the workout by id.
      *
      * @param id the id of the workout to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the workout,
-     * or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/workouts/{id}")
     public ResponseEntity<Workout> getWorkout(@PathVariable Long id) {
@@ -174,8 +172,7 @@ public class WorkoutResource {
     /**
      * {@code DELETE  /workouts/:id} : delete the workout by id.
      *
-     * @param id the id of the workout to delete.
-     * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
+     * @param id the id of the workout to delete..
      */
     @DeleteMapping("/workouts/{id}")
     public ResponseEntity<Void> deleteWorkout(@PathVariable Long id) {

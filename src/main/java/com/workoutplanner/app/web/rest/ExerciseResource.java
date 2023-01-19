@@ -83,16 +83,6 @@ public class ExerciseResource {
     }
 
     /**
-     * {@code GET  /exercises} : get all exercises.
-     *
-     */
-    @GetMapping("/exercises")
-    public List<Exercise> getAllExercises() {
-        log.debug("REST request to get all Exercises");
-        return exerciseRepository.findAll();
-    }
-
-    /**
      * {@code GET  /exercises/:id} : get the exercise by id.
      *
      * @param id the id of the exercise to retrieve.

@@ -86,15 +86,6 @@ public class WorkoutBreakdownResource {
     }
 
     /**
-     * {@code GET  /workout-breakdowns} : get all the workoutBreakdowns.
-     */
-    @GetMapping("/workout-breakdowns")
-    public List<WorkoutBreakdown> getAllWorkoutBreakdowns() {
-        log.debug("REST request to get all WorkoutBreakdowns");
-        return workoutBreakdownRepository.findAll();
-    }
-
-    /**
      * {@code GET  /workout-breakdowns/:id} : get the workout breakdown by id.
      */
     @GetMapping("/workout-breakdowns/{id}")

@@ -5,12 +5,9 @@ import com.workoutplanner.app.domain.User;
 import com.workoutplanner.app.repository.PersistentTokenRepository;
 import com.workoutplanner.app.repository.UserRepository;
 import com.workoutplanner.app.security.SecurityUtils;
-import com.workoutplanner.app.service.MailService;
 import com.workoutplanner.app.service.UserService;
 import com.workoutplanner.app.service.dto.AdminUserDTO;
-import com.workoutplanner.app.service.dto.PasswordChangeDTO;
 import com.workoutplanner.app.web.rest.errors.*;
-import com.workoutplanner.app.web.rest.vm.KeyAndPasswordVM;
 import com.workoutplanner.app.web.rest.vm.ManagedUserVM;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -43,19 +40,11 @@ public class AccountResource {
 
     private final UserService userService;
 
-    private final MailService mailService;
-
     private final PersistentTokenRepository persistentTokenRepository;
 
-    public AccountResource(
-        UserRepository userRepository,
-        UserService userService,
-        MailService mailService,
-        PersistentTokenRepository persistentTokenRepository
-    ) {
+    public AccountResource(UserRepository userRepository, UserService userService, PersistentTokenRepository persistentTokenRepository) {
         this.userRepository = userRepository;
         this.userService = userService;
-        this.mailService = mailService;
         this.persistentTokenRepository = persistentTokenRepository;
     }
 
@@ -125,17 +114,6 @@ public class AccountResource {
             userDTO.getLangKey(),
             userDTO.getImageUrl()
         );
-    }
-
-    /**
-     * {@code POST  /account/change-password} : changes the current user's password.
-     */
-    @PostMapping(path = "/account/change-password")
-    public void changePassword(@RequestBody PasswordChangeDTO passwordChangeDto) {
-        if (isPasswordLengthInvalid(passwordChangeDto.getNewPassword())) {
-            throw new InvalidPasswordException();
-        }
-        userService.changePassword(passwordChangeDto.getCurrentPassword(), passwordChangeDto.getNewPassword());
     }
 
     /**

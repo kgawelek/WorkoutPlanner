@@ -4,7 +4,6 @@ import com.workoutplanner.app.config.Constants;
 import com.workoutplanner.app.domain.User;
 import com.workoutplanner.app.repository.UserRepository;
 import com.workoutplanner.app.security.AuthoritiesConstants;
-import com.workoutplanner.app.service.MailService;
 import com.workoutplanner.app.service.UserService;
 import com.workoutplanner.app.service.dto.AdminUserDTO;
 import com.workoutplanner.app.web.rest.errors.BadRequestAlertException;
@@ -64,12 +63,9 @@ public class UserResource {
 
     private final UserRepository userRepository;
 
-    private final MailService mailService;
-
-    public UserResource(UserService userService, UserRepository userRepository, MailService mailService) {
+    public UserResource(UserService userService, UserRepository userRepository) {
         this.userService = userService;
         this.userRepository = userRepository;
-        this.mailService = mailService;
     }
 
     /**
@@ -93,7 +89,6 @@ public class UserResource {
             throw new EmailAlreadyUsedException();
         } else {
             User newUser = userService.createUser(userDTO);
-            mailService.sendCreationEmail(newUser);
             return ResponseEntity
                 .created(new URI("/api/admin/users/" + newUser.getLogin()))
                 .headers(

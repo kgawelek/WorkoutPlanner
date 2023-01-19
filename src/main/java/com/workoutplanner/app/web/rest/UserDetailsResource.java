@@ -48,53 +48,6 @@ public class UserDetailsResource {
     }
 
     /**
-     * {@code POST  /user-details} : Create a new userDetails.
-     *
-     * @param userDetails the userDetails to create.
-     */
-    @PostMapping("/user-details")
-    public ResponseEntity<UserDetails> createUserDetails(@RequestBody UserDetails userDetails) throws URISyntaxException {
-        log.debug("REST request to save UserDetails : {}", userDetails);
-        if (userDetails.getId() != null) {
-            throw new BadRequestAlertException("A new userDetails cannot already have an ID", ENTITY_NAME, "idexists");
-        }
-        if (Objects.isNull(userDetails.getUser())) {
-            throw new BadRequestAlertException("Invalid association value provided", ENTITY_NAME, "null");
-        }
-        Long userId = userDetails.getUser().getId();
-        userRepository.findById(userId).ifPresent(userDetails::user);
-        UserDetails result = userDetailsRepository.save(userDetails);
-        return ResponseEntity.created(new URI("/api/user-details/" + result.getId())).body(result);
-    }
-
-    /**
-     * {@code PUT  /user-details/:id} : Updates an existing userDetails.
-     *
-     * @param id the id of the userDetails to save.
-     * @param userDetails the userDetails to update.
-     */
-    @PutMapping("/user-details/{id}")
-    public ResponseEntity<UserDetails> updateUserDetails(
-        @PathVariable(value = "id", required = false) final Long id,
-        @RequestBody UserDetails userDetails
-    ) throws URISyntaxException {
-        log.debug("REST request to update UserDetails : {}, {}", id, userDetails);
-        if (userDetails.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
-        }
-        if (!Objects.equals(id, userDetails.getId())) {
-            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
-        }
-
-        if (!userDetailsRepository.existsById(id)) {
-            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
-        }
-
-        UserDetails result = userDetailsRepository.save(userDetails);
-        return ResponseEntity.ok().body(result);
-    }
-
-    /**
      * {@code GET  /user-details} : get all the userDetails.
      */
     @GetMapping("/user-details")

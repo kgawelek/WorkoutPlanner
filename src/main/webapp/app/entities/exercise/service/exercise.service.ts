@@ -42,28 +42,4 @@ export class ExerciseService {
   getExerciseIdentifier(exercise: Pick<IExercise, 'id'>): number {
     return exercise.id;
   }
-
-  compareExercise(o1: Pick<IExercise, 'id'> | null, o2: Pick<IExercise, 'id'> | null): boolean {
-    return o1 && o2 ? this.getExerciseIdentifier(o1) === this.getExerciseIdentifier(o2) : o1 === o2;
-  }
-
-  addExerciseToCollectionIfMissing<Type extends Pick<IExercise, 'id'>>(
-    exerciseCollection: Type[],
-    ...exercisesToCheck: (Type | null | undefined)[]
-  ): Type[] {
-    const exercises: Type[] = exercisesToCheck.filter(isPresent);
-    if (exercises.length > 0) {
-      const exerciseCollectionIdentifiers = exerciseCollection.map(exerciseItem => this.getExerciseIdentifier(exerciseItem)!);
-      const exercisesToAdd = exercises.filter(exerciseItem => {
-        const exerciseIdentifier = this.getExerciseIdentifier(exerciseItem);
-        if (exerciseCollectionIdentifiers.includes(exerciseIdentifier)) {
-          return false;
-        }
-        exerciseCollectionIdentifiers.push(exerciseIdentifier);
-        return true;
-      });
-      return [...exercisesToAdd, ...exerciseCollection];
-    }
-    return exerciseCollection;
-  }
 }
