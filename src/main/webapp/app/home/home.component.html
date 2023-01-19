@@ -3,27 +3,23 @@
     <span class="hipster img-fluid rounded"></span>
   </div>
 
-  <div class="col-md-9">
-    <h1 class="display-4"><span>Witamy w aplikacji do planowania treningów</span></h1>
+  <div class="col-md-6">
+    <h1 class="display-4"><span>Welcome to the application where you can plan your workouts</span></h1>
 
-    <p class="lead">Planuj i analizuj swoje treningi</p>
+    <p class="lead">Plan and analyse your workouts</p>
 
     <div [ngSwitch]="account !== null">
       <div class="alert alert-success" *ngSwitchCase="true">
-        <span id="home-logged-message" *ngIf="account">Jesteś zalogowany jako użytkownik "{{ account.login }}".</span>
+        <span id="home-logged-message" *ngIf="account">You are logged as "{{ account.login }}".</span>
       </div>
 
       <div class="alert alert-warning" *ngSwitchCase="false">
-        <span>Jeśli chcesz się </span>
-        <a class="alert-link" (click)="login()">zalogować</a
-        ><span
-          >, możesz spróbować któregoś z domyślnych kont:<br />- Administrator (login="admin" i hasło="admin") <br />- Użytkownik
-          (login="user" i hasło="user").</span
-        >
+        <span>You have the account?</span>&nbsp;
+        <a class="alert-link" (click)="login()">Log in</a>
       </div>
       <div class="alert alert-warning" *ngSwitchCase="false">
-        <span>Nie masz jeszcze konta?</span>&nbsp;
-        <a class="alert-link" routerLink="account/register">Zarejestruj się</a>
+        <span>You don't have an account?</span>&nbsp;
+        <a class="alert-link" routerLink="account/register">Create account</a>
       </div>
     </div>
   </div>

@@ -5,20 +5,21 @@ export const sampleWithRequiredData: IWorkoutBreakdown = {
 };
 
 export const sampleWithPartialData: IWorkoutBreakdown = {
-  id: 46964,
-  duration: 93991,
-  notes: 'Function-based red Handcrafted',
+  id: 93991,
+  duration: 79237,
+  notes: 'throughput',
 };
 
 export const sampleWithFullData: IWorkoutBreakdown = {
-  id: 41983,
-  distance: 16909,
-  duration: 47833,
-  distanceUnit: 'Towels Customer',
-  notes: 'Metal Avon definition',
-  minValue: 27010,
-  maxValue: 70965,
-  rangeUnit: 'ivory',
+  id: 2594,
+  distance: 59343,
+  duration: 10441,
+  distanceUnit: 'ADP Mission synergize',
+  notes: 'Customer Supervisor Marks',
+  minValue: 51495,
+  maxValue: 9779,
+  rangeUnit: 'definition',
+  order: 27010,
 };
 
 export const sampleWithNewData: NewWorkoutBreakdown = {

@@ -9,13 +9,16 @@ public class UserStatistics {
 
     private UserDetails user;
 
-    private SportDiscipline favouriteSportDiscipline;
+    private String favouriteSportDiscipline;
     private Double longestCyclingDistance;
     private Double longestRunningDistance;
-    private Duration longestWorkout;
+    private String longestWorkout;
     private Integer nrOfAbandonedWorkouts;
     private Integer nrOfCompletedWorkouts;
     private Integer nrOfPlannedWorkouts;
+    private Integer nrOfWorkouts;
+    private Duration totalWorkoutsDuration;
+    private Double totalDistance;
 
     public UserDetails getUser() {
         return user;
@@ -25,11 +28,11 @@ public class UserStatistics {
         this.user = user;
     }
 
-    public SportDiscipline getFavouriteSportDiscipline() {
+    public String getFavouriteSportDiscipline() {
         return favouriteSportDiscipline;
     }
 
-    public void setFavouriteSportDiscipline(SportDiscipline favouriteSportDiscipline) {
+    public void setFavouriteSportDiscipline(String favouriteSportDiscipline) {
         this.favouriteSportDiscipline = favouriteSportDiscipline;
     }
 
@@ -49,11 +52,11 @@ public class UserStatistics {
         this.longestRunningDistance = longestRunningDistance;
     }
 
-    public Duration getLongestWorkout() {
+    public String getLongestWorkout() {
         return longestWorkout;
     }
 
-    public void setLongestWorkout(Duration longestWorkout) {
+    public void setLongestWorkout(String longestWorkout) {
         this.longestWorkout = longestWorkout;
     }
 
@@ -79,5 +82,29 @@ public class UserStatistics {
 
     public void setNrOfPlannedWorkouts(Integer nrOfPlannedWorkouts) {
         this.nrOfPlannedWorkouts = nrOfPlannedWorkouts;
+    }
+
+    public Integer getNrOfWorkouts() {
+        return nrOfWorkouts;
+    }
+
+    public void setNrOfWorkouts(Integer nrOfWorkouts) {
+        this.nrOfWorkouts = nrOfWorkouts;
+    }
+
+    public Double getTotalDistance() {
+        return totalDistance;
+    }
+
+    public void setTotalDistance(Double totalDistance) {
+        this.totalDistance = totalDistance;
+    }
+
+    public Duration getTotalWorkoutsDuration() {
+        return totalWorkoutsDuration;
+    }
+
+    public void setTotalWorkoutsDuration(Duration totalWorkoutsDuration) {
+        this.totalWorkoutsDuration = totalWorkoutsDuration;
     }
 }

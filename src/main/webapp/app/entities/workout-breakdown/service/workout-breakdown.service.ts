@@ -30,14 +30,6 @@ export class WorkoutBreakdownService {
     );
   }
 
-  partialUpdate(workoutBreakdown: PartialUpdateWorkoutBreakdown): Observable<EntityResponseType> {
-    return this.http.patch<IWorkoutBreakdown>(
-      `${this.resourceUrl}/${this.getWorkoutBreakdownIdentifier(workoutBreakdown)}`,
-      workoutBreakdown,
-      { observe: 'response' }
-    );
-  }
-
   find(id: number): Observable<EntityResponseType> {
     return this.http.get<IWorkoutBreakdown>(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }

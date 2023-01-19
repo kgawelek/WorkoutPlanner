@@ -3,8 +3,9 @@ package com.workoutplanner.app.web.rest;
 import com.workoutplanner.app.domain.User;
 import com.workoutplanner.app.domain.UserDetails;
 import com.workoutplanner.app.domain.Workout;
-import com.workoutplanner.app.repository.UserDetailsRepository;
-import com.workoutplanner.app.repository.WorkoutRepository;
+import com.workoutplanner.app.domain.enumeration.Status;
+import com.workoutplanner.app.domain.enumeration.WorkoutType;
+import com.workoutplanner.app.repository.*;
 import com.workoutplanner.app.service.UserService;
 import com.workoutplanner.app.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
@@ -20,7 +21,7 @@ import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
 /**
- * REST controller for managing {@link com.workoutplanner.app.domain.Workout}.
+ * REST controller for managing Workout.
  */
 @RestController
 @RequestMapping("/api")
@@ -37,19 +38,33 @@ public class WorkoutResource {
     private final WorkoutRepository workoutRepository;
     private final UserService userService;
     private final UserDetailsRepository userDetailsRepository;
+    private final WorkoutRatingRepository workoutRatingRepository;
+    private final SportDisciplineRepository sportDisciplineRepository;
+    private final ExerciseRepository exerciseRepository;
+    private final WorkoutBreakdownRepository workoutBreakdownRepository;
 
-    public WorkoutResource(WorkoutRepository workoutRepository, UserService userService, UserDetailsRepository userDetailsRepository) {
+    public WorkoutResource(
+        WorkoutRepository workoutRepository,
+        UserService userService,
+        UserDetailsRepository userDetailsRepository,
+        WorkoutRatingRepository workoutRatingRepository,
+        SportDisciplineRepository sportDisciplineRepository,
+        ExerciseRepository exerciseRepository,
+        WorkoutBreakdownRepository workoutBreakdownRepository
+    ) {
         this.workoutRepository = workoutRepository;
         this.userService = userService;
         this.userDetailsRepository = userDetailsRepository;
+        this.workoutRatingRepository = workoutRatingRepository;
+        this.sportDisciplineRepository = sportDisciplineRepository;
+        this.exerciseRepository = exerciseRepository;
+        this.workoutBreakdownRepository = workoutBreakdownRepository;
     }
 
     /**
      * {@code POST  /workouts} : Create a new workout.
      *
      * @param workout the workout to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new workout, or with status {@code 400 (Bad Request)} if the workout has already an ID.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/workouts")
     public ResponseEntity<Workout> createWorkout(@RequestBody Workout workout) throws URISyntaxException {
@@ -62,10 +77,32 @@ public class WorkoutResource {
             UserDetails userDetails = userDetailsRepository.getReferenceById(user.get().getId());
             workout.setUserDetails(userDetails);
         }
+
+        if (workout.getWorkoutRating() != null && workout.getWorkoutRating().getId() == null) {
+            workoutRatingRepository.save(workout.getWorkoutRating());
+        }
+        if (workout.getStatus() == null) {
+            workout.setStatus(Status.PLANNED);
+        }
+        if (workout.getType() == null) {
+            workout.setType(WorkoutType.GENERAL);
+        }
+        if (WorkoutType.EXERCISE.equals(workout.getType())) {
+            for (var e : workout.getExercises()) {
+                exerciseRepository.save(e);
+            }
+        }
+
+        if (WorkoutType.INTERVAL.equals(workout.getType())) {
+            for (var i : workout.getWorkoutBreakdowns()) {
+                workoutBreakdownRepository.save(i);
+            }
+        }
+
         Workout result = workoutRepository.save(workout);
         return ResponseEntity
             .created(new URI("/api/workouts/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
+            .headers(HeaderUtil.createAlert(applicationName, "Workout has been saved", ""))
             .body(result);
     }
 
@@ -74,10 +111,6 @@ public class WorkoutResource {
      *
      * @param id the id of the workout to save.
      * @param workout the workout to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated workout,
-     * or with status {@code 400 (Bad Request)} if the workout is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the workout couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/workouts/{id}")
     public ResponseEntity<Workout> updateWorkout(@PathVariable(value = "id", required = false) final Long id, @RequestBody Workout workout)
@@ -93,75 +126,25 @@ public class WorkoutResource {
         if (!workoutRepository.existsById(id)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
-
+        if (workout.getWorkoutRating() != null && workout.getWorkoutRating().getId() == null) {
+            workoutRatingRepository.save(workout.getWorkoutRating());
+        }
+        if (!WorkoutType.EXERCISE.equals(workout.getType())) {
+            for (var e : exerciseRepository.findExerciseByWorkout(workout.getId())) {
+                exerciseRepository.delete(e);
+            }
+        }
+        if (!WorkoutType.INTERVAL.equals(workout.getType())) {
+            for (var w : workoutBreakdownRepository.findWorkoutBreakdownByWorkout(workout.getId())) {
+                workoutBreakdownRepository.delete(w);
+            }
+        }
         Workout result = workoutRepository.save(workout);
-        return ResponseEntity
-            .ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, workout.getId().toString()))
-            .body(result);
-    }
-
-    /**
-     * {@code PATCH  /workouts/:id} : Partial updates given fields of an existing workout, field will ignore if it is null
-     *
-     * @param id the id of the workout to save.
-     * @param workout the workout to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated workout,
-     * or with status {@code 400 (Bad Request)} if the workout is not valid,
-     * or with status {@code 404 (Not Found)} if the workout is not found,
-     * or with status {@code 500 (Internal Server Error)} if the workout couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
-     */
-    @PatchMapping(value = "/workouts/{id}", consumes = { "application/json", "application/merge-patch+json" })
-    public ResponseEntity<Workout> partialUpdateWorkout(
-        @PathVariable(value = "id", required = false) final Long id,
-        @RequestBody Workout workout
-    ) throws URISyntaxException {
-        log.debug("REST request to partial update Workout partially : {}, {}", id, workout);
-        if (workout.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
-        }
-        if (!Objects.equals(id, workout.getId())) {
-            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
-        }
-
-        if (!workoutRepository.existsById(id)) {
-            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
-        }
-
-        Optional<Workout> result = workoutRepository
-            .findById(workout.getId())
-            .map(existingWorkout -> {
-                if (workout.getDate() != null) {
-                    existingWorkout.setDate(workout.getDate());
-                }
-                if (workout.getDuration() != null) {
-                    existingWorkout.setDuration(workout.getDuration());
-                }
-                if (workout.getComment() != null) {
-                    existingWorkout.setComment(workout.getComment());
-                }
-                if (workout.getStatus() != null) {
-                    existingWorkout.setStatus(workout.getStatus());
-                }
-                if (workout.getType() != null) {
-                    existingWorkout.setType(workout.getType());
-                }
-
-                return existingWorkout;
-            })
-            .map(workoutRepository::save);
-
-        return ResponseUtil.wrapOrNotFound(
-            result,
-            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, workout.getId().toString())
-        );
+        return ResponseEntity.ok().headers(HeaderUtil.createAlert(applicationName, "Workout has been saved", "")).body(result);
     }
 
     /**
      * {@code GET  /workouts} : get all the workouts.
-     *
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of workouts in body.
      */
     @GetMapping("/workouts")
     public List<Workout> getAllWorkouts() {
@@ -175,10 +158,9 @@ public class WorkoutResource {
     }
 
     /**
-     * {@code GET  /workouts/:id} : get the "id" workout.
+     * {@code GET  /workouts/:id} : get the workout by id.
      *
      * @param id the id of the workout to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the workout, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/workouts/{id}")
     public ResponseEntity<Workout> getWorkout(@PathVariable Long id) {
@@ -188,18 +170,14 @@ public class WorkoutResource {
     }
 
     /**
-     * {@code DELETE  /workouts/:id} : delete the "id" workout.
+     * {@code DELETE  /workouts/:id} : delete the workout by id.
      *
-     * @param id the id of the workout to delete.
-     * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
+     * @param id the id of the workout to delete..
      */
     @DeleteMapping("/workouts/{id}")
     public ResponseEntity<Void> deleteWorkout(@PathVariable Long id) {
         log.debug("REST request to delete Workout : {}", id);
         workoutRepository.deleteById(id);
-        return ResponseEntity
-            .noContent()
-            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
-            .build();
+        return ResponseEntity.noContent().headers(HeaderUtil.createAlert(applicationName, "Workout has been deleted", "")).build();
     }
 }

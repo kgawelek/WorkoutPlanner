@@ -3,9 +3,6 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { IExerciseType, NewExerciseType } from '../exercise-type.model';
 
-/**
- * A partial Type with required key is used as form input.
- */
 type PartialWithRequiredKeyOf<T extends { id: unknown }> = Partial<Omit<T, 'id'>> & { id: T['id'] };
 
 /**

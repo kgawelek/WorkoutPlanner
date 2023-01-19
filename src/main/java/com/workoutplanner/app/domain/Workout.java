@@ -9,15 +9,12 @@ import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
- * A Workout.
+ * Class representing Workout.
  */
 @Entity
 @Table(name = "workout")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @SuppressWarnings("common-java:DuplicatedBlocks")
 public class Workout implements Serializable {
 
@@ -47,19 +44,21 @@ public class Workout implements Serializable {
     private WorkoutType type;
 
     @JsonIgnoreProperties(value = { "workout" }, allowSetters = true)
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(unique = true)
     private WorkoutRating workoutRating;
 
-    @OneToMany(mappedBy = "workout")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "exerciseType", "workout" }, allowSetters = true)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "workout", cascade = CascadeType.REMOVE)
+    @JsonIgnoreProperties(value = { "workout" }, allowSetters = true)
     private Set<Exercise> exercises = new HashSet<>();
 
-    @OneToMany(mappedBy = "workout")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "workout", cascade = CascadeType.REMOVE)
     @JsonIgnoreProperties(value = { "workout" }, allowSetters = true)
     private Set<WorkoutBreakdown> workoutBreakdowns = new HashSet<>();
+
+    @ManyToOne
+    @JsonIgnoreProperties(value = { "userDetails", "workouts" }, allowSetters = true)
+    private SportDiscipline sportDiscipline;
 
     @ManyToOne
     @JsonIgnoreProperties(value = { "user", "workouts", "sportDiscipline" }, allowSetters = true)
@@ -217,6 +216,19 @@ public class Workout implements Serializable {
     public Workout removeWorkoutBreakdown(WorkoutBreakdown workoutBreakdown) {
         this.workoutBreakdowns.remove(workoutBreakdown);
         workoutBreakdown.setWorkout(null);
+        return this;
+    }
+
+    public SportDiscipline getSportDiscipline() {
+        return this.sportDiscipline;
+    }
+
+    public void setSportDiscipline(SportDiscipline sportDiscipline) {
+        this.sportDiscipline = sportDiscipline;
+    }
+
+    public Workout sportDiscipline(SportDiscipline sportDiscipline) {
+        this.setSportDiscipline(sportDiscipline);
         return this;
     }
 

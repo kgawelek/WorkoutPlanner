@@ -3,9 +3,6 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { IExercise, NewExercise } from '../exercise.model';
 
-/**
- * A partial Type with required key is used as form input.
- */
 type PartialWithRequiredKeyOf<T extends { id: unknown }> = Partial<Omit<T, 'id'>> & { id: T['id'] };
 
 /**
@@ -21,6 +18,7 @@ type ExerciseFormGroupContent = {
   nrOfReps: FormControl<IExercise['nrOfReps']>;
   nrOfSeries: FormControl<IExercise['nrOfSeries']>;
   weight: FormControl<IExercise['weight']>;
+  order: FormControl<IExercise['order']>;
   exerciseType: FormControl<IExercise['exerciseType']>;
   workout: FormControl<IExercise['workout']>;
 };
@@ -45,6 +43,7 @@ export class ExerciseFormService {
       nrOfReps: new FormControl(exerciseRawValue.nrOfReps),
       nrOfSeries: new FormControl(exerciseRawValue.nrOfSeries),
       weight: new FormControl(exerciseRawValue.weight),
+      order: new FormControl(exerciseRawValue.order),
       exerciseType: new FormControl(exerciseRawValue.exerciseType),
       workout: new FormControl(exerciseRawValue.workout),
     });

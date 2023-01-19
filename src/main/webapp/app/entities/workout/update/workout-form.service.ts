@@ -5,9 +5,6 @@ import dayjs from 'dayjs/esm';
 import { DATE_TIME_FORMAT } from 'app/config/input.constants';
 import { IWorkout, NewWorkout } from '../workout.model';
 
-/**
- * A partial Type with required key is used as form input.
- */
 type PartialWithRequiredKeyOf<T extends { id: unknown }> = Partial<Omit<T, 'id'>> & { id: T['id'] };
 
 /**
@@ -37,6 +34,7 @@ type WorkoutFormGroupContent = {
   status: FormControl<WorkoutFormRawValue['status']>;
   type: FormControl<WorkoutFormRawValue['type']>;
   workoutRating: FormControl<WorkoutFormRawValue['workoutRating']>;
+  sportDiscipline: FormControl<WorkoutFormRawValue['sportDiscipline']>;
   userDetails: FormControl<WorkoutFormRawValue['userDetails']>;
 };
 
@@ -63,6 +61,7 @@ export class WorkoutFormService {
       status: new FormControl(workoutRawValue.status),
       type: new FormControl(workoutRawValue.type),
       workoutRating: new FormControl(workoutRawValue.workoutRating),
+      sportDiscipline: new FormControl(workoutRawValue.sportDiscipline),
       userDetails: new FormControl(workoutRawValue.userDetails),
     });
   }

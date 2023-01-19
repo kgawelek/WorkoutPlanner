@@ -15,7 +15,7 @@
         [routerLink]="['/workout/new']"
       >
         <fa-icon icon="plus"></fa-icon>
-        <span> Dodaj Workout </span>
+        <span> Add Workout </span>
       </button>
     </div>
   </h2>
@@ -27,21 +27,55 @@
   <div class="alert alert-warning" id="no-result" *ngIf="workouts?.length === 0">
     <span>No Workouts found</span>
   </div>
-
-  <div class="table-responsive table-entities" id="entities" *ngIf="workouts && workouts.length > 0">
+  <div class="row mb-5">
+    <label class="form-label" for="status_filter">Status</label>
+    <select
+      class="form-control"
+      style="width: 400px"
+      name="status_filter"
+      formControlName="status_filter"
+      id="status_filter"
+      (input)="statusFilterChanged($event)"
+    >
+      <option value="allWorkouts">ALL</option>
+      <option *ngFor="let status of statusValues" [value]="status">{{ status }}</option>
+    </select>
+    <label class="form-label" for="workout_type_filter">Type</label>
+    <select
+      class="form-control"
+      style="width: 400px"
+      name="type_filter"
+      formControlName="type_filter"
+      id="workout_type_filter"
+      data-cy="type"
+      (input)="typeFilterChanged($event)"
+    >
+      <option value="allWorkouts">ALL</option>
+      <option *ngFor="let workoutType of workoutTypeValues" [value]="workoutType">{{ workoutType }}</option>
+    </select>
+    <label class="form-label" for="sportDisciplineFilter">Sport Discipline</label>
+    <select
+      class="form-control"
+      style="width: 400px"
+      id="sportDisciplineFilter"
+      data-cy="sportDiscipline"
+      name="sportDiscipline"
+      formControlName="sportDisciplineFilter"
+      (input)="disciplineFilterChanged($event)"
+    >
+      <option value="allWorkouts">All</option>
+      <option [ngValue]="sportDisciplineOption.name" *ngFor="let sportDisciplineOption of sportDisciplines">
+        {{ sportDisciplineOption.name }}
+      </option>
+    </select>
+  </div>
+  <div class="table-responsive table-entities" id="entities" *ngIf="filteredWorkouts && filteredWorkouts.length > 0">
     <table class="table table-striped" aria-describedby="page-heading">
       <thead>
         <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
-          <th scope="col" jhiSortBy="id">
-            <div class="d-flex">
-              <span>Id</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="date">
+          <th scope="col">
             <div class="d-flex">
               <span>Date</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
           <th scope="col" jhiSortBy="duration">
@@ -50,44 +84,36 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="comment">
+          <th scope="col">
             <div class="d-flex">
               <span>Comment</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="status">
+          <th scope="col">
             <div class="d-flex">
               <span>Status</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="type">
+          <th scope="col">
             <div class="d-flex">
               <span>Type</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="workoutRating.id">
+          <th scope="col">
             <div class="d-flex">
               <span>Workout Rating</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="userDetails.id">
+          <th scope="col">
             <div class="d-flex">
-              <span>User Details</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
+              <span>Sport Discipline</span>
             </div>
           </th>
           <th scope="col"></th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let workout of workouts; trackBy: trackId" data-cy="entityTable">
-          <td>
-            <a [routerLink]="['/workout', workout.id, 'view']">{{ workout.id }}</a>
-          </td>
+        <tr *ngFor="let workout of filteredWorkouts; trackBy: trackId" data-cy="entityTable">
           <td>{{ workout.date | formatMediumDatetime }}</td>
           <td title="{{ workout.duration }}">{{ workout.duration | duration }}</td>
           <td>{{ workout.comment }}</td>
@@ -95,14 +121,15 @@
           <td>{{ workout.type }}</td>
           <td>
             <div *ngIf="workout.workoutRating">
-              <a [routerLink]="['/workout-rating', workout.workoutRating.id, 'view']">{{ workout.workoutRating.id }}</a>
+              <a [routerLink]="['/workout-rating', workout.workoutRating.id, 'view']">{{ workout.workoutRating.rate }}</a>
             </div>
           </td>
           <td>
-            <div *ngIf="workout.userDetails">
-              <a [routerLink]="['/user-details', workout.userDetails.id, 'view']">{{ workout.userDetails.id }}</a>
+            <div *ngIf="workout.sportDiscipline">
+              {{ workout.sportDiscipline.name }}
             </div>
           </td>
+          <td></td>
           <td class="text-end">
             <div class="btn-group">
               <button
@@ -112,7 +139,7 @@
                 data-cy="entityDetailsButton"
               >
                 <fa-icon icon="eye"></fa-icon>
-                <span class="d-none d-md-inline">Widok</span>
+                <span class="d-none d-md-inline">Details</span>
               </button>
 
               <button
@@ -122,12 +149,12 @@
                 data-cy="entityEditButton"
               >
                 <fa-icon icon="pencil-alt"></fa-icon>
-                <span class="d-none d-md-inline">Edytuj</span>
+                <span class="d-none d-md-inline">Edit</span>
               </button>
 
               <button type="submit" (click)="delete(workout)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
                 <fa-icon icon="times"></fa-icon>
-                <span class="d-none d-md-inline">Usuń</span>
+                <span class="d-none d-md-inline">Delete</span>
               </button>
             </div>
           </td>

@@ -1,6 +1,6 @@
 <div>
   <h2>
-    <span id="user-management-page-heading" data-cy="userManagementPageHeading">Użytkownicy</span>
+    <span id="user-management-page-heading" data-cy="userManagementPageHeading">Users</span>
 
     <div class="d-flex justify-content-end">
       <button class="btn btn-info me-2" (click)="loadAll()" [disabled]="isLoading">
@@ -8,7 +8,7 @@
         <span>Refresh list</span>
       </button>
       <button class="btn btn-primary jh-create-entity" [routerLink]="['./new']">
-        <fa-icon icon="plus"></fa-icon> <span>Stwórz nowego użytkownika</span>
+        <fa-icon icon="plus"></fa-icon> <span>Create new user</span>
       </button>
     </div>
   </h2>
@@ -26,9 +26,9 @@
           <th scope="col" jhiSortBy="email"><span>Email</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col"></th>
           <th scope="col"><span>Profile</span></th>
-          <th scope="col" jhiSortBy="createdDate"><span>Data utworzenia</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="lastModifiedBy"><span>Zmodyfikowany przez</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="lastModifiedDate"><span>Data modyfikacji</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="createdDate"><span>Creation date</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="lastModifiedBy"><span>Modified by</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="lastModifiedDate"><span>Modification date</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -40,14 +40,14 @@
           <td>{{ user.login }}</td>
           <td>{{ user.email }}</td>
           <td>
-            <button class="btn btn-danger btn-sm" (click)="setActive(user, true)" *ngIf="!user.activated">Nieaktywny</button>
+            <button class="btn btn-danger btn-sm" (click)="setActive(user, true)" *ngIf="!user.activated">Inactive</button>
             <button
               class="btn btn-success btn-sm"
               (click)="setActive(user, false)"
               *ngIf="user.activated"
               [disabled]="!currentAccount || currentAccount.login === user.login"
             >
-              Aktywny
+              Active
             </button>
           </td>
           <td>
@@ -62,22 +62,12 @@
             <div class="btn-group">
               <button type="submit" [routerLink]="['./', user.login, 'view']" class="btn btn-info btn-sm">
                 <fa-icon icon="eye"></fa-icon>
-                <span class="d-none d-md-inline">Widok</span>
+                <span class="d-none d-md-inline">Details</span>
               </button>
 
               <button type="submit" [routerLink]="['./', user.login, 'edit']" queryParamsHandling="merge" class="btn btn-primary btn-sm">
                 <fa-icon icon="pencil-alt"></fa-icon>
-                <span class="d-none d-md-inline">Edytuj</span>
-              </button>
-
-              <button
-                type="button"
-                (click)="deleteUser(user)"
-                class="btn btn-danger btn-sm"
-                [disabled]="!currentAccount || currentAccount.login === user.login"
-              >
-                <fa-icon icon="times"></fa-icon>
-                <span class="d-none d-md-inline">Usuń</span>
+                <span class="d-none d-md-inline">Edit</span>
               </button>
             </div>
           </td>

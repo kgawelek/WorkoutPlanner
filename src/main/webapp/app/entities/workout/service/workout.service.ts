@@ -44,13 +44,6 @@ export class WorkoutService {
       .pipe(map(res => this.convertResponseFromServer(res)));
   }
 
-  partialUpdate(workout: PartialUpdateWorkout): Observable<EntityResponseType> {
-    const copy = this.convertDateFromClient(workout);
-    return this.http
-      .patch<RestWorkout>(`${this.resourceUrl}/${this.getWorkoutIdentifier(workout)}`, copy, { observe: 'response' })
-      .pipe(map(res => this.convertResponseFromServer(res)));
-  }
-
   find(id: number): Observable<EntityResponseType> {
     return this.http
       .get<RestWorkout>(`${this.resourceUrl}/${id}`, { observe: 'response' })

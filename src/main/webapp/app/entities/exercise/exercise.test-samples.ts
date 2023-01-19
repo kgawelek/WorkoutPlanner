@@ -5,17 +5,18 @@ export const sampleWithRequiredData: IExercise = {
 };
 
 export const sampleWithPartialData: IExercise = {
-  id: 40858,
-  nrOfReps: 77015,
-  nrOfSeries: 6295,
-  weight: 36493,
+  id: 77015,
+  nrOfReps: 6295,
+  nrOfSeries: 36493,
+  weight: 35412,
 };
 
 export const sampleWithFullData: IExercise = {
-  id: 35412,
-  nrOfReps: 67398,
-  nrOfSeries: 23750,
-  weight: 38541,
+  id: 67398,
+  nrOfReps: 23750,
+  nrOfSeries: 38541,
+  weight: 30946,
+  order: 91635,
 };
 
 export const sampleWithNewData: NewExercise = {

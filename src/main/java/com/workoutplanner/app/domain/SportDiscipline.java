@@ -9,11 +9,10 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
- * A SportDiscipline.
+ * Class representing SportDiscipline.
  */
 @Entity
 @Table(name = "sport_discipline")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @SuppressWarnings("common-java:DuplicatedBlocks")
 public class SportDiscipline implements Serializable {
 
@@ -32,6 +31,14 @@ public class SportDiscipline implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "user", "workouts", "sportDiscipline" }, allowSetters = true)
     private Set<UserDetails> userDetails = new HashSet<>();
+
+    @OneToMany(mappedBy = "sportDiscipline")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(
+        value = { "workoutRating", "exercises", "workoutBreakdowns", "sportDiscipline", "userDetails" },
+        allowSetters = true
+    )
+    private Set<Workout> workouts = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -89,6 +96,37 @@ public class SportDiscipline implements Serializable {
     public SportDiscipline removeUserDetails(UserDetails userDetails) {
         this.userDetails.remove(userDetails);
         userDetails.setSportDiscipline(null);
+        return this;
+    }
+
+    public Set<Workout> getWorkouts() {
+        return this.workouts;
+    }
+
+    public void setWorkouts(Set<Workout> workouts) {
+        if (this.workouts != null) {
+            this.workouts.forEach(i -> i.setSportDiscipline(null));
+        }
+        if (workouts != null) {
+            workouts.forEach(i -> i.setSportDiscipline(this));
+        }
+        this.workouts = workouts;
+    }
+
+    public SportDiscipline workouts(Set<Workout> workouts) {
+        this.setWorkouts(workouts);
+        return this;
+    }
+
+    public SportDiscipline addWorkout(Workout workout) {
+        this.workouts.add(workout);
+        workout.setSportDiscipline(this);
+        return this;
+    }
+
+    public SportDiscipline removeWorkout(Workout workout) {
+        this.workouts.remove(workout);
+        workout.setSportDiscipline(null);
         return this;
     }
 

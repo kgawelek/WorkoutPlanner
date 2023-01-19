@@ -15,7 +15,7 @@
         [routerLink]="['/sport-discipline/new']"
       >
         <fa-icon icon="plus"></fa-icon>
-        <span> Dodaj Sport Discipline </span>
+        <span> Add Sport Discipline </span>
       </button>
     </div>
   </h2>
@@ -57,27 +57,17 @@
             <div class="btn-group">
               <button
                 type="submit"
-                [routerLink]="['/sport-discipline', sportDiscipline.id, 'view']"
-                class="btn btn-info btn-sm"
-                data-cy="entityDetailsButton"
-              >
-                <fa-icon icon="eye"></fa-icon>
-                <span class="d-none d-md-inline">Widok</span>
-              </button>
-
-              <button
-                type="submit"
                 [routerLink]="['/sport-discipline', sportDiscipline.id, 'edit']"
                 class="btn btn-primary btn-sm"
                 data-cy="entityEditButton"
               >
                 <fa-icon icon="pencil-alt"></fa-icon>
-                <span class="d-none d-md-inline">Edytuj</span>
+                <span class="d-none d-md-inline">Edit</span>
               </button>
 
               <button type="submit" (click)="delete(sportDiscipline)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
                 <fa-icon icon="times"></fa-icon>
-                <span class="d-none d-md-inline">Usuń</span>
+                <span class="d-none d-md-inline">Delete</span>
               </button>
             </div>
           </td>

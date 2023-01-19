@@ -7,11 +7,10 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
- * A Exercise.
+ * Class representing Exercise.
  */
 @Entity
 @Table(name = "exercise")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @SuppressWarnings("common-java:DuplicatedBlocks")
 public class Exercise implements Serializable {
 
@@ -32,12 +31,18 @@ public class Exercise implements Serializable {
     @Column(name = "weight")
     private Double weight;
 
+    @Column(name = "order_nr")
+    private Integer order;
+
     @ManyToOne
     @JsonIgnoreProperties(value = { "exercises" }, allowSetters = true)
     private ExerciseType exerciseType;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "workoutRating", "exercises", "workoutBreakdowns", "userDetails" }, allowSetters = true)
+    @JsonIgnoreProperties(
+        value = { "workoutRating", "exercises", "workoutBreakdowns", "sportDiscipline", "userDetails" },
+        allowSetters = true
+    )
     private Workout workout;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -94,6 +99,19 @@ public class Exercise implements Serializable {
         this.weight = weight;
     }
 
+    public Integer getOrder() {
+        return this.order;
+    }
+
+    public Exercise order(Integer order) {
+        this.setOrder(order);
+        return this;
+    }
+
+    public void setOrder(Integer order) {
+        this.order = order;
+    }
+
     public ExerciseType getExerciseType() {
         return this.exerciseType;
     }
@@ -147,6 +165,7 @@ public class Exercise implements Serializable {
             ", nrOfReps=" + getNrOfReps() +
             ", nrOfSeries=" + getNrOfSeries() +
             ", weight=" + getWeight() +
+            ", order=" + getOrder() +
             "}";
     }
 }

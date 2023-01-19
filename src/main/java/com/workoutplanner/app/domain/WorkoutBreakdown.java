@@ -7,11 +7,10 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
- * A WorkoutBreakdown.
+ * Class representing WorkoutBreakdown.
  */
 @Entity
 @Table(name = "workout_breakdown")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @SuppressWarnings("common-java:DuplicatedBlocks")
 public class WorkoutBreakdown implements Serializable {
 
@@ -44,8 +43,14 @@ public class WorkoutBreakdown implements Serializable {
     @Column(name = "range_unit")
     private String rangeUnit;
 
+    @Column(name = "order_nr")
+    private Integer order;
+
     @ManyToOne
-    @JsonIgnoreProperties(value = { "workoutRating", "exercises", "workoutBreakdowns", "userDetails" }, allowSetters = true)
+    @JsonIgnoreProperties(
+        value = { "workoutRating", "exercises", "workoutBreakdowns", "sportDiscipline", "userDetails" },
+        allowSetters = true
+    )
     private Workout workout;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -154,6 +159,19 @@ public class WorkoutBreakdown implements Serializable {
         this.rangeUnit = rangeUnit;
     }
 
+    public Integer getOrder() {
+        return this.order;
+    }
+
+    public WorkoutBreakdown order(Integer order) {
+        this.setOrder(order);
+        return this;
+    }
+
+    public void setOrder(Integer order) {
+        this.order = order;
+    }
+
     public Workout getWorkout() {
         return this.workout;
     }
@@ -198,6 +216,7 @@ public class WorkoutBreakdown implements Serializable {
             ", minValue=" + getMinValue() +
             ", maxValue=" + getMaxValue() +
             ", rangeUnit='" + getRangeUnit() + "'" +
+            ", order=" + getOrder() +
             "}";
     }
 }

@@ -8,11 +8,10 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
- * A WorkoutRating.
+ * Class representing WorkoutRating.
  */
 @Entity
 @Table(name = "workout_rating")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @SuppressWarnings("common-java:DuplicatedBlocks")
 public class WorkoutRating implements Serializable {
 
@@ -31,7 +30,10 @@ public class WorkoutRating implements Serializable {
     @Column(name = "rate")
     private RatingScale rate;
 
-    @JsonIgnoreProperties(value = { "workoutRating", "exercises", "workoutBreakdowns", "userDetails" }, allowSetters = true)
+    @JsonIgnoreProperties(
+        value = { "workoutRating", "exercises", "workoutBreakdowns", "sportDiscipline", "userDetails" },
+        allowSetters = true
+    )
     @OneToOne(mappedBy = "workoutRating")
     private Workout workout;
 

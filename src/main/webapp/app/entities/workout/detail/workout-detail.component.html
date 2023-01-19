@@ -10,17 +10,13 @@
       <jhi-alert></jhi-alert>
 
       <dl class="row-md jh-entity-details">
-        <dt><span>Id</span></dt>
-        <dd>
-          <span>{{ workout.id }}</span>
-        </dd>
         <dt><span>Date</span></dt>
         <dd>
           <span>{{ workout.date | formatMediumDatetime }}</span>
         </dd>
         <dt><span>Duration</span></dt>
         <dd>
-          <span>{{ workout.duration | duration }} ({{ workout.duration }})</span>
+          <span>{{ workout.duration | duration }}</span>
         </dd>
         <dt><span>Comment</span></dt>
         <dd>
@@ -37,23 +33,124 @@
         <dt><span>Workout Rating</span></dt>
         <dd>
           <div *ngIf="workout.workoutRating">
-            <a [routerLink]="['/workout-rating', workout.workoutRating.id, 'view']">{{ workout.workoutRating.id }}</a>
+            <a [routerLink]="['/workout-rating', workout.workoutRating.id, 'view']"
+              >{{ workout.workoutRating.rate }} - {{ workout.workoutRating.comment }}</a
+            >
           </div>
         </dd>
-        <dt><span>User Details</span></dt>
+        <dt><span>Sport Discipline</span></dt>
         <dd>
-          <div *ngIf="workout.userDetails">
-            <a [routerLink]="['/user-details', workout.userDetails.id, 'view']">{{ workout.userDetails.id }}</a>
+          <div *ngIf="workout.sportDiscipline">
+            <a [routerLink]="['/sport-discipline', workout.sportDiscipline.id, 'view']">{{ workout.sportDiscipline.name }}</a>
           </div>
         </dd>
       </dl>
-
+      <div class="table-responsive table-entities" id="exercises" *ngIf="workout.type?.match('EXERCISE') && workout.exercises">
+        <dt><span>Exercises</span></dt>
+        <table class="table table-striped" aria-describedby="page-heading">
+          <thead>
+            <tr>
+              <th scope="col"></th>
+              <th scope="col">
+                <div class="d-flex">
+                  <span>Exercise Type</span>
+                </div>
+              </th>
+              <th scope="col">
+                <div class="d-flex">
+                  <span>Nr Of Reps</span>
+                </div>
+              </th>
+              <th scope="col">
+                <div class="d-flex">
+                  <span>Nr Of Series</span>
+                </div>
+              </th>
+              <th scope="col">
+                <div class="d-flex">
+                  <span>Weight</span>
+                </div>
+              </th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let exercise of exercises">
+              <td></td>
+              <td>
+                {{ exercise.exerciseType?.name }}
+              </td>
+              <td>{{ exercise.nrOfReps }}</td>
+              <td>{{ exercise.nrOfSeries }}</td>
+              <td>{{ exercise.weight }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="table-responsive table-entities" id="entities" *ngIf="workout.type?.match('INTERVAL') && workout.workoutBreakdowns">
+        <dt><span>Intervals</span></dt>
+        <table class="table table-striped" aria-describedby="page-heading">
+          <thead>
+            <tr jhiSort>
+              <th scope="col"></th>
+              <th scope="col">
+                <div class="d-flex">
+                  <span>Distance</span>
+                </div>
+              </th>
+              <th scope="col">
+                <div class="d-flex">
+                  <span>Duration</span>
+                </div>
+              </th>
+              <th scope="col">
+                <div class="d-flex">
+                  <span>Distance Unit</span>
+                </div>
+              </th>
+              <th scope="col">
+                <div class="d-flex">
+                  <span>Notes</span>
+                </div>
+              </th>
+              <th scope="col">
+                <div class="d-flex">
+                  <span>Min Value</span>
+                </div>
+              </th>
+              <th scope="col">
+                <div class="d-flex">
+                  <span>Max Value</span>
+                </div>
+              </th>
+              <th scope="col">
+                <div class="d-flex">
+                  <span>Range Unit</span>
+                </div>
+              </th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let workoutBreakdown of intervals" data-cy="intervalTable">
+              <td></td>
+              <td>{{ workoutBreakdown.distance }}</td>
+              <td>{{ workoutBreakdown.duration }}</td>
+              <td>{{ workoutBreakdown.distanceUnit }}</td>
+              <td>{{ workoutBreakdown.notes }}</td>
+              <td>{{ workoutBreakdown.minValue }}</td>
+              <td>{{ workoutBreakdown.maxValue }}</td>
+              <td>{{ workoutBreakdown.rangeUnit }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
-        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Wstecz</span>
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
       </button>
 
       <button type="button" [routerLink]="['/workout', workout.id, 'edit']" class="btn btn-primary">
-        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edytuj</span>
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
       </button>
     </div>
   </div>

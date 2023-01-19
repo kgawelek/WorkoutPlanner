@@ -9,6 +9,7 @@ export interface IWorkoutBreakdown {
   minValue?: number | null;
   maxValue?: number | null;
   rangeUnit?: string | null;
+  order?: number | null;
   workout?: Pick<IWorkout, 'id'> | null;
 }
 

@@ -3,9 +3,6 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { IWorkoutBreakdown, NewWorkoutBreakdown } from '../workout-breakdown.model';
 
-/**
- * A partial Type with required key is used as form input.
- */
 type PartialWithRequiredKeyOf<T extends { id: unknown }> = Partial<Omit<T, 'id'>> & { id: T['id'] };
 
 /**
@@ -25,6 +22,7 @@ type WorkoutBreakdownFormGroupContent = {
   minValue: FormControl<IWorkoutBreakdown['minValue']>;
   maxValue: FormControl<IWorkoutBreakdown['maxValue']>;
   rangeUnit: FormControl<IWorkoutBreakdown['rangeUnit']>;
+  order: FormControl<IWorkoutBreakdown['order']>;
   workout: FormControl<IWorkoutBreakdown['workout']>;
 };
 
@@ -52,6 +50,7 @@ export class WorkoutBreakdownFormService {
       minValue: new FormControl(workoutBreakdownRawValue.minValue),
       maxValue: new FormControl(workoutBreakdownRawValue.maxValue),
       rangeUnit: new FormControl(workoutBreakdownRawValue.rangeUnit),
+      order: new FormControl(workoutBreakdownRawValue.order),
       workout: new FormControl(workoutBreakdownRawValue.workout),
     });
   }

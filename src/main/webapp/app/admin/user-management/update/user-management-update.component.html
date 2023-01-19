@@ -1,7 +1,7 @@
 <div class="d-flex justify-content-center">
   <div class="col-8">
     <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-      <h2 id="myUserLabel">Stwórz lub edytuj użytkownika</h2>
+      <h2 id="myUserLabel">Create or edit user</h2>
 
       <jhi-alert-error></jhi-alert-error>
 
@@ -28,7 +28,7 @@
       </div>
 
       <div class="mb-3">
-        <label class="form-label">Imię</label>
+        <label class="form-label">First name</label>
         <input type="text" class="form-control" name="firstName" formControlName="firstName" />
 
         <div *ngIf="editForm.get('firstName')!.invalid && (editForm.get('firstName')!.dirty || editForm.get('firstName')!.touched)">
@@ -39,7 +39,7 @@
       </div>
 
       <div class="mb-3">
-        <label>Nazwisko</label>
+        <label>Last name</label>
         <input type="text" class="form-control" name="lastName" formControlName="lastName" />
 
         <div *ngIf="editForm.get('lastName')!.invalid && (editForm.get('lastName')!.dirty || editForm.get('lastName')!.touched)">
@@ -64,7 +64,7 @@
             Wartość musi mieć długość co najmniej 5 znaków.
           </small>
 
-          <small class="form-text text-danger" *ngIf="editForm.get('email')?.errors?.email"> Twój email jest błędny. </small>
+          <small class="form-text text-danger" *ngIf="editForm.get('email')?.errors?.email"> Your email is incorrect. </small>
         </div>
       </div>
 
@@ -78,7 +78,7 @@
             name="activated"
             formControlName="activated"
           />
-          <span>Aktywny</span>
+          <span>Active</span>
         </label>
       </div>
 
@@ -89,11 +89,11 @@
         </select>
       </div>
       <button type="button" class="btn btn-secondary" (click)="previousState()">
-        <fa-icon icon="ban"></fa-icon>&nbsp;<span>Anuluj</span>
+        <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
       </button>
 
       <button type="submit" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
-        <fa-icon icon="save"></fa-icon>&nbsp;<span>Zapisz</span>
+        <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
       </button>
     </form>
   </div>
