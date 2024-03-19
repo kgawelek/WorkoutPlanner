@@ -1,0 +1,74 @@
+{
+  "applications": "*",
+  "changelogDate": "20221029220730",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "workout",
+  "fields": [
+    {
+      "fieldName": "id",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "date",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "duration",
+      "fieldType": "Duration"
+    },
+    {
+      "fieldName": "comment",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "Status",
+      "fieldValues": "COMPLETED,ABANDONED,PLANNED"
+    },
+    {
+      "fieldName": "type",
+      "fieldType": "WorkoutType",
+      "fieldValues": "INTERVAL,EXERCISE,GENERAL"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Workout",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "workoutRating",
+      "otherEntityRelationshipName": "workout",
+      "ownerSide": true,
+      "relationshipName": "workoutRating",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "exercise",
+      "otherEntityRelationshipName": "workout",
+      "relationshipName": "exercise",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "workoutBreakdown",
+      "otherEntityRelationshipName": "workout",
+      "relationshipName": "workoutBreakdown",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "sportDiscipline",
+      "otherEntityRelationshipName": "workout",
+      "relationshipName": "sportDiscipline",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "userDetails",
+      "otherEntityRelationshipName": "workout",
+      "relationshipName": "userDetails",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

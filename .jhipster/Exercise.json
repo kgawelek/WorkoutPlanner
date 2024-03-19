@@ -1,0 +1,49 @@
+{
+  "applications": "*",
+  "changelogDate": "20221029220733",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "exercise",
+  "fields": [
+    {
+      "fieldName": "id",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "nrOfReps",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "nrOfSeries",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "weight",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "order",
+      "fieldType": "Integer"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Exercise",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "exerciseType",
+      "otherEntityRelationshipName": "exercise",
+      "relationshipName": "exerciseType",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "workout",
+      "otherEntityRelationshipName": "exercise",
+      "relationshipName": "workout",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}
